@@ -63,89 +63,113 @@ class MyHomePage extends StatelessWidget {
             shrinkWrap: true,
             children: [
               Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      mySnackBar("Photo 0", context);
+                    },
+                    child: Column(
+                      children: [
+                        Image.network(
+                          "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        const Text(
+                          "Photo 0",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
                     ),
-                    const Text(
-                      "Photo 0",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
+                  )),
               Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      mySnackBar("Photo 1", context);
+                    },
+                    child: Column(
+                      children: [
+                        Image.network(
+                          "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        const Text(
+                          "Photo 1",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
                     ),
-                    const Text(
-                      "Photo 1",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  )),
               Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      mySnackBar("Photo 2", context);
+                    },
+                    child: Column(
+                      children: [
+                        Image.network(
+                          "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        const Text(
+                          "Photo 2",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
                     ),
-                    const Text(
-                      "Photo 2",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  )),
               Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      mySnackBar("Photo 3", context);
+                    },
+                    child: Column(
+                      children: [
+                        Image.network(
+                          "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        const Text(
+                          "Photo 3",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
                     ),
-                    const Text(
-                      "Photo 3",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  )),
               Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      mySnackBar("Photo 4", context);
+                    },
+                    child: Column(
+                      children: [
+                        Image.network(
+                          "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        const Text(
+                          "Photo 4",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
                     ),
-                    const Text(
-                      "Photo 4",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  )),
               Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      mySnackBar("Photo 5", context);
+                    },
+                    child: Column(
+                      children: [
+                        Image.network(
+                          "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        const Text(
+                          "Photo 5",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
                     ),
-                    const Text(
-                      "Photo 5",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
+                  )),
             ],
           ),
           const ListTile(
