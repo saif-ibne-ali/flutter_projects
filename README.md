@@ -1,14 +1,16 @@
-# module5_assignment
+# module6_assignment
 
-মডিউল ৫ এর এসাইনমেন্ট
+## Flutter Essential Widgets
+Create a Flutter app with the following features:
 
-![Alt text](image.png)
+- An app bar titled "Photo Gallery"
+- A scrollable view with a welcome message.
+- A text field.
+- A grid of at least 6 network images with captions.
+- Each image triggers a Snackbar when clicked, you can show any text on the message.
+- Below the grid, a list of three sample photos with titles and subtitles.
+- An upload button that shows the message “Photos Uploaded Successfully!” in a Snackbar.
+- Use any font style or icon size that makes the UI visually appealing.
 
-Please follow the figure and design it.
-
-## Description : 
-1. Must be designed with an appBar whose height is 100 and elevation is 70 with 2 icons. One icon is on the left side and the other one is on the right side of appBar. Title will be the center position of the app bar. And the background color is green.
-2. In the body, set the text as given the figure. [please be careful for the 2nd sentence, must follow the figure for design]. 
-   
 
 
