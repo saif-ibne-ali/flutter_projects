@@ -24,25 +24,17 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
 
+  mySnackBar(message, context) {
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //toolbarHeight: 100,
-        //elevation: 70,
         centerTitle: true,
         title: Text(title),
-        /*     leading: const Icon(Icons.add_business),
-          actions: const [
-            IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              padding: EdgeInsets.all(10.0),
-              onPressed: null,
-            ),
-          ] */
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -62,62 +54,140 @@ class MyHomePage extends StatelessWidget {
             child: const TextField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  //labelText: 'Enter Name',
                   hintText: 'Search for photos...'),
             ),
           ),
           GridView.count(
             padding: const EdgeInsets.all(10.0),
-            //gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             shrinkWrap: true,
             children: [
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  height: 10.0,
-                  width: 10.0,
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    ),
+                    const Text(
+                      "Photo 0",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  width: 10.0,
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    ),
+                    const Text(
+                      "Photo 1",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  width: 10.0,
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    ),
+                    const Text(
+                      "Photo 2",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  width: 10.0,
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    ),
+                    const Text(
+                      "Photo 3",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  width: 10.0,
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    ),
+                    const Text(
+                      "Photo 4",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                  width: 10.0,
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    ),
+                    const Text(
+                      "Photo 5",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
             ],
           ),
-          
+          const ListTile(
+            title: Text("Photo 1"),
+            subtitle: Text("Description for photo 1"),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+              radius: 20,
+            ),
+          ),
+          const ListTile(
+            title: Text("Photo 2"),
+            subtitle: Text("Description for photo 2"),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+              radius: 20,
+            ),
+          ),
+          const ListTile(
+            title: Text("Photo 3"),
+            subtitle: Text("Description for photo 3"),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://images.pexels.com/photos/2899097/pexels-photo-2899097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+              radius: 20,
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(20),
+            ),
+            onPressed: () {
+              mySnackBar("Photos Uploaded Successfully!", context);
+            },
+            child: const Icon(
+              Icons.upload,
+              color: Colors.white,
+            ),
+          )
         ],
       ),
     );
