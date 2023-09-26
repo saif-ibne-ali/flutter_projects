@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'cart_list.dart';
 
 void main() {
@@ -11,10 +12,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: ProductPage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const ProductPage(),
     );
   }
 }
@@ -61,13 +66,12 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Product List"),
         centerTitle: true,
       ),
       body: ListView.separated(
-        shrinkWrap: true,
         itemCount: productName.length,
         itemBuilder: (context, index) {
           return ListTile(
@@ -75,33 +79,32 @@ class _ProductPageState extends State<ProductPage> {
             subtitle: const Text("\$20.0"),
             trailing: Column(
               children: [
-                Text("Counter: ${productCount[index]}"),
-                ElevatedButton(
-                  onPressed: () {
-                    int tapCount = _incrementCounter(index);
-                    if (tapCount == 5) {
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Congratualations!"),
-                              content:
-                                  Text("You've bought $tapCount Products!"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("OK"))
-                              ],
-                            );
-                          });
-                    }
-                  },
-                  child: const Text(
-                    "Buy Now",
-                    style: TextStyle(fontSize: 10),
+                Expanded(child: Text("Counter: ${productCount[index]}")),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      int tapCount = _incrementCounter(index);
+                      if (tapCount == 5) {
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Congratualations!"),
+                                content:
+                                    Text("You've bought $tapCount Products!"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("OK"))
+                                ],
+                              );
+                            });
+                      }
+                    },
+                    child: const Text("Buy Now"),
                   ),
                 )
               ],

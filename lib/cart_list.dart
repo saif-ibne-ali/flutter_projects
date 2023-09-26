@@ -18,6 +18,7 @@ class CartList extends StatelessWidget {
               itemName.clear();
             },
             icon: const Icon(Icons.arrow_back)),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Cart"),
         centerTitle: true,
       ),
@@ -27,7 +28,7 @@ class CartList extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(10.0),
             margin: const EdgeInsets.all(20.0),
-            color: Colors.blue,
+            color: Theme.of(context).colorScheme.inversePrimary,
             child: Text(
               "Total Products ${itemName.length}",
               textAlign: TextAlign.center,
