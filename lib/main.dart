@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,43 +29,73 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Wrap, Layout and Orientation"),
+          title: const Text("AspectRatio & Flexible"),
           centerTitle: true,
         ),
-        body: LayoutBuilder(builder: (context, constraints) {
-          print(constraints.biggest);
-          if (constraints.maxWidth > 500) {
-            return const Center(
-              child: Text("To Big Screen"),
-            );
-          } else {
-            return Center(
-              child: OrientationBuilder(builder: (context, orientation) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(orientation == Orientation.portrait
-                        ? "Protrait"
-                        : "Landscape"),
-                    Expanded(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.start,
-                        children: [
-                          Text(
-                              " It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). "),
-                          Text(
-                              " It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). "),
-                          Text(
-                              " It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). "),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              }),
-            );
-          }
-        }));
+        body: Column(
+          children: [
+            //Ratio = Width/Height
+            // AspectRatio(
+            //   aspectRatio: 16 / 16,
+            //   child: Container(
+            //     color: Colors.red,
+            //     child: Image.network(
+            //       "https://images.idgesg.net/images/article/2017/10/wireless_network_internet_of_things_iot_thinkstock_853701554_3x2-100740688-large.jpg?auto=webp&quality=85,70",
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
+
+
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.width,
+            //   color: Colors.amber,
+            //   child: FractionallySizedBox(
+            //     widthFactor: 0.5,
+            //     heightFactor: 0.5,
+            //     alignment: Alignment.topLeft,
+            //     child: Container(
+            //       color: Colors.green,
+            //
+            //     ),
+            //   ),
+            // )
+
+
+            Flexible(
+                fit:FlexFit.tight,
+                flex: 3,
+                child: Container(
+                  color: Colors.deepPurple,
+                  width: MediaQuery.of(context).size.width,
+                )),
+            Flexible(
+                fit: FlexFit.tight,
+                flex: 5,
+                child: Container(
+                  color: Colors.deepOrange,
+                  width: MediaQuery.of(context).size.width,
+                )),
+            SizedBox(height: 50,),
+            Flexible(
+              flex: 1,
+              child: Row(
+                children: [
+                Flexible(
+                  child: Container(
+                  color: Colors.lightBlueAccent,
+                  ),
+                ),
+                Flexible(
+                  child: Container(
+                  color: Colors.blue,
+                  ),
+                ),
+              ],
+            ),
+            ),
+          ],
+        ));
   }
 }
