@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.deepOrange,
                   width: MediaQuery.of(context).size.width,
                 )),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             Flexible(
               flex: 1,
               child: Row(
