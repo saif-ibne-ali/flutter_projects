@@ -46,7 +46,6 @@ class HomeScreen extends StatelessWidget {
             //   ),
             // ),
 
-
             // Container(
             //   width: MediaQuery.of(context).size.width,
             //   height: MediaQuery.of(context).size.width,
@@ -62,8 +61,7 @@ class HomeScreen extends StatelessWidget {
             //   ),
             // )
 
-
-            Flexible(
+/*             Flexible(
                 fit:FlexFit.tight,
                 flex: 3,
                 child: Container(
@@ -94,6 +92,35 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
+            ), */
+
+            Container(
+              color: Colors.black54,
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+            ),
+            Expanded(
+              flex: 10,
+              child: Container(
+                color: Colors.lightGreenAccent,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: const SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: FittedBox(
+                    child: Text(
+                      ' sa;foksd flsdkf lsdkl;sadsa aksdlfk l;sdkf dlf kl;',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 5,
+              child: Container(
+                color: Colors.pink,
+              ),
             ),
           ],
         ));
