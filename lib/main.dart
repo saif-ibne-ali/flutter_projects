@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'cart_list.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -13,124 +11,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'MediaQuery',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ProductPage(),
+      home: const HomeScreen(),
     );
   }
 }
 
-class ProductPage extends StatefulWidget {
-  const ProductPage({super.key});
-
-  @override
-  State<ProductPage> createState() => _ProductPageState();
-}
-
-class _ProductPageState extends State<ProductPage> {
-  //int _counter = 0;
-
-  List<String> productName = [
-    "Dell Monitor",
-    "MSI MotherBoard",
-    "RAM 8GB",
-    "RAM 4GB",
-    "16GB Flash Drive",
-    "Keyboard",
-    "Mouse",
-    "HP Monitor",
-    "240GB SSD",
-    "500GB HDD",
-    "1TB HDD",
-    "MI TV BOX",
-    "Sony TV",
-    "MicroLab Music"
-  ];
-  List<String> itemName = [];
-  List<int> itemCount = [];
-
-  List<int> productCount = List.generate(14, (int count) => 0);
-
-  int _incrementCounter(int index) {
-    setState(() {
-      productCount[index]++;
-    });
-    //print(productCount);
-    return productCount[index];
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    print(size);
+    print(size.width);
+    print(size.height);
+    print(size.aspectRatio);
+    print(size.isEmpty);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Product List"),
+        title: const Text("MediaQuery"),
         centerTitle: true,
       ),
-      body: ListView.separated(
-        itemCount: productName.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(productName[index]),
-            subtitle: const Text("\$20.0"),
-            trailing: Column(
-              children: [
-                Expanded(child: Text("Counter: ${productCount[index]}")),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      int tapCount = _incrementCounter(index);
-                      if (tapCount == 5) {
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text("Congratualations!"),
-                                content:
-                                    Text("You've bought $tapCount Products!"),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("OK"))
-                                ],
-                              );
-                            });
-                      }
-                    },
-                    child: const Text("Buy Now"),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          for (int i = 0; i < productCount.length; i++) {
-            if (productCount[i] != 0) {
-              itemName.add(productName[i]);
-              itemCount.add(productCount[i]);
-            }
-          }
-          //print(itemName);
-          //print(itemCount);
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return CartList(itemName: itemName, itemCount: itemCount);
-          }));
-        },
-        tooltip: 'Go To Cart',
-        child: const Icon(Icons.shopping_cart),
+      body: Container(
+        height: size.height / 2,
+        width: size.width / 2,
+        color: Colors.blueAccent,
       ),
     );
   }
