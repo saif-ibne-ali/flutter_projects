@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,6 +35,13 @@ class HomeScreen extends StatelessWidget {
     print(size.height);
     print(size.aspectRatio);
     print(size.isEmpty);
+    Orientation orientation = MediaQuery.of(context).orientation;
+    print(orientation);
+    List<DisplayFeature> displayFeatures =
+        MediaQuery.of(context).displayFeatures;
+    print(displayFeatures);
+    print(MediaQuery.of(context).devicePixelRatio);
+    print(MediaQuery.platformBrightnessOf(context));
 
     return Scaffold(
       appBar: AppBar(
