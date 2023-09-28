@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,30 +30,45 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    print(size);
-    print(size.width);
-    print(size.height);
-    print(size.aspectRatio);
-    print(size.isEmpty);
-    Orientation orientation = MediaQuery.of(context).orientation;
-    print(orientation);
-    List<DisplayFeature> displayFeatures =
-        MediaQuery.of(context).displayFeatures;
-    print(displayFeatures);
-    print(MediaQuery.of(context).devicePixelRatio);
-    print(MediaQuery.platformBrightnessOf(context));
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("MediaQuery"),
-        centerTitle: true,
-      ),
-      body: Container(
-        height: size.height / 2,
-        width: size.width / 2,
-        color: Colors.blueAccent,
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Wrap, Layout and Orientation"),
+          centerTitle: true,
+        ),
+        body: LayoutBuilder(builder: (context, constraints) {
+          print(constraints.biggest);
+          if (constraints.maxWidth > 500) {
+            return const Center(
+              child: Text("To Big Screen"),
+            );
+          } else {
+            return Center(
+              child: OrientationBuilder(builder: (context, orientation) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(orientation == Orientation.portrait
+                        ? "Protrait"
+                        : "Landscape"),
+                    Expanded(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.start,
+                        children: [
+                          Text(
+                              " It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). "),
+                          Text(
+                              " It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). "),
+                          Text(
+                              " It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). "),
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }),
+            );
+          }
+        }));
   }
 }
