@@ -1,11 +1,12 @@
-# Create the following screen which rearranges its widgets while changing orientation.
+# Design the following screen.
 
-* Use any image or icon as placeholders.
+## Requirement:
 
-Portrait mode : 
+- On pressing the + and - icons:
+- The no of item will increase/decrease
+- Total amount will be the calculated according to the number of items and unit price
+- On pressing CHECK OUT a snackbar will appear with a congratulating message.
+- Don’t need to implement any other click events.
 
-![Alt text](Screenshot_20230930-060310_flutter_projects.png) 
+### The design must be responsive.
 
-Landscape mode:
-
-![Alt text](Screenshot_20230930-060322_flutter_projects.png)
