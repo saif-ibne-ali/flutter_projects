@@ -1,6 +1,7 @@
+// Import the necessary packages
 import 'package:flutter/material.dart';
 
-void main(List<String> args) {
+void main() {
   runApp(const MyApp());
 }
 
@@ -8,258 +9,237 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Module8 Assignment",
-      home: HomeScreen(),
+      title: 'To-Do App',
+      home: ToDoScreen(),
     );
   }
 }
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class ToDoScreen extends StatefulWidget {
+  const ToDoScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  // ignore: library_private_types_in_public_api
+  _ToDoScreenState createState() => _ToDoScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  List<int> price = [10, 20, 30];
-  List<int> itemCounts = [0, 0, 0];
-  int total = 0;
+class _ToDoScreenState extends State<ToDoScreen> {
+  List<ToDoItem> toDoList = [];
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
-  itemIncrement(int index) {
-    itemCounts[index] = itemCounts[index] + 1;
-    setState(() {
-      total = total + price[index];
-    });
-  }
-
-  itemDecrement(int index) {
-    if (itemCounts[index] > 0) {
-      itemCounts[index] = itemCounts[index] - 1;
-      setState(() {
-        total = total - price[index];
-      });
-    }
-  }
-
-  mySnackBar(message, context) {
-    return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
+  int currentlyEditedIndex =
+      -1; // Initially set to -1, meaning no item is being edited
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: const [
-            IconButton(
-              onPressed: null,
-              icon: Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Flexible(
-                flex: 2,
-                fit: FlexFit.tight,
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  //color: Colors.green,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "My Bag",
-                    style: Theme.of(context).textTheme.titleLarge,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        primary: false,
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Icon(
+              Icons.search,
+              color: Colors.blue,
+            ),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-              ),
-              Flexible(
-                flex: 16,
-                fit: FlexFit.loose,
-                child: ListView.builder(
-                    itemCount: price.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return SizedBox(
-                        height: 140,
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side:
-                                const BorderSide(color: Colors.grey, width: 1),
-                          ),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                flex: 2,
-                                fit: FlexFit.tight,
-                                child: Image.network(
-                                  "https://images.unsplash.com/photo-1490650034439-fd184c3c86a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxNDk0OTAwfHxlbnwwfHx8fHw%3D&w=1000&q=80",
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Flexible(
-                                flex: 3,
-                                child: ListTile(
-                                  title: const Text(
-                                    "T-Shirt",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Column(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Wrap(
-                                          alignment: WrapAlignment.start,
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.start,
-                                          children: [
-                                            const Text("Color: "),
-                                            RichText(
-                                              text: const TextSpan(
-                                                  text: "Black",
-                                                  style: TextStyle(
-                                                      color: Colors.black)),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            const Text("Size: "),
-                                            RichText(
-                                              text: const TextSpan(
-                                                  text: "L",
-                                                  style: TextStyle(
-                                                      color: Colors.black)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Row(
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                itemIncrement(index);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  shape: const CircleBorder(),
-                                                  backgroundColor:
-                                                      Colors.white),
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${itemCounts[index]}',
-                                              style: const TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                itemDecrement(index);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  shape: const CircleBorder(),
-                                                  backgroundColor:
-                                                      Colors.white),
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                  flex: 1,
-                                  fit: FlexFit.tight,
-                                  child: Stack(
-                                    children: [
-                                      const Positioned(
-                                        top: 6,
-                                        right: 0,
-                                        child: Icon(Icons.more_vert),
-                                      ),
-                                      Positioned(
-                                        bottom: 20,
-                                        right: 10,
-                                        child: Text(
-                                          "\$${price[index]}",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: Stack(
-                  children: [
-                    const Positioned(
-                      left: 0,
-                      child: Text(
-                        "Total amount:",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "\$$total",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    )
-                  ],
+                const SizedBox(height: 10),
+                TextField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              Flexible(
-                flex: 2,
-                fit: FlexFit.tight,
-                child: InkWell(
-                  onTap: () {
-                    mySnackBar("Congratualations!", context);
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  onPressed: () {
+                    addTodoItem(
+                      titleController.text,
+                      descriptionController.text,
+                    );
+                    titleController.clear();
+                    descriptionController.clear();
                   },
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.red[600],
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    child: const Center(child: Text("CHECK OUT")),
-                  ),
+                  child: const Text('Add'),
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.separated(
+                itemCount: toDoList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    tileColor: Colors.grey[300],
+                    leading: const CircleAvatar(
+                      //radius: 20,
+                      backgroundColor: Colors.red,
+                    ),
+                    title: Text(
+                      // Dynamically show the edited or original title
+                      currentlyEditedIndex == index
+                          ? toDoList[index].title
+                          : toDoList[index].title,
+                    ),
+                    subtitle: Text(
+                      // Dynamically show the edited or original description
+                      currentlyEditedIndex == index
+                          ? toDoList[index].description
+                          : toDoList[index].description,
+                    ),
+                    onLongPress: () {
+                      showEditDeleteDialog(index);
+                    },
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider(
+                    color: Colors.white,
+                    height: 10,
+                  );
+                },
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void addTodoItem(String title, String description) {
+    setState(() {
+      toDoList.add(ToDoItem(title, description));
+    });
+  }
+
+  void showEditDeleteDialog(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Alert'),
+          content: const Text('What would you like to do with this item?'),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actions: [
+            TextButton(
+              onPressed: () {
+                currentlyEditedIndex = index;
+                Navigator.pop(context);
+                showEditModalBottomSheet(index);
+              },
+              child: const Text(
+                'Edit',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                deleteTodoItem(index);
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showEditModalBottomSheet(int index) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: TextEditingController(text: toDoList[index].title),
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    toDoList[index].title = value; // Update the title
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller:
+                    TextEditingController(text: toDoList[index].description),
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    toDoList[index].description =
+                        value; // Update the description
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                onPressed: () {
+                  Navigator.pop(context);
+                  currentlyEditedIndex = -1; // Reset the currently edited index
+                },
+                child: const Text('Edit Done'),
+              ),
+              const SizedBox(
+                height: 100,
+              )
             ],
           ),
-        ));
+        );
+      },
+    );
   }
+
+  void deleteTodoItem(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
+}
+
+class ToDoItem {
+  String title;
+  String description;
+
+  ToDoItem(this.title, this.description);
 }
