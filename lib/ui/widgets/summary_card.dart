@@ -6,14 +6,16 @@ class SummaryCard extends StatelessWidget {
     required this.count,
     required this.title,
   });
+
   final String count, title;
+
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 16.0,
-          horizontal: 32.0,
+          horizontal: 16.0,
         ),
         child: Column(
           children: [

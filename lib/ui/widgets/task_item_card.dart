@@ -1,17 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:task_manger/data/model/task.dart';
+import 'package:task_manger/data/network_caller/network_caller.dart';
+import 'package:task_manger/data/utility/urls.dart';
+
+enum TaskStatus {
+  New,
+  Progress,
+  Completed,
+  Cancelled,
+}
 
 class TaskItemCard extends StatefulWidget {
   const TaskItemCard({
     super.key,
     required this.task,
+    required this.onStatusChange,
+    required this.showProgress,
   });
+
   final Task task;
+  final VoidCallback onStatusChange;
+  final Function(bool) showProgress;
+
   @override
   State<StatefulWidget> createState() => _TaskItemCard();
 }
 
 class _TaskItemCard extends State<TaskItemCard> {
+  Future<void> updateTaskStatus(String status) async {
+    widget.showProgress(true);
+    final response = await NetworkCaller()
+        .getRequest(Urls.UpdateTaskStatus(widget.task.sId ?? '', status));
+
+    if (response.isSuccess) {
+      widget.onStatusChange();
+    }
+    widget.showProgress(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -47,7 +73,9 @@ class _TaskItemCard extends State<TaskItemCard> {
                       icon: const Icon(Icons.delete_forever_outlined),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showUpdateStatusModal();
+                      },
                       icon: const Icon(Icons.edit),
                     )
                   ],
@@ -58,5 +86,46 @@ class _TaskItemCard extends State<TaskItemCard> {
         ),
       ),
     );
+  }
+
+  void showUpdateStatusModal() {
+    List<ListTile> items = TaskStatus.values
+        .map((e) => ListTile(
+              title: Text('${e.name}'),
+              onTap: () {
+                updateTaskStatus(e.name);
+                Navigator.pop(context);
+              },
+            ))
+        .toList();
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Update status'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: items,
+            ),
+            actions: [
+              ButtonBar(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
   }
 }
