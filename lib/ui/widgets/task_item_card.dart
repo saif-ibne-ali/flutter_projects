@@ -30,7 +30,7 @@ class _TaskItemCard extends State<TaskItemCard> {
   Future<void> updateTaskStatus(String status) async {
     widget.showProgress(true);
     final response = await NetworkCaller()
-        .getRequest(Urls.UpdateTaskStatus(widget.task.sId ?? '', status));
+        .getRequest(Urls.updateTaskStatus(widget.task.sId ?? '', status));
 
     if (response.isSuccess) {
       widget.onStatusChange();
@@ -91,7 +91,7 @@ class _TaskItemCard extends State<TaskItemCard> {
   void showUpdateStatusModal() {
     List<ListTile> items = TaskStatus.values
         .map((e) => ListTile(
-              title: Text('${e.name}'),
+              title: Text(e.name),
               onTap: () {
                 updateTaskStatus(e.name);
                 Navigator.pop(context);
