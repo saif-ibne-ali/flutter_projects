@@ -38,6 +38,17 @@ class _TaskItemCard extends State<TaskItemCard> {
     widget.showProgress(false);
   }
 
+  Future<void> deleteTask() async {
+    widget.showProgress(true);
+    final response = await NetworkCaller()
+        .getRequest(Urls.deleteTask(widget.task.sId ?? ''));
+
+    if (response.isSuccess) {
+      widget.onStatusChange();
+    }
+    widget.showProgress(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -69,7 +80,7 @@ class _TaskItemCard extends State<TaskItemCard> {
                 Wrap(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: deleteTask,
                       icon: const Icon(Icons.delete_forever_outlined),
                     ),
                     IconButton(
