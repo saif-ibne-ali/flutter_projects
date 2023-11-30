@@ -25,70 +25,81 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: [
-          const ProfileSummaryCard(),
-          Expanded(
-              child: BodyBackground(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formkey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 32),
-                        Text(
-                          'Add New Task',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          controller: _subjectTEController,
-                          decoration:
-                              const InputDecoration(hintText: 'Subject'),
-                          validator: (String? value) {
-                            if (value?.trim().isEmpty ?? true) {
-                              return 'Enter your subject';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          controller: _descriptionTEController,
-                          maxLines: 8,
-                          decoration:
-                              const InputDecoration(hintText: 'Description'),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Visibility(
-                            visible: !_createTaskInProgress,
-                            replacement: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            child: ElevatedButton(
-                              onPressed: createTask,
-                              child:
-                                  const Icon(Icons.arrow_circle_right_outlined),
-                            ),
+          child: PopScope(
+        canPop: false,
+        onPopInvoked: (bool didPop) {
+          if (didPop) {
+            return;
+          } else {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const NewTaskScreen()));
+          }
+        },
+        child: Column(
+          children: [
+            const ProfileSummaryCard(),
+            Expanded(
+                child: BodyBackground(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 32),
+                          Text(
+                            'Add New Task',
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                        )
-                      ]),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          TextFormField(
+                            controller: _subjectTEController,
+                            decoration:
+                                const InputDecoration(hintText: 'Subject'),
+                            validator: (String? value) {
+                              if (value?.trim().isEmpty ?? true) {
+                                return 'Enter your subject';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          TextFormField(
+                            controller: _descriptionTEController,
+                            maxLines: 8,
+                            decoration:
+                                const InputDecoration(hintText: 'Description'),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Visibility(
+                              visible: !_createTaskInProgress,
+                              replacement: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: createTask,
+                                child: const Icon(
+                                    Icons.arrow_circle_right_outlined),
+                              ),
+                            ),
+                          )
+                        ]),
+                  ),
                 ),
               ),
-            ),
-          ))
-        ],
+            ))
+          ],
+        ),
       )),
     );
   }
@@ -123,10 +134,10 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
         }
       }
     }
-    if (mounted) {
+    /*    if (mounted) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const NewTaskScreen()));
-    }
+    } */
   }
 
   @override
