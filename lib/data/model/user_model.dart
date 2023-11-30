@@ -16,12 +16,12 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['email'] = email;
-    data['firstName'] = firstName;
-    data['lastName'] = lastName;
-    data['mobile'] = mobile;
-    data['photo'] = photo;
-    return data;
+    final Map<String, dynamic> user = <String, dynamic>{};
+    user['email'] = email;
+    user['firstName'] = firstName;
+    user['lastName'] = lastName;
+    user['mobile'] = mobile;
+    user['photo'] = photo;
+    return user;
   }
 }
