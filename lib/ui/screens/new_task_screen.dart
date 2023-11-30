@@ -107,29 +107,33 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               ),
             ),
             Expanded(
-                child: Visibility(
-              visible: getNewTaskInProgress == false,
-              replacement: const Center(
-                child: CircularProgressIndicator(),
-              ),
-              child: ListView.builder(
-                itemCount: taskListModel.taskList?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return TaskItemCard(
-                    task: taskListModel.taskList![index],
-                    onStatusChange: () {
-                      getNewTaskList();
+              child: Visibility(
+                visible: getNewTaskInProgress == false,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: RefreshIndicator(
+                  onRefresh: getNewTaskList,
+                  child: ListView.builder(
+                    itemCount: taskListModel.taskList?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return TaskItemCard(
+                        task: taskListModel.taskList![index],
+                        onStatusChange: () {
+                          getNewTaskList();
+                        },
+                        showProgress: (inProgress) {
+                          getNewTaskInProgress = inProgress;
+                          if (mounted) {
+                            setState(() {});
+                          }
+                        },
+                      );
                     },
-                    showProgress: (inProgress) {
-                      getNewTaskInProgress = inProgress;
-                      if (mounted) {
-                        setState(() {});
-                      }
-                    },
-                  );
-                },
+                  ),
+                ),
               ),
-            ))
+            )
           ],
         ),
       ),
