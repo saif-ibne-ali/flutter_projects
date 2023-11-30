@@ -9,6 +9,8 @@ class Urls {
       '$_baseUrl/listTaskByStatus/${TaskStatus.New.name}';
   static String getProgressTask =
       '$_baseUrl/listTaskByStatus/${TaskStatus.Progress.name}';
+  static String getCompletedTask =
+      '$_baseUrl/listTaskByStatus/${TaskStatus.Completed.name}';
   static const String getTaskStatusCount = '$_baseUrl/taskStatusCount';
 
   static String updateTaskStatus(String taskId, String status) =>
