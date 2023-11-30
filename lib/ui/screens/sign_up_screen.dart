@@ -91,8 +91,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       validator: (String? value) {
                         //todo - validate the mobile number to 11 digit
-                        if (value?.trim().isEmpty ?? true) {
-                          return 'Enter valid Email address';
+
+                        String cleanedValue =
+                            value!.replaceAll(RegExp(r'\D'), '');
+                        if (value.trim().isEmpty ||
+                            !RegExp(r'^01[3-9]\d{8}$').hasMatch(cleanedValue)) {
+                          return 'Enter valid 11 digit mobile number';
                         }
                         return null;
                       },
