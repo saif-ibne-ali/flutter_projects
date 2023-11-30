@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manger/data/network_caller/network_caller.dart';
 import 'package:task_manger/data/network_caller/network_response.dart';
 import 'package:task_manger/data/utility/urls.dart';
-import 'package:task_manger/ui/screens/new_task_screen.dart';
+import 'package:task_manger/ui/screens/main_bottom_nav_screen.dart';
 import 'package:task_manger/ui/widgets/body_background.dart';
 import 'package:task_manger/ui/widgets/profile_summary_card.dart';
 import 'package:task_manger/ui/widgets/show_message.dart';
@@ -31,8 +31,10 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
           if (didPop) {
             return;
           } else {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const NewTaskScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MainBottomNavScreen()));
           }
         },
         child: Column(

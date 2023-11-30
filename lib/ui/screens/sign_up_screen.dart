@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manger/data/network_caller/network_caller.dart';
 import 'package:task_manger/data/network_caller/network_response.dart';
@@ -47,9 +48,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       decoration: const InputDecoration(
                         hintText: 'Email',
                       ),
+                      //Email Validation using email_validator
                       validator: (String? value) {
-                        //todo - validate the email address with regex
-                        if (value?.trim().isEmpty ?? true) {
+                        if (!EmailValidator.validate(value ?? '')) {
                           return 'Enter valid Email address';
                         }
                         return null;
@@ -63,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       validator: (String? value) {
                         if (value?.trim().isEmpty ?? true) {
-                          return 'Enter valid Email address';
+                          return 'Enter valid firstname';
                         }
                         return null;
                       },
@@ -76,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       validator: (String? value) {
                         if (value?.trim().isEmpty ?? true) {
-                          return 'Enter valid Email address';
+                          return 'Enter valid lastname';
                         }
                         return null;
                       },
