@@ -15,6 +15,12 @@ class AuthController {
     user = model;
   }
 
+  static Future<void> updateUserInformation(UserModel model) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user', jsonEncode(model.toJson()));
+    user = model;
+  }
+
   static Future<void> initalizeUserCache() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');

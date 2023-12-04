@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:task_manger/app.dart';
 import 'package:task_manger/controllers/auth_controller.dart';
@@ -9,6 +12,8 @@ class ProfileSummaryCard extends StatelessWidget {
   final bool enableOnTap;
   @override
   Widget build(BuildContext context) {
+    Uint8List imageBytes =
+        const Base64Decoder().convert(AuthController.user?.photo ?? '');
     return ListTile(
       onTap: () {
         if (enableOnTap) {
@@ -20,8 +25,16 @@ class ProfileSummaryCard extends StatelessWidget {
           );
         }
       },
-      leading: const CircleAvatar(
-        child: Icon(Icons.person),
+      leading: CircleAvatar(
+        child: AuthController.user?.photo == null
+            ? const Icon(Icons.person)
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.memory(
+                  imageBytes,
+                  fit: BoxFit.cover,
+                ),
+              ),
       ),
       title: Text(
         fullName,
