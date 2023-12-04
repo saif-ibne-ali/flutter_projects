@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_manger/controllers/auth_controller.dart';
@@ -10,7 +11,6 @@ import 'package:task_manger/data/utility/urls.dart';
 import 'package:task_manger/ui/widgets/body_background.dart';
 import 'package:task_manger/ui/widgets/profile_summary_card.dart';
 import 'package:task_manger/ui/widgets/show_message.dart';
-
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -74,6 +74,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         TextFormField(
                           controller: _emailTEController,
                           decoration: const InputDecoration(hintText: 'Email'),
+                          validator: (String? value) {
+                            if (!EmailValidator.validate(value ?? '')) {
+                              return 'Enter valid Email address';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 8,
@@ -81,7 +87,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         TextFormField(
                           controller: _firstNameTEController,
                           decoration:
-                          const InputDecoration(hintText: 'First name'),
+                              const InputDecoration(hintText: 'First name'),
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Enter valid firstname';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 8,
@@ -89,7 +101,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         TextFormField(
                           controller: _lastNameTEController,
                           decoration:
-                          const InputDecoration(hintText: 'Last name'),
+                              const InputDecoration(hintText: 'Last name'),
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Enter valid lastname';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 8,
@@ -97,14 +115,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         TextFormField(
                           controller: _mobileTEController,
                           decoration: const InputDecoration(hintText: 'Mobile'),
+                          validator: (String? value) {
+                            String cleanedValue =
+                                value!.replaceAll(RegExp(r'\D'), '');
+                            if (value.trim().isEmpty ||
+                                !RegExp(r'^01[3-9]\d{8}$')
+                                    .hasMatch(cleanedValue)) {
+                              return 'Enter valid 11 digit mobile number';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 8,
                         ),
                         TextFormField(
                           controller: _passwordTEController,
-                          decoration:
-                          const InputDecoration(hintText: 'Password (optional)'),
+                          decoration: const InputDecoration(
+                              hintText: 'Password (optional)'),
                         ),
                         const SizedBox(
                           height: 16,
@@ -119,7 +147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             child: ElevatedButton(
                               onPressed: updateProfile,
                               child:
-                              const Icon(Icons.arrow_circle_right_outlined),
+                                  const Icon(Icons.arrow_circle_right_outlined),
                             ),
                           ),
                         )
@@ -143,8 +171,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     String? photoInBase64;
     Map<String, dynamic> inputData = {
       "firstName": _firstNameTEController.text.trim(),
-      "lastName" : _lastNameTEController.text.trim(),
-      "email" : _emailTEController.text.trim(),
+      "lastName": _lastNameTEController.text.trim(),
+      "email": _emailTEController.text.trim(),
       "mobile": _mobileTEController.text.trim(),
     };
 
@@ -152,7 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       inputData['password'] = _passwordTEController.text;
     }
 
-    if (photo != null){
+    if (photo != null) {
       List<int> imageBytes = await photo!.readAsBytes();
       photoInBase64 = base64Encode(imageBytes);
       inputData['photo'] = photoInBase64;
@@ -172,8 +200,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           firstName: _firstNameTEController.text.trim(),
           lastName: _lastNameTEController.text.trim(),
           mobile: _mobileTEController.text.trim(),
-          photo: photoInBase64 ?? AuthController.user?.photo
-      ));
+          photo: photoInBase64 ?? AuthController.user?.photo));
       if (mounted) {
         showSnackMessage(context, 'Update profile success!');
       }
@@ -234,5 +261,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _mobileTEController.dispose();
+    _passwordTEController.dispose();
+    super.dispose();
   }
 }
