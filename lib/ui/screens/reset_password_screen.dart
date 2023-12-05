@@ -164,4 +164,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       }
     }
   }
+
+  @override
+  void dispose() {
+    _confirmPasswordTEController.dispose();
+    _passwordTEController.dispose();
+    super.dispose();
+  }
 }
