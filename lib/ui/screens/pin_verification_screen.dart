@@ -20,6 +20,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String enteredPin = '';
   late String otp;
+  bool _isPinVerifyInProgress = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,14 +89,19 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                     const SizedBox(height: 16),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: enteredPin.length == 6
-                            ? () {
-                                getPinVerify();
-                              }
-                            : null,
-                              
-                        child: const Text('Verify'),
+                      child: Visibility(
+                        visible: _isPinVerifyInProgress == false,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: enteredPin.length == 6
+                              ? () {
+                                  getPinVerify();
+                                }
+                              : null,
+                          child: const Text('Verify'),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -138,12 +144,14 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
 
   Future<void> getPinVerify() async {
     if (_formKey.currentState!.validate()) {
+      _isPinVerifyInProgress = true;
       if (mounted) {
         setState(() {});
       }
       NetworkResponse response = await NetworkCaller().getRequest(
         Urls.recoverVerifyOTP(widget.email, otp),
       );
+      _isPinVerifyInProgress = true;
       if (mounted) {
         setState(() {});
       }
@@ -155,7 +163,10 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const ResetPasswordScreen(),
+                builder: (context) => ResetPasswordScreen(
+                  email: widget.email,
+                  otp: otp,
+                ),
               ),
               (route) => false);
         });

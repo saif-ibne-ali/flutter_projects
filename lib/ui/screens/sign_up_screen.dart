@@ -110,10 +110,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       validator: (String? value) {
                         if (value?.trim().isEmpty ?? true) {
-                          return 'Enter valid Email address';
+                          return 'Enter valid password';
                         }
-                        if (value!.length < 6) {
-                          return 'Enter password more than 6 letter';
+                        if (value!.length < 8) {
+                          return 'Enter password more than 8 letter';
                         }
                         return null;
                       },

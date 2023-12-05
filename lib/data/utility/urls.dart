@@ -27,4 +27,6 @@ class Urls {
 
   static String recoverVerifyOTP(String email, String otp) =>
       '$_baseUrl/RecoverVerifyOTP/$email/$otp';
+
+  static const String recoverResetPass = '$_baseUrl/RecoverResetPass';
 }
