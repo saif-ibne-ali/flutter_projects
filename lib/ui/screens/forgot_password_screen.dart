@@ -118,6 +118,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       if (mounted) {
         setState(() {});
       }
+
       NetworkResponse response = await NetworkCaller().getRequest(
         Urls.recoverVerifyEmail(
           _emailTEController.text.trim(),
@@ -136,7 +137,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PinVerificationScreen(),
+              builder: (context) => PinVerificationScreen(
+                email: _emailTEController.text.trim(),
+              ),
             ),
           );
         });
