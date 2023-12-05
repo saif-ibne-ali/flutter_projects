@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:email_validator/email_validator.dart';
+//import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_manger/controllers/auth_controller.dart';
@@ -73,15 +73,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: 8,
                           ),
                           TextFormField(
+                            //email is primary identifier for a user, so changing it , purge data
+                            readOnly: true,
                             controller: _emailTEController,
                             decoration:
                                 const InputDecoration(hintText: 'Email'),
-                            validator: (String? value) {
+                            /*   validator: (String? value) {
                               if (!EmailValidator.validate(value ?? '')) {
                                 return 'Enter valid Email address';
                               }
                               return null;
-                            },
+                            }, */
                           ),
                           const SizedBox(
                             height: 8,
@@ -177,7 +179,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       Map<String, dynamic> inputData = {
         "firstName": _firstNameTEController.text.trim(),
         "lastName": _lastNameTEController.text.trim(),
-        "email": _emailTEController.text.trim(),
+        //"email": _emailTEController.text.trim(),
         "mobile": _mobileTEController.text.trim(),
       };
 
