@@ -151,7 +151,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
       NetworkResponse response = await NetworkCaller().getRequest(
         Urls.recoverVerifyOTP(widget.email, otp),
       );
-      _isPinVerifyInProgress = true;
+      _isPinVerifyInProgress = false;
       if (mounted) {
         setState(() {});
       }
