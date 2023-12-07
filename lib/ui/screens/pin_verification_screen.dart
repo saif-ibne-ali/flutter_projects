@@ -155,7 +155,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
       if (mounted) {
         setState(() {});
       }
-      if (response.isSuccess) {
+      if (response.isSuccess && response.jsonResponse['status'] != 'fail') {
         if (mounted) {
           showSnackMessage(context, 'Verification Successful');
         }
@@ -172,7 +172,12 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
         });
       } else {
         if (mounted) {
-          showSnackMessage(context, 'Something Wrong. Try again.');
+          if (response.jsonResponse['status'] == 'fail') {
+            showSnackMessage(context, '${response.jsonResponse['data']}');
+          } else {
+            showSnackMessage(
+                context, 'Check Your Internet Connection & Try again');
+          }
         }
       }
     }
