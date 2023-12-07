@@ -12,8 +12,13 @@ class ProfileSummaryCard extends StatelessWidget {
   final bool enableOnTap;
   @override
   Widget build(BuildContext context) {
+    String base64String = AuthController.user?.photo ?? '';
+    if (base64String.startsWith('data:image')) {
+      base64String =
+          base64String.replaceFirst(RegExp(r'data:image/[^;]+;base64,'), '');
+    }
     Uint8List imageBytes =
-        const Base64Decoder().convert(AuthController.user?.photo ?? '');
+        const Base64Decoder().convert(base64String);
     return ListTile(
       onTap: () {
         if (enableOnTap) {
