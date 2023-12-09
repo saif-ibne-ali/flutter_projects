@@ -1,33 +1,37 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_manger/data/model/user_model.dart';
 
-class AuthController {
+class AuthController extends GetxController {
   static String? token;
-  static UserModel? user;
+  UserModel? user;
 
-  static Future<void> saveUserInformation(String t, UserModel model) async {
+  Future<void> saveUserInformation(String t, UserModel model) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', t);
     await prefs.setString('user', jsonEncode(model.toJson()));
     token = t;
     user = model;
+    update();
   }
 
-  static Future<void> updateUserInformation(UserModel model) async {
+  Future<void> updateUserInformation(UserModel model) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('user', jsonEncode(model.toJson()));
     user = model;
+    update();
   }
 
-  static Future<void> initalizeUserCache() async {
+  Future<void> initalizeUserCache() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
     user = UserModel.fromJson(jsonDecode(prefs.getString('user') ?? '{}'));
+    update();
   }
 
-  static Future<bool> checkAuthState() async {
+  Future<bool> checkAuthState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -38,7 +42,7 @@ class AuthController {
     return false;
   }
 
-  static Future<void> clearAuthData() async {
+  Future<void> clearAuthData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     token = null;

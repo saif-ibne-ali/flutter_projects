@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_manger/controllers/new_task_controller.dart';
 import 'package:task_manger/data/model/task_count.dart';
 import 'package:task_manger/data/model/task_count_summary_list_model.dart';
-import 'package:task_manger/data/model/task_list_model.dart';
 import 'package:task_manger/data/network_caller/network_caller.dart';
 import 'package:task_manger/data/network_caller/network_response.dart';
 import 'package:task_manger/data/utility/urls.dart';
@@ -18,9 +19,7 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-  bool getNewTaskInProgress = false;
   bool getTaskCountSummaryInProgress = false;
-  TaskListModel taskListModel = TaskListModel();
   TaskCountSummaryListModel taskCountSummaryListModel =
       TaskCountSummaryListModel();
 
@@ -42,28 +41,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     }
   }
 
-  Future<void> getNewTaskList() async {
-    getNewTaskInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.getNewTask);
-
-    if (response.isSuccess) {
-      taskListModel = TaskListModel.fromJson(response.jsonResponse);
-    }
-    getNewTaskInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     getTaskCountSummaryList();
-    getNewTaskList();
+    Get.find<NewTaskController>().getNewTaskList();
   }
 
   @override
@@ -107,33 +89,33 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               ),
             ),
             Expanded(
-              child: Visibility(
-                visible: getNewTaskInProgress == false,
-                replacement: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                child: RefreshIndicator(
-                  onRefresh: getNewTaskList,
-                  child: ListView.builder(
-                    itemCount: taskListModel.taskList?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return TaskItemCard(
-                        task: taskListModel.taskList![index],
-                        onStatusChange: () {
-                          getNewTaskList();
-                          getTaskCountSummaryList();
-                        },
-                        showProgress: (inProgress) {
-                          getNewTaskInProgress = inProgress;
-                          if (mounted) {
-                            setState(() {});
-                          }
-                        },
-                      );
-                    },
+              child:
+                  GetBuilder<NewTaskController>(builder: (newTaskController) {
+                return Visibility(
+                  visible: newTaskController.getNewTaskInprogress == false,
+                  replacement: const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                ),
-              ),
+                  child: RefreshIndicator(
+                    onRefresh: () => newTaskController.getNewTaskList(),
+                    child: ListView.builder(
+                      itemCount:
+                          newTaskController.taskListModel.taskList?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return TaskItemCard(
+                          task:
+                              newTaskController.taskListModel.taskList![index],
+                          onStatusChange: () {
+                            newTaskController.getNewTaskList();
+                            getTaskCountSummaryList();
+                          },
+                          showProgress: (inProgress) {},
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }),
             )
           ],
         ),

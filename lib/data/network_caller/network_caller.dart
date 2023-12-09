@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:http/http.dart';
 import 'package:task_manger/app.dart';
 import 'package:task_manger/controllers/auth_controller.dart';
@@ -47,7 +47,8 @@ class NetworkCaller {
     } catch (e) {
       return NetworkResponse(
         isSuccess: false,
-        errorMessage: e.toString(), jsonResponse: null,
+        errorMessage: e.toString(),
+        jsonResponse: null,
       );
     }
   }
@@ -55,11 +56,10 @@ class NetworkCaller {
   Future<NetworkResponse> getRequest(String url) async {
     try {
       log(url);
-      Response response = await get(Uri.parse(url),
-          headers: {
-            'Content-type': 'Application/json',
-            'token': AuthController.token.toString()
-          });
+      Response response = await get(Uri.parse(url), headers: {
+        'Content-type': 'Application/json',
+        'token': AuthController.token.toString()
+      });
       log(response.headers.toString());
       log(response.statusCode.toString());
       log(response.body.toString());
@@ -69,8 +69,7 @@ class NetworkCaller {
             jsonResponse: jsonDecode(response.body),
             statusCode: 200);
       } else if (response.statusCode == 401) {
-
-          backToLogin();
+        backToLogin();
 
         return NetworkResponse(
           isSuccess: false,
@@ -93,7 +92,7 @@ class NetworkCaller {
   }
 
   void backToLogin() async {
-    await AuthController.clearAuthData();
+    await Get.find<AuthController>().clearAuthData();
     Navigator.pushAndRemoveUntil(
       TaskMangerApp.navigationKey.currentContext!,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
