@@ -118,7 +118,6 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
         _descriptionTEController.clear();
         Get.find<NewTaskController>().getNewTaskList();
         Get.find<TaskCountController>().getTaskCountSummaryList();
-
         if (mounted) {
           showSnackMessage(context, _addNewTaskController.message);
         }

@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Get.offAll(() => const MainBottomNavScreen());
     } else {
       if (mounted) {
-        showSnackMessage(context, LoginController().failureMessage);
+        showSnackMessage(context, _loginController.failureMessage);
       }
     }
   }
