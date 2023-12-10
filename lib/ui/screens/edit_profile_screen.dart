@@ -1,13 +1,8 @@
-import 'dart:convert';
-//import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_manger/controllers/auth_controller.dart';
-import 'package:task_manger/data/model/user_model.dart';
-import 'package:task_manger/data/network_caller/network_caller.dart';
-import 'package:task_manger/data/network_caller/network_response.dart';
-import 'package:task_manger/data/utility/urls.dart';
+import 'package:task_manger/controllers/edit_profile_controller.dart';
 import 'package:task_manger/ui/widgets/body_background.dart';
 import 'package:task_manger/ui/widgets/profile_summary_card.dart';
 import 'package:task_manger/ui/widgets/show_message.dart';
@@ -28,8 +23,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   AuthController authController = Get.find<AuthController>();
-
-  bool _updateProfileInProgress = false;
+  final EditProfileController _editProfileController = EditProfileController();
 
   XFile? photo;
 
@@ -76,17 +70,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: 8,
                           ),
                           TextFormField(
-                            //email is primary identifier for a user, so changing it , purge data
                             readOnly: true,
                             controller: _emailTEController,
                             decoration:
                                 const InputDecoration(hintText: 'Email'),
-                            /*   validator: (String? value) {
-                              if (!EmailValidator.validate(value ?? '')) {
-                                return 'Enter valid Email address';
-                              }
-                              return null;
-                            }, */
                           ),
                           const SizedBox(
                             height: 8,
@@ -148,12 +135,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: Visibility(
-                              visible: _updateProfileInProgress == false,
+                              visible: _editProfileController
+                                      .updateProfileInProgress ==
+                                  false,
                               replacement: const Center(
                                 child: CircularProgressIndicator(),
                               ),
                               child: ElevatedButton(
-                                onPressed: updateProfile,
+                                onPressed: _updateProfile,
                                 child: const Icon(
                                     Icons.arrow_circle_right_outlined),
                               ),
@@ -172,51 +161,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Future<void> updateProfile() async {
+  Future<void> _updateProfile() async {
     if (_formKey.currentState!.validate()) {
-      _updateProfileInProgress = true;
-      if (mounted) {
-        setState(() {});
-      }
-      String? photoInBase64;
-      Map<String, dynamic> inputData = {
-        "firstName": _firstNameTEController.text.trim(),
-        "lastName": _lastNameTEController.text.trim(),
-        //"email": _emailTEController.text.trim(),
-        "mobile": _mobileTEController.text.trim(),
-      };
+      final response = await _editProfileController.updateProfile(
+          _emailTEController.text.trim(),
+          _firstNameTEController.text.trim(),
+          _lastNameTEController.text.trim(),
+          _mobileTEController.text.trim(),
+          _passwordTEController.text,
+          photo);
 
-      if (_passwordTEController.text.isNotEmpty) {
-        inputData['password'] = _passwordTEController.text;
-      }
-
-      if (photo != null) {
-        List<int> imageBytes = await photo!.readAsBytes();
-        photoInBase64 = base64Encode(imageBytes);
-        inputData['photo'] = photoInBase64;
-      }
-
-      final NetworkResponse response = await NetworkCaller().postRequest(
-        Urls.updateProfile,
-        body: inputData,
-      );
-      _updateProfileInProgress = false;
-      if (mounted) {
-        setState(() {});
-      }
-      if (response.isSuccess) {
-        authController.updateUserInformation(UserModel(
-            email: _emailTEController.text.trim(),
-            firstName: _firstNameTEController.text.trim(),
-            lastName: _lastNameTEController.text.trim(),
-            mobile: _mobileTEController.text.trim(),
-            photo: photoInBase64 ?? authController.user?.photo));
+      if (response) {
         if (mounted) {
-          showSnackMessage(context, 'Update profile success!');
-        }
-      } else {
-        if (mounted) {
-          showSnackMessage(context, 'Update profile failed. Try again.');
+          showSnackMessage(context, _editProfileController.message);
+        } else {
+          if (mounted) {
+            showSnackMessage(context, _editProfileController.message);
+          }
         }
       }
     }
