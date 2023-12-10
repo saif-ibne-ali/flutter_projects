@@ -4,17 +4,16 @@ import 'package:task_manger/data/network_caller/network_caller.dart';
 import 'package:task_manger/data/network_caller/network_response.dart';
 import 'package:task_manger/data/utility/urls.dart';
 
-class TaskCountController extends GetxController{
+class TaskCountController extends GetxController {
   bool _getTaskCountSummaryInProgress = false;
-   TaskCountSummaryListModel _taskCountSummaryListModel =
+  TaskCountSummaryListModel _taskCountSummaryListModel =
       TaskCountSummaryListModel();
-  
+
   bool get getTaskCountSummaryInProgress => _getTaskCountSummaryInProgress;
-    TaskCountSummaryListModel get taskCountSummaryListModel =>
+  TaskCountSummaryListModel get taskCountSummaryListModel =>
       _taskCountSummaryListModel;
 
-
-    Future<bool> getTaskCountSummaryList() async {
+  Future<void> getTaskCountSummaryList() async {
     _getTaskCountSummaryInProgress = true;
     update();
     final NetworkResponse response =
@@ -23,10 +22,8 @@ class TaskCountController extends GetxController{
     if (response.isSuccess) {
       _taskCountSummaryListModel =
           TaskCountSummaryListModel.fromJson(response.jsonResponse);
-      return true;
     }
     _getTaskCountSummaryInProgress = false;
     update();
-    return false;
   }
 }

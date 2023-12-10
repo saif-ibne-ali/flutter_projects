@@ -4,23 +4,23 @@ import 'package:task_manger/data/network_caller/network_caller.dart';
 import 'package:task_manger/data/network_caller/network_response.dart';
 import 'package:task_manger/data/utility/urls.dart';
 
-class NewTaskController extends GetxController {
-  bool _getNewTaskInProgress = false;
+class CompletedTaskController extends GetxController {
+  bool _getCompletedTaskInProgress = false;
   TaskListModel _taskListModel = TaskListModel();
 
-  bool get getNewTaskInprogress => _getNewTaskInProgress;
+  bool get getCompletedTaskInProgress => _getCompletedTaskInProgress;
   TaskListModel get taskListModel => _taskListModel;
 
-  Future<void> getNewTaskList() async {
-    _getNewTaskInProgress = true;
+  Future<void> getCompletedTaskList() async {
+    _getCompletedTaskInProgress = true;
     update();
     final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.getNewTask);
-    _getNewTaskInProgress = false;
+        await NetworkCaller().getRequest(Urls.getCompletedTask);
 
     if (response.isSuccess) {
       _taskListModel = TaskListModel.fromJson(response.jsonResponse);
     }
+    _getCompletedTaskInProgress = false;
     update();
   }
 }
