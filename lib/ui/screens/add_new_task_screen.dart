@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manger/controllers/add_new_task_controller.dart';
 import 'package:task_manger/controllers/new_task_controller.dart';
-import 'package:task_manger/data/network_caller/network_caller.dart';
-import 'package:task_manger/data/network_caller/network_response.dart';
-import 'package:task_manger/data/utility/urls.dart';
+import 'package:task_manger/controllers/task_count_controller.dart';
 import 'package:task_manger/ui/screens/main_bottom_nav_screen.dart';
 import 'package:task_manger/ui/widgets/body_background.dart';
 import 'package:task_manger/ui/widgets/profile_summary_card.dart';
@@ -21,7 +20,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   final TextEditingController _descriptionTEController =
       TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  bool _createTaskInProgress = false;
+  final AddNewTaskController _addNewTaskController = AddNewTaskController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +32,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
           if (didPop) {
             return;
           } else {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MainBottomNavScreen()));
+            Get.offAll(() => const MainBottomNavScreen());
           }
         },
         child: Column(
@@ -85,17 +81,21 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                           ),
                           SizedBox(
                             width: double.infinity,
-                            child: Visibility(
-                              visible: !_createTaskInProgress,
-                              replacement: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              child: ElevatedButton(
-                                onPressed: createTask,
-                                child: const Icon(
-                                    Icons.arrow_circle_right_outlined),
-                              ),
-                            ),
+                            child: GetBuilder<AddNewTaskController>(
+                                builder: (addNewTaskController) {
+                              return Visibility(
+                                visible:
+                                    !addNewTaskController.createTaskInProgress,
+                                replacement: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: _createTask,
+                                  child: const Icon(
+                                      Icons.arrow_circle_right_outlined),
+                                ),
+                              );
+                            }),
                           )
                         ]),
                   ),
@@ -108,41 +108,27 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     );
   }
 
-  Future<void> createTask() async {
+  Future<void> _createTask() async {
     if (_formkey.currentState!.validate()) {
-      _createTaskInProgress = true;
-      if (mounted) {
-        setState(() {});
-      }
-      final NetworkResponse response =
-          await NetworkCaller().postRequest(Urls.createNewTask, body: {
-        "title": _subjectTEController.text.trim(),
-        "description": _descriptionTEController.text.trim(),
-        "status": "New",
-      });
-      _createTaskInProgress = false;
-      if (mounted) {
-        setState(() {});
-        if (response.isSuccess) {
-          _subjectTEController.clear();
-          _descriptionTEController.clear();
-          Get.find<NewTaskController>().getNewTaskList();
+      final response = await _addNewTaskController.createTask(
+          _subjectTEController.text.trim(),
+          _descriptionTEController.text.trim());
+      if (response) {
+        _subjectTEController.clear();
+        _descriptionTEController.clear();
+        Get.find<NewTaskController>().getNewTaskList();
+        Get.find<TaskCountController>().getTaskCountSummaryList();
 
-          if (mounted) {
-            showSnackMessage(context, 'New Task Added.');
-          }
-        } else {
-          if (mounted) {
-            showSnackMessage(
-                context, 'Create new task failed! Try again.', true);
-          }
+        if (mounted) {
+          showSnackMessage(context, _addNewTaskController.message);
+        }
+      } else {
+        if (mounted) {
+          showSnackMessage(context, _addNewTaskController.message);
         }
       }
     }
-    /*    if (mounted) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const NewTaskScreen()));
-    } */
+    Future.delayed(const Duration(seconds: 2)).then((value) => Get.back());
   }
 
   @override
