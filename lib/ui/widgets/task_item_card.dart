@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_manger/controllers/task_item_controller.dart';
 import 'package:task_manger/data/model/task.dart';
-import 'package:task_manger/data/network_caller/network_caller.dart';
-import 'package:task_manger/data/utility/urls.dart';
 
 enum TaskStatus {
   New,
@@ -27,23 +26,23 @@ class TaskItemCard extends StatefulWidget {
 }
 
 class _TaskItemCard extends State<TaskItemCard> {
-  Future<void> updateTaskStatus(String status) async {
+  final TaskItemController _taskItemController = TaskItemController();
+  Future<void> _updateTaskStatus(String status) async {
     widget.showProgress(true);
-    final response = await NetworkCaller()
-        .getRequest(Urls.updateTaskStatus(widget.task.sId ?? '', status));
+    final response =
+        await _taskItemController.updateTaskStatus(widget.task, status);
 
-    if (response.isSuccess) {
+    if (response) {
       widget.onStatusChange();
     }
     widget.showProgress(false);
   }
 
-  Future<void> deleteTask() async {
+  Future<void> _deleteTask() async {
     widget.showProgress(true);
-    final response = await NetworkCaller()
-        .getRequest(Urls.deleteTask(widget.task.sId ?? ''));
+    final response = await _taskItemController.deleteTask(widget.task);
 
-    if (response.isSuccess) {
+    if (response) {
       widget.onStatusChange();
     }
     widget.showProgress(false);
@@ -80,7 +79,7 @@ class _TaskItemCard extends State<TaskItemCard> {
                 Wrap(
                   children: [
                     IconButton(
-                      onPressed: deleteTask,
+                      onPressed: () => _deleteTask(),
                       icon: const Icon(Icons.delete_forever_outlined),
                     ),
                     IconButton(
@@ -104,7 +103,7 @@ class _TaskItemCard extends State<TaskItemCard> {
         .map((e) => ListTile(
               title: Text(e.name),
               onTap: () {
-                updateTaskStatus(e.name);
+                _updateTaskStatus(e.name);
                 Navigator.pop(context);
               },
             ))

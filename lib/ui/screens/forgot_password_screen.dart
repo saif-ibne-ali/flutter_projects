@@ -1,8 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manger/data/network_caller/network_caller.dart';
-import 'package:task_manger/data/network_caller/network_response.dart';
-import 'package:task_manger/data/utility/urls.dart';
+import 'package:get/get.dart';
+import 'package:task_manger/controllers/forget_password_controller.dart';
 import 'package:task_manger/ui/screens/login_screen.dart';
 import 'package:task_manger/ui/screens/pin_verification_screen.dart';
 import 'package:task_manger/ui/widgets/body_background.dart';
@@ -18,7 +17,9 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _verifyEmailInProgress = false;
+
+  final ForgetPasswordController _forgetPasswordController =
+      ForgetPasswordController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +65,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     const SizedBox(height: 16),
                     SizedBox(
                       width: double.infinity,
-                      child: Visibility(
-                        visible: _verifyEmailInProgress == false,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: ElevatedButton(
-                            onPressed: getVerifyEmail,
-                            child: const Icon(Icons.arrow_forward)),
-                      ),
+                      child: GetBuilder<ForgetPasswordController>(
+                          builder: (forgetPasswordController) {
+                        return Visibility(
+                          visible:
+                              forgetPasswordController.verifyEmailInProgress ==
+                                  false,
+                          replacement: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          child: ElevatedButton(
+                              onPressed: _getVerifyEmail,
+                              child: const Icon(Icons.arrow_forward)),
+                        );
+                      }),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -88,13 +94,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                         TextButton(
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
-                                ModalRoute.withName('/'),
-                              );
+                              Get.offAll(() => const LoginScreen());
                             },
                             child: const Text(
                               'Sign In',
@@ -112,45 +112,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  Future<void> getVerifyEmail() async {
+  Future<void> _getVerifyEmail() async {
     if (_formKey.currentState!.validate()) {
-      _verifyEmailInProgress = true;
-      if (mounted) {
-        setState(() {});
-      }
-
-      NetworkResponse response = await NetworkCaller().getRequest(
-        Urls.recoverVerifyEmail(
-          _emailTEController.text.trim(),
-        ),
+      final response = await _forgetPasswordController.getVerifyEmail(
+        _emailTEController.text.trim(),
       );
-      _verifyEmailInProgress = false;
-      if (mounted) {
-        setState(() {});
-      }
-      if (response.isSuccess && response.jsonResponse['status'] != 'fail') {
+
+      if (response) {
+        if (mounted) {
+          showSnackMessage(context, _forgetPasswordController.showMessage);
+        }
+        Get.off(
+            () => PinVerificationScreen(email: _emailTEController.text.trim()));
+      } else {
         if (mounted) {
           showSnackMessage(
-              context, 'An OTP has been sent to your email address');
-        }
-        Future.delayed(const Duration(seconds: 2)).then((value) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PinVerificationScreen(
-                email: _emailTEController.text.trim(),
-              ),
-            ),
-          );
-        });
-      } else {
-          if (mounted) {
-          if (response.jsonResponse['status'] == 'fail') {
-            showSnackMessage(
-                context, '${response.jsonResponse['data']}. Check Your Email.');
-          } else {
-            showSnackMessage(context, 'Check Your Internet Connection');
-          }
+              context, _forgetPasswordController.showMessage, true);
         }
       }
     }

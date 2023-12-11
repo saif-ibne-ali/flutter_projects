@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:task_manger/controllers/auth_controller.dart';
 import 'package:task_manger/ui/screens/login_screen.dart';
 import 'package:task_manger/ui/screens/main_bottom_nav_screen.dart';
-
-import '../widgets/body_background.dart';
+import 'package:task_manger/ui/widgets/body_background.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
