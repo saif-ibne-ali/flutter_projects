@@ -16,8 +16,8 @@ class EditProfileController extends GetxController {
   bool get updateProfileInProgress => _updateProfileInProgress;
   String get message => _message;
 
-  Future<bool> updateProfile(String email, String firstName, String lastName, String mobile,
-      String password, XFile? photo) async {
+  Future<bool> updateProfile(String email, String firstName, String lastName,
+      String mobile, String password, XFile? photo) async {
     _updateProfileInProgress = true;
     update();
 

@@ -42,10 +42,10 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                   return TaskItemCard(
                     task:
                         completedTaskController.taskListModel.taskList![index],
-                    onStatusChange: () {
+                    /*   onStatusChange: () {
                       completedTaskController.getCompletedTaskList();
                     },
-                    showProgress: (inProgress) {},
+                    showProgress: (inProgress) {}, */
                   );
                 },
               ),

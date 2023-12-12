@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manger/controllers/task_item_controller.dart';
 import 'package:task_manger/data/model/task.dart';
 
@@ -13,13 +14,13 @@ class TaskItemCard extends StatefulWidget {
   const TaskItemCard({
     super.key,
     required this.task,
-    required this.onStatusChange,
-    required this.showProgress,
+    //required this.onStatusChange,
+    //required this.showProgress,
   });
 
   final Task task;
-  final VoidCallback onStatusChange;
-  final Function(bool) showProgress;
+  //final VoidCallback onStatusChange;
+  //final Function(bool) showProgress;
 
   @override
   State<StatefulWidget> createState() => _TaskItemCard();
@@ -27,7 +28,7 @@ class TaskItemCard extends StatefulWidget {
 
 class _TaskItemCard extends State<TaskItemCard> {
   final TaskItemController _taskItemController = TaskItemController();
-  Future<void> _updateTaskStatus(String status) async {
+/*   Future<void> _updateTaskStatus(String status) async {
     widget.showProgress(true);
     final response =
         await _taskItemController.updateTaskStatus(widget.task, status);
@@ -46,7 +47,7 @@ class _TaskItemCard extends State<TaskItemCard> {
       widget.onStatusChange();
     }
     widget.showProgress(false);
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +80,10 @@ class _TaskItemCard extends State<TaskItemCard> {
                 Wrap(
                   children: [
                     IconButton(
-                      onPressed: () => _deleteTask(),
+                      onPressed: () {
+                        // _taskItemController.showProgress == true.obs;
+                        _taskItemController.deleteTask(widget.task);
+                      },
                       icon: const Icon(Icons.delete_forever_outlined),
                     ),
                     IconButton(
@@ -100,13 +104,18 @@ class _TaskItemCard extends State<TaskItemCard> {
 
   void showUpdateStatusModal() {
     List<ListTile> items = TaskStatus.values
-        .map((e) => ListTile(
-              title: Text(e.name),
-              onTap: () {
-                _updateTaskStatus(e.name);
-                Navigator.pop(context);
-              },
-            ))
+        .where((e) => e.name.toString() != widget.task.status)
+        .map(
+          (e) => ListTile(
+            title:
+                e.name.toString() != widget.task.status ? Text(e.name) : null,
+            onTap: () {
+              //_taskItemController.showProgress == true.obs;
+              _taskItemController.updateTaskStatus(widget.task, e.name);
+              Get.back();
+            },
+          ),
+        )
         .toList();
 
     showDialog(
@@ -123,7 +132,7 @@ class _TaskItemCard extends State<TaskItemCard> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                     child: const Text(
                       'Cancel',

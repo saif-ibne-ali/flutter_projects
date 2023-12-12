@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manger/controllers/add_new_task_controller.dart';
-import 'package:task_manger/controllers/new_task_controller.dart';
-import 'package:task_manger/controllers/task_count_controller.dart';
 import 'package:task_manger/ui/screens/main_bottom_nav_screen.dart';
 import 'package:task_manger/ui/widgets/body_background.dart';
 import 'package:task_manger/ui/widgets/profile_summary_card.dart';
@@ -116,8 +114,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       if (response) {
         _subjectTEController.clear();
         _descriptionTEController.clear();
-        Get.find<NewTaskController>().getNewTaskList();
-        Get.find<TaskCountController>().getTaskCountSummaryList();
+
         if (mounted) {
           showSnackMessage(context, _addNewTaskController.message);
         }
@@ -127,7 +124,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
         }
       }
     }
-    Future.delayed(const Duration(seconds: 2)).then((value) => Get.back());
+    Get.back();
   }
 
   @override

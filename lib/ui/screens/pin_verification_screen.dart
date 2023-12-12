@@ -17,7 +17,7 @@ class PinVerificationScreen extends StatefulWidget {
 
 class _PinVerificationScreenState extends State<PinVerificationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String enteredPin = '';
+  RxString enteredPin = ''.obs;
   late String otp;
   final PinVerificationController _pinVerificationController =
       PinVerificationController();
@@ -71,9 +71,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                         otp = value;
                       },
                       onChanged: (value) {
-                        setState(() {
-                          enteredPin = value;
-                        });
+                        enteredPin.value = value;
                       },
                       beforeTextPaste: (text) {
                         return RegExp(r'^[0-9]+$').hasMatch(text!);
@@ -99,7 +97,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                             child: CircularProgressIndicator(),
                           ),
                           child: ElevatedButton(
-                            onPressed: enteredPin.length == 6
+                            onPressed: enteredPin.value.length == 6
                                 ? () {
                                     _getPinVerify();
                                   }

@@ -31,6 +31,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         },
         child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       body: SafeArea(
         child: Column(
           children: [
@@ -53,12 +55,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         return TaskItemCard(
                           task:
                               newTaskController.taskListModel.taskList![index],
-                          onStatusChange: () {
+                          /*    onStatusChange: () {
                             newTaskController.getNewTaskList();
                             Get.find<TaskCountController>()
                                 .getTaskCountSummaryList();
                           },
-                          showProgress: (inProgress) {},
+                          showProgress: (inProgress) {}, */
                         );
                       },
                     ),

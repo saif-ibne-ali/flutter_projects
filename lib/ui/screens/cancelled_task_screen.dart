@@ -42,10 +42,10 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
                   return TaskItemCard(
                     task:
                         cancelledTaskController.taskListModel.taskList![index],
-                    onStatusChange: () {
+                    /*  onStatusChange: () {
                       cancelledTaskController.getCancelledTaskList();
                     },
-                    showProgress: (inProgress) {},
+                    showProgress: (inProgress) {}, */
                   );
                 },
               ),

@@ -12,9 +12,7 @@ class ProfileSummaryCard extends StatelessWidget {
   final bool enableOnTap;
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AuthController>(
-      builder: (authController) {
-
+    return GetBuilder<AuthController>(builder: (authController) {
       String base64String = authController.user?.photo ?? '';
       if (base64String.startsWith('data:image')) {
         base64String =
@@ -24,7 +22,7 @@ class ProfileSummaryCard extends StatelessWidget {
       return ListTile(
         onTap: () {
           if (enableOnTap) {
-            Get.offAll(() => const EditProfileScreen());
+            Get.off(() => const EditProfileScreen());
           }
         },
         leading: CircleAvatar(

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:task_manger/controllers/new_task_controller.dart';
+import 'package:task_manger/controllers/task_count_controller.dart';
 import 'package:task_manger/data/network_caller/network_caller.dart';
 import 'package:task_manger/data/network_caller/network_response.dart';
 import 'package:task_manger/data/utility/urls.dart';
@@ -22,6 +24,8 @@ class AddNewTaskController extends GetxController {
     _createTaskInProgress = false;
     update();
     if (response.isSuccess && response.jsonResponse['status'] != 'fail') {
+      Get.find<NewTaskController>().getNewTaskList();
+      Get.find<TaskCountController>().getTaskCountSummaryList();
       _message = 'New task added!';
       return true;
     } else {
