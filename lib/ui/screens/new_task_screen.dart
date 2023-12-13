@@ -55,12 +55,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         return TaskItemCard(
                           task:
                               newTaskController.taskListModel.taskList![index],
-                          /*    onStatusChange: () {
-                            newTaskController.getNewTaskList();
-                            Get.find<TaskCountController>()
-                                .getTaskCountSummaryList();
-                          },
-                          showProgress: (inProgress) {}, */
                         );
                       },
                     ),

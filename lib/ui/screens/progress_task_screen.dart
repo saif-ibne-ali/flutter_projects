@@ -40,10 +40,6 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
                 itemBuilder: (context, index) {
                   return TaskItemCard(
                     task: progressTaskController.taskListModel.taskList![index],
-/*                     onStatusChange: () {
-                      progressTaskController.getProgressTaskList();
-                    },
-                    showProgress: (inProgress) {}, */
                   );
                 },
               ),
