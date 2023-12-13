@@ -96,14 +96,16 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                           replacement: const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          child: ElevatedButton(
-                            onPressed: enteredPin.value.length == 6
-                                ? () {
-                                    _getPinVerify();
-                                  }
-                                : null,
-                            child: const Text('Verify'),
-                          ),
+                          child: Obx(() {
+                            return ElevatedButton(
+                              onPressed: enteredPin.value.length == 6
+                                  ? () {
+                                      _getPinVerify();
+                                    }
+                                  : null,
+                              child: const Text('Verify'),
+                            );
+                          }),
                         );
                       }),
                     ),

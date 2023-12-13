@@ -24,11 +24,11 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<NavBarIndexController>(builder: (navBarIndexController) {
       return Scaffold(
-        body: _screens[navBarIndexController.selectedIndex],
+        body: _screens[navBarIndexController.getSelectedIndex],
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: navBarIndexController.selectedIndex,
+          currentIndex: navBarIndexController.getSelectedIndex,
           onTap: (index) {
-            navBarIndexController.getSelectedIndex(index);
+            navBarIndexController.setSelectedIndex(index);
           },
           selectedItemColor: Colors.green,
           unselectedItemColor: Colors.grey,

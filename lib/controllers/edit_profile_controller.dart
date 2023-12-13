@@ -57,4 +57,10 @@ class EditProfileController extends GetxController {
       return false;
     }
   }
+
+  final Rx<XFile?> photo = Rx<XFile?>(null);
+
+  void setPhoto(XFile? newPhoto) {
+    photo.value = newPhoto;
+  }
 }

@@ -25,7 +25,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   AuthController authController = Get.find<AuthController>();
   final EditProfileController _editProfileController = EditProfileController();
 
-  XFile? photo;
+  //XFile? photo;
 
   @override
   void initState() {
@@ -169,7 +169,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _lastNameTEController.text.trim(),
           _mobileTEController.text.trim(),
           _passwordTEController.text,
-          photo);
+          _editProfileController.photo.value);
 
       if (response) {
         if (mounted) {
@@ -214,18 +214,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 final XFile? image = await ImagePicker()
                     .pickImage(source: ImageSource.gallery, imageQuality: 50);
                 if (image != null) {
-                  photo = image;
-                  if (mounted) {
+                  _editProfileController.setPhoto(image);
+                  /*   if (mounted) {
                     setState(() {});
-                  }
+                  } */
                 }
               },
               child: Container(
                 padding: const EdgeInsets.only(left: 16),
-                child: Visibility(
-                  visible: photo == null,
-                  replacement: Text(photo?.name ?? ''),
-                  child: const Text('Select a photo'),
+                child: Obx(
+                  () {
+                    final XFile? currentPhoto =
+                        _editProfileController.photo.value;
+                    return Visibility(
+                      visible: currentPhoto == null,
+                      replacement: Text(currentPhoto?.name ?? ''),
+                      child: const Text('Select a photo'),
+                    );
+                  },
                 ),
               ),
             ),
