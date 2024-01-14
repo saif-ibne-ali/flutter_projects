@@ -81,7 +81,7 @@ class CompleteProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.offAll(const MainBottomNavScreen());
+                    Get.offAll(() => const MainBottomNavScreen());
                   },
                   child: const Text('Complete'),
                 ),
