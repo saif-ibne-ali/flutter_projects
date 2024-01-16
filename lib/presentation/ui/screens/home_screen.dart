@@ -49,13 +49,17 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 8,),
               SectionTitle(
                 title: 'Special',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(()=> const ProductListScreen());
+                },
               ),
               productList,
               const SizedBox(height: 8,),
               SectionTitle(
                 title: 'New',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(()=> const ProductListScreen());
+                },
               ),
               productList,
             ],

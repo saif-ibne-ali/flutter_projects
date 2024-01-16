@@ -70,7 +70,7 @@ class VerifyOTPScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(const CompleteProfileScreen());
+                    Get.to(()=>const CompleteProfileScreen());
                   },
                   child: const Text('Next'),
                 ),

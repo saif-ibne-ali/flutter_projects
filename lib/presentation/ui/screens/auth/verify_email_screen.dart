@@ -47,7 +47,7 @@ class VerifyEmailScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(const VerifyOTPScreen());
+                    Get.to(()=>const VerifyOTPScreen());
                   },
                   child: const Text('Next'),
                 ),
