@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/send_otp_email_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBinder extends Bindings {
@@ -7,5 +8,6 @@ class ControllerBinder extends Bindings {
   void dependencies() {
     Get.put(MainBottomNavController());
     Get.put(SendEmailOtpController());
+    Get.put(VerifyOTPController());
   }
 }

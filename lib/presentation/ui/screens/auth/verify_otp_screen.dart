@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
@@ -5,10 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyOTPScreen extends StatelessWidget {
-  const VerifyOTPScreen({super.key});
+class VerifyOTPScreen extends StatefulWidget {
+  const VerifyOTPScreen({super.key, required this.email});
+
+  final String email;
 
   @override
+  State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
+}
+
+class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
+  @override
+
+  final TextEditingController _otpTEController = TextEditingController();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -40,6 +52,8 @@ class VerifyOTPScreen extends StatelessWidget {
                 height: 24,
               ),
               PinCodeTextField(
+                controller: _otpTEController,
+                validator: (value){},
                 length: 4,
                 obscureText: false,
                 animationType: AnimationType.fade,
@@ -68,11 +82,18 @@ class VerifyOTPScreen extends StatelessWidget {
               ),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(()=>const CompleteProfileScreen());
-                  },
-                  child: const Text('Next'),
+                child: GetBuilder<VerifyOTPController>(
+                  builder: (verifyOtpController) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        if(_formkey.currentState!.validate()){
+
+                        }
+                        Get.to(()=>const CompleteProfileScreen());
+                      },
+                      child: const Text('Next'),
+                    );
+                  }
                 ),
               ),
               const SizedBox(
