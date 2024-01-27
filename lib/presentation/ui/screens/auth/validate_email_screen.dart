@@ -1,4 +1,4 @@
-import 'package:crafty_bay/presentation/state_holders/send_otp_email_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/validate_email_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_otp_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';

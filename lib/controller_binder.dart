@@ -1,5 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/send_otp_email_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/validate_email_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:get/get.dart';
 
