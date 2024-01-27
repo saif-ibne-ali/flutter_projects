@@ -2,17 +2,18 @@ import 'package:crafty_bay/presentation/state_holders/validate_email_controller.
 import 'package:crafty_bay/presentation/ui/screens/auth/verify_otp_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({super.key});
+class ValidateEmailScreen extends StatefulWidget {
+  const ValidateEmailScreen({super.key});
 
   @override
-  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
+  State<ValidateEmailScreen> createState() => _ValidateEmailScreenState();
 }
 
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+class _ValidateEmailScreenState extends State<ValidateEmailScreen> {
 
   final TextEditingController _emailTEController  = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -67,15 +68,13 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                GetBuilder<SendEmailOtpController>(
+                GetBuilder<ValidateEmailController>(
                   builder: (controller) {
                     return SizedBox(
                       width: double.infinity,
                       child: Visibility(
                         visible: controller.inProgress == false,
-                        replacement: const CircularProgressIndicator(
-                          color: AppColors.primaryColor,
-                        ),
+                        replacement: const CenterCircularProgressIndicator(),
                         child: ElevatedButton(
                           onPressed: () async {
                             if(_formKey.currentState!.validate()){

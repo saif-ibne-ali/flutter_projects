@@ -7,7 +7,7 @@ class ControllerBinder extends Bindings {
   @override
   void dependencies() {
     Get.put(MainBottomNavController());
-    Get.put(SendEmailOtpController());
+    Get.put(ValidateEmailController());
     Get.put(VerifyOTPController());
   }
 }
