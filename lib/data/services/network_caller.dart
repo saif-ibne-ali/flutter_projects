@@ -7,10 +7,12 @@ import 'package:http/http.dart';
 class NetworkCaller {
   Future<ResponseData> getRequest(String url, {String? token}) async {
     log(url);
+    log(token.toString());
     final Response response = await get(Uri.parse(url), headers: {
       'token': token.toString(),
-      'Content-type': 'application/json+'
+      'content-type': 'application/json+'
     });
+    log(response.headers.toString());
     log(response.statusCode.toString());
     log(response.body.toString());
 

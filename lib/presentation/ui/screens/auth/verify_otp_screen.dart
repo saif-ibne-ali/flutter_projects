@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/complete_profile_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
@@ -95,11 +96,18 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                             final bool response = await verifyOtpController
                                 .verifyOTP(widget.email, _otpTEController.text);
                             if (response) {
-                              Get.to(() => const CompleteProfileScreen());
+                              if (verifyOtpController
+                                  .doNavigateCompleteProfile) {
+                                Get.to(() => const CompleteProfileScreen());
+                              } else {
+                                Get.offAll(() => const MainBottomNavScreen());
+                              }
                             } else {
                               Get.showSnackbar(GetSnackBar(
+                                isDismissible: true,
                                 title: 'OTP Verification Status',
                                 message: verifyOtpController.errorMessage,
+                                duration: const Duration(seconds: 5),
                               ));
                             }
                           }

@@ -83,8 +83,10 @@ class _ValidateEmailScreenState extends State<ValidateEmailScreen> {
                                 Get.to(()=>VerifyOTPScreen(email: _emailTEController.text.trim()));
                               } else {
                                 Get.showSnackbar(GetSnackBar(
+                                  isDismissible: true,
                                   title: 'Send OTP failed',
                                   message: controller.errorMessage,
+                                  duration: const Duration(seconds: 5),
                                 ));
                               }
                             }
