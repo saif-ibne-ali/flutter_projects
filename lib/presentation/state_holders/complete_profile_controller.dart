@@ -3,7 +3,7 @@ import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
-class ReadProfileDataController extends GetxController {
+class CompleteProfileController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
@@ -13,23 +13,16 @@ class ReadProfileDataController extends GetxController {
   Profile _profile = Profile();
   Profile get profile => _profile;
 
-  bool _isProfileCompleted = false;
-  bool get isProfileCompleted => _isProfileCompleted;
-
-  Future<bool> readProfileData(String token) async {
+  Future<bool> createProfile(String token, String firstName, String lastName,
+      String mobile, String city, String shippingAddress) async {
+    //Flutter Ecommerce Project-04(Live class-01)
     _inProgress = true;
     update();
     final response =
-        await NetworkCaller().getRequest(Urls.readProfile, token: token);
+        await NetworkCaller().postRequest(Urls.createProfile, token: token);
     _inProgress = false;
     if (response.isSuccess && response.responseData['msg'] != 'fail') {
-      final profileData = response.responseData['data'];
-      if(profileData.isEmpty){
-        _isProfileCompleted = false;
-      } else{
-        _profile = Profile.fromJson(profileData[0]);
-        _isProfileCompleted = true;
-      }
+      _profile = Profile.fromJson(response.responseData['data']);
       update();
       return true;
     } else {
