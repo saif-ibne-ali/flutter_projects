@@ -21,7 +21,7 @@ class ProductDetailsScreen extends StatelessWidget {
     List<String> sizes=[
       'S','L','M','XL','XXL','3XL'
     ];
-    Color _selectedColor = colors.first;
+    Color selectedColor = colors.first;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Detail'),
@@ -33,7 +33,7 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const ProductImageCarousel(),
-                  productDetailsBody(noOfItems, colors, _selectedColor, sizes),
+                  productDetailsBody(noOfItems, colors, selectedColor, sizes),
                 ],
               ),
             ),
@@ -44,7 +44,7 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Padding productDetailsBody(ValueNotifier<int> noOfItems, List<Color> colors, Color _selectedColor, List<String> sizes) {
+  Padding productDetailsBody(ValueNotifier<int> noOfItems, List<Color> colors, Color selectedColor, List<String> sizes) {
     return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -86,7 +86,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 size: 16,
                                 color: Colors.amber,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 8,
                               ),
                               Text(
@@ -133,7 +133,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),),
                       ColorPicker(colors: colors, onChange: (selectedColor){
-                        _selectedColor = selectedColor;
+                        selectedColor = selectedColor;
                       }),
                       const SizedBox(height: 8),
                       const Text('Size',

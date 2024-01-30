@@ -32,7 +32,7 @@ class _CartsScreenState extends State<CartsScreen> {
             Expanded(
               child: ListView.separated(
                   itemBuilder: (context, index){
-                    return CartProductItem();
+                    return const CartProductItem();
                   },
                   separatorBuilder: (_,__)=> const SizedBox(),
                   itemCount: 4,),
