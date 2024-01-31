@@ -1,3 +1,4 @@
+import 'package:crafty_bay/data/models/create_profile_params.dart';
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
@@ -14,20 +15,13 @@ class CompleteProfileController extends GetxController {
   Profile _profile = Profile();
   Profile get profile => _profile;
 
-  Future<bool> createProfile(String token, String firstName, String lastName,
-      String mobile, String city, String shippingAddress) async {
+  Future<bool> createProfile(String token, CreateProfileParams params) async {
     //Flutter Ecommerce Project-04(Live class-01)
     _inProgress = true;
     update();
-    Map<String, dynamic> inputParams = {
-      'firstName': firstName,
-      'lastName': lastName,
-      'mobile': mobile,
-      'city': city,
-      'shippingAddress': shippingAddress,
-    };
+
     final response =
-        await NetworkCaller().postRequest(Urls.createProfile,body: inputParams, token: token);
+        await NetworkCaller().postRequest(Urls.createProfile,body: params.toJson(), token: token);
     _inProgress = false;
     if (response.isSuccess && response.responseData['msg'] != 'fail') {
       _profile = Profile.fromJson(response.responseData['data']);
