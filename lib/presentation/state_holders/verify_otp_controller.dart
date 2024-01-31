@@ -16,6 +16,9 @@ class VerifyOTPController extends GetxController {
   bool _doNavigateCompleteProfile = true;
   bool get doNavigateCompleteProfile => _doNavigateCompleteProfile;
 
+  String _token = '';
+  String get token => _token;
+
   Future<bool> verifyOTP(String email, String otp) async {
     _inProgress = true;
     update();
@@ -24,7 +27,7 @@ class VerifyOTPController extends GetxController {
     _inProgress = false;
     if (response.isSuccess && response.responseData['msg'] != 'fail') {
       await Future.delayed(const Duration(seconds: 3));
-      final token = response.responseData['data'];
+      _token = response.responseData['data'];
       log(token.toString());
       final result =
           await Get.find<ReadProfileDataController>().readProfileData(token);

@@ -1,6 +1,8 @@
 import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -58,6 +60,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: _firstNameTEController,
                   decoration: const InputDecoration(hintText: 'First name'),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
@@ -71,6 +74,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: _lastNameTEController,
                   decoration: const InputDecoration(hintText: 'Last name'),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
@@ -84,6 +88,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                    controller: _mobileTEController,
                     decoration: const InputDecoration(hintText: 'Mobile'),
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
@@ -97,6 +102,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: _cityTEController,
                   decoration: const InputDecoration(hintText: 'City'),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
@@ -110,6 +116,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: _shippingAddressTEController,
                   maxLines: 4,
                   decoration:
                       const InputDecoration(hintText: 'Shipping address'),
@@ -126,15 +133,38 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if(_formkey.currentState!.validate()){
-                        final result = await Get.find<CompleteProfileController>();
-                      }
-                      Get.offAll(() => const MainBottomNavScreen());
-                    },
-                    child: const Text('Complete'),
-                  ),
+                  child: GetBuilder<CompleteProfileController>(
+                      builder: (completeProfileController) {
+                    return Visibility(
+                      visible: completeProfileController.inProgress == false,
+                      replacement: const CenterCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formkey.currentState!.validate()) {
+                            final bool result =
+                                await completeProfileController.createProfile(
+                                    Get.find<VerifyOTPController>().token,
+                                    _firstNameTEController.text.trim(),
+                                    _lastNameTEController.text.trim(),
+                                    _mobileTEController.text.trim(),
+                                    _cityTEController.text.trim(),
+                                    _shippingAddressTEController.text.trim());
+                            if (result) {
+                              Get.offAll(() => const MainBottomNavScreen());
+                            } else {
+                              Get.showSnackbar(GetSnackBar(
+                                title: 'Complete profile fail',
+                                message: completeProfileController.errorMessage,
+                                duration: const Duration(seconds: 2),
+                                isDismissible: true,
+                              ));
+                            }
+                          }
+                        },
+                        child: const Text('Complete'),
+                      ),
+                    );
+                  }),
                 ),
               ],
             ),

@@ -44,6 +44,10 @@ class NetworkCaller {
     final Response response = await post(
       Uri.parse(url),
       body: jsonEncode(body),
+      headers: {
+        'token' : token.toString(),
+        'content-type' : 'application/json'
+      }
     );
     log(response.statusCode.toString());
     log(response.body.toString());
