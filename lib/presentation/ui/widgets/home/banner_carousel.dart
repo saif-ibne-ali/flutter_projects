@@ -1,13 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
+import 'package:crafty_bay/data/models/banner.dart';
 
 class BannerCarousel extends StatefulWidget {
   const BannerCarousel({
-    super.key, this.height,
-  });
+    super.key, this.height, required this.bannerList,});
 
   final double? height;
+  final List<Banner> bannerList;
 
   @override
   State<BannerCarousel> createState() => _BannerCarouselState();
@@ -30,7 +31,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
             // enableInfiniteScroll: false,
             // autoPlay: true,
           ),
-          items: [1,2,3,4,5].map((i) {
+          items: widget.bannerList.map((banner) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -38,10 +39,12 @@ class _BannerCarouselState extends State<BannerCarousel> {
                     margin: const EdgeInsets.symmetric(horizontal: 1.0),
                     decoration: BoxDecoration(
                         color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(8)
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: NetworkImage(banner.image?? ''),
+                        )
                     ),
                     alignment: Alignment.center,
-                    child: Text('text $i', style: const TextStyle(fontSize: 16.0),)
                 );
               },
             );

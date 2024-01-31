@@ -1,7 +1,9 @@
+import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:crafty_bay/presentation/ui/widgets/category_item.dart';
+import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/circle_icon_button.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/banner_carousel.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/section_title.dart';
@@ -17,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +28,27 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              const SizedBox(height: 8,),
+              const SizedBox(
+                height: 8,
+              ),
               searchTextField,
-              const SizedBox(height: 16,),
-              const BannerCarousel(),
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
+              SizedBox(
+                height: 210,
+                child: GetBuilder<HomeBannerController>(
+                    builder: (homeBannerController) {
+                  return Visibility(
+                    visible: homeBannerController.inProgress == false,
+                    replacement:const CenterCircularProgressIndicator(),
+                    child: BannerCarousel(bannerList: homeBannerController.bannerListModel.bannerList?? [],),
+                  );
+                }),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
               SectionTitle(
                 title: 'All Categories',
                 onTapSeeAll: () {
@@ -42,23 +59,27 @@ class _HomeScreenState extends State<HomeScreen> {
               SectionTitle(
                 title: 'Popular',
                 onTapSeeAll: () {
-                  Get.to(()=> const ProductListScreen());
+                  Get.to(() => const ProductListScreen());
                 },
               ),
               productList,
-              const SizedBox(height: 8,),
+              const SizedBox(
+                height: 8,
+              ),
               SectionTitle(
                 title: 'Special',
                 onTapSeeAll: () {
-                  Get.to(()=> const ProductListScreen());
+                  Get.to(() => const ProductListScreen());
                 },
               ),
               productList,
-              const SizedBox(height: 8,),
+              const SizedBox(
+                height: 8,
+              ),
               SectionTitle(
                 title: 'New',
                 onTapSeeAll: () {
-                  Get.to(()=> const ProductListScreen());
+                  Get.to(() => const ProductListScreen());
                 },
               ),
               productList,
@@ -140,12 +161,16 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {},
           iconData: Icons.person,
         ),
-        const SizedBox(width: 8,),
+        const SizedBox(
+          width: 8,
+        ),
         CircleIconButton(
           onTap: () {},
           iconData: Icons.call,
         ),
-        const SizedBox(width: 8,),
+        const SizedBox(
+          width: 8,
+        ),
         CircleIconButton(
           onTap: () {},
           iconData: Icons.notifications_active_outlined,
