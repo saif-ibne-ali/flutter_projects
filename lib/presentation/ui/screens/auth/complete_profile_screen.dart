@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _cityTEController = TextEditingController();
-  final TextEditingController _shippingAddressTEController = TextEditingController();
-  final GlobalKey<FormState> _formkey =GlobalKey<FormState>();
+  final TextEditingController _shippingAddressTEController =
+      TextEditingController();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,12 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 TextFormField(
                   decoration: const InputDecoration(hintText: 'First name'),
                   textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter first name';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 16,
@@ -65,29 +73,53 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 TextFormField(
                   decoration: const InputDecoration(hintText: 'Last name'),
                   textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter last name';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(hintText: 'Mobile'),
-                  keyboardType: TextInputType.phone,
-                  textInputAction: TextInputAction.next,
-                ),
+                    decoration: const InputDecoration(hintText: 'Mobile'),
+                    keyboardType: TextInputType.phone,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Enter mobile number';
+                      }
+                      return null;
+                    }),
                 const SizedBox(
                   height: 16,
                 ),
                 TextFormField(
                   decoration: const InputDecoration(hintText: 'City'),
                   textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter city';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 TextFormField(
                   maxLines: 4,
-                  decoration: const InputDecoration(hintText: 'Shipping address'),
+                  decoration:
+                      const InputDecoration(hintText: 'Shipping address'),
                   textInputAction: TextInputAction.done,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter shipping Address';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 24,
@@ -95,7 +127,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      if(_formkey.currentState!.validate()){
+                        final result = await Get.find<CompleteProfileController>();
+                      }
                       Get.offAll(() => const MainBottomNavScreen());
                     },
                     child: const Text('Complete'),
@@ -108,6 +143,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     _firstNameTEController.dispose();
