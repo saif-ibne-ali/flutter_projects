@@ -1,6 +1,7 @@
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:get/get.dart';
 
 class CompleteProfileController extends GetxController {
@@ -18,11 +19,19 @@ class CompleteProfileController extends GetxController {
     //Flutter Ecommerce Project-04(Live class-01)
     _inProgress = true;
     update();
+    Map<String, dynamic> inputParams = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'mobile': mobile,
+      'city': city,
+      'shippingAddress': shippingAddress,
+    };
     final response =
-        await NetworkCaller().postRequest(Urls.createProfile, token: token);
+        await NetworkCaller().postRequest(Urls.createProfile,body: inputParams, token: token);
     _inProgress = false;
     if (response.isSuccess && response.responseData['msg'] != 'fail') {
       _profile = Profile.fromJson(response.responseData['data']);
+      await Get.find<AuthController>().saveUserDetails(token, _profile);
       update();
       return true;
     } else {
