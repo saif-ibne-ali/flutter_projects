@@ -5,7 +5,10 @@ import 'package:crafty_bay/data/models/banner_item.dart';
 
 class BannerCarousel extends StatefulWidget {
   const BannerCarousel({
-    super.key, this.height, required this.bannerList,});
+    super.key,
+    this.height,
+    required this.bannerList,
+  });
 
   final double? height;
   final List<BannerItem> bannerList;
@@ -34,46 +37,80 @@ class _BannerCarouselState extends State<BannerCarousel> {
           items: widget.bannerList.map((banner) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                    decoration: BoxDecoration(
+                return Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                      decoration: BoxDecoration(
                         color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: NetworkImage(banner.image?? ''),
-                        )
+                      ),
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Flexible(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(banner.title ?? '', style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),),
+                                const SizedBox(height: 16,),
+                                Text(banner.shortDes ?? '', style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                ),),
+                              ],
+                            ),
+                          ),
+                          Flexible(
+                            child: Image(
+                              image: NetworkImage(banner.image ?? ''),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    alignment: Alignment.center,
+                  ],
                 );
               },
             );
           }).toList(),
         ),
-        const SizedBox(height: 6,),
+        const SizedBox(
+          height: 6,
+        ),
         ValueListenableBuilder(
-          valueListenable: _currentIndex,
-          builder: (context, index, _) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (int i = 0; i < widget.bannerList.length; i++)
-                  Container(
-                    height: 12,
-                    width: 12,
-                    margin: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: i == index ? AppColors.primaryColor : Colors.transparent,
-                      border: Border.all(
-                        color: i == index ? AppColors.primaryColor : Colors.grey.shade400,
-                      ),
-                      borderRadius: BorderRadius.circular(30)
+            valueListenable: _currentIndex,
+            builder: (context, index, _) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < widget.bannerList.length; i++)
+                    Container(
+                      height: 12,
+                      width: 12,
+                      margin: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                          color: i == index
+                              ? AppColors.primaryColor
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: i == index
+                                ? AppColors.primaryColor
+                                : Colors.grey.shade400,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
                     ),
-                  ),
-              ],
-            );
-          }
-        )
+                ],
+              );
+            })
       ],
     );
   }
