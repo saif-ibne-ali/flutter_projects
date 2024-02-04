@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/category_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/carts_screen.dart';
@@ -26,6 +27,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   @override
   void initState() {
     Get.find<HomeBannerController>().getBannerList();
+    Get.find<CategoryController>().getCategoryList();
     super.initState();
   }
 
