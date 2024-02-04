@@ -37,47 +37,43 @@ class _BannerCarouselState extends State<BannerCarousel> {
           items: widget.bannerList.map((banner) {
             return Builder(
               builder: (BuildContext context) {
-                return Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(8),
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(banner.title ?? '', style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),),
+                            const SizedBox(height: 16,),
+                            Text(banner.shortDes ?? '', style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),),
+                          ],
+                        ),
                       ),
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Flexible(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(banner.title ?? '', style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),),
-                                const SizedBox(height: 16,),
-                                Text(banner.shortDes ?? '', style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                ),),
-                              ],
-                            ),
-                          ),
-                          Flexible(
-                            child: Image(
-                              image: NetworkImage(banner.image ?? ''),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                      Flexible(
+                        child: Image(
+                          image: NetworkImage(banner.image ?? ''),
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
             );
