@@ -3,7 +3,7 @@ import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
-class HomeBannerController extends GetxController{
+class HomeBannerController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
@@ -17,12 +17,10 @@ class HomeBannerController extends GetxController{
     bool isSuccess = false;
     _inProgress = true;
     update();
-
-    final response =
-    await NetworkCaller().getRequest(Urls.homeBanner);
+    final response = await NetworkCaller().getRequest(Urls.homeBanner);
     _inProgress = false;
     if (response.isSuccess && response.responseData['msg'] != 'fail') {
-      _bannerListModel = BannerListModel.fromJson(response.responseData['data']);
+      _bannerListModel = BannerListModel.fromJson(response.responseData);
       isSuccess = true;
       return true;
     } else {

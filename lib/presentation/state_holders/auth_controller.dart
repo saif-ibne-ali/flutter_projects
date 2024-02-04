@@ -34,7 +34,7 @@ class AuthController extends GetxController {
 
   Future<Profile?> _getProfile() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final String? strProfile =  sharedPreferences.getString('token');
+    final String? strProfile =  sharedPreferences.getString('profile');
     if(strProfile==null){
       return null;
     } else {

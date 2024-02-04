@@ -41,8 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (homeBannerController) {
                   return Visibility(
                     visible: homeBannerController.inProgress == false,
-                    replacement:const CenterCircularProgressIndicator(),
-                    child: BannerCarousel(bannerList: homeBannerController.bannerListModel.bannerList?? [],),
+                    replacement: const CenterCircularProgressIndicator(),
+                    child: BannerCarousel(
+                      bannerList:
+                          homeBannerController.bannerListModel.bannerList ?? [],
+                    ),
                   );
                 }),
               ),
