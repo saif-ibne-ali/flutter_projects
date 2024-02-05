@@ -6,18 +6,18 @@ import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsController extends GetxController {
-  bool _inprogress = false;
-  bool get inprogress => _inprogress;
+  bool _inProgress = false;
+  bool get inProgress => _inProgress;
 
   ProductDetailsModel _productDetailsModel = ProductDetailsModel();
-  ProductDetailsData get productDetailsModel => _productDetailsModel.productDetailsDataList!.first;
+  ProductDetailsData get productDetails => _productDetailsModel.productDetailsDataList!.first;
 
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
   Future<bool> getProductDetails(int productId) async {
     bool isSuccess = false;
-    _inprogress == true;
+    _inProgress == true;
     update();
     final ResponseData response =
         await NetworkCaller().getRequest(Urls.productDetails(productId));
@@ -27,7 +27,7 @@ class ProductDetailsController extends GetxController {
     } else{
       _errorMessage = response.errorMessage;
     }
-    _inprogress = false;
+    _inProgress = false;
     update();
     return isSuccess;
   }

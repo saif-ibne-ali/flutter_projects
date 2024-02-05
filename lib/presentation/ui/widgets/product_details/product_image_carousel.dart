@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class ProductImageCarousel extends StatefulWidget {
   const ProductImageCarousel({
-    super.key, this.height,
+    super.key, this.height, required this.url,
   });
 
   final double? height;
+  final List<String> url;
 
   @override
   State<ProductImageCarousel> createState() => _ProductImageCarouselState();
@@ -30,7 +31,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
             // enableInfiniteScroll: false,
             // autoPlay: true,
           ),
-          items: [1,2,3,4,5].map((i) {
+          items: widget.url.map((url) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -38,10 +39,9 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                     margin: const EdgeInsets.symmetric(horizontal: 1.0),
                     decoration: BoxDecoration(
                         color: Colors.grey,
-                        borderRadius: BorderRadius.circular(8)
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(image: NetworkImage(url))
                     ),
-                    alignment: Alignment.center,
-                    child: Text('text $i', style: const TextStyle(fontSize: 16.0),)
                 );
               },
             );
@@ -57,7 +57,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 5; i++)
+                  for (int i = 0; widget.url.length < 5; i++)
                     Container(
                       height: 12,
                       width: 12,
