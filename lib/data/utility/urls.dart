@@ -13,4 +13,6 @@ class Urls {
   static String specialProduct = '$_baseUrl/ListProductByRemark/Special';
   static String productByCategory(int categoryId) =>
       '$_baseUrl/ListProductByCategory/$categoryId';
+  static String productDetails(int productId) =>
+      '$_baseUrl/ListProductByCategory/$productId';
 }

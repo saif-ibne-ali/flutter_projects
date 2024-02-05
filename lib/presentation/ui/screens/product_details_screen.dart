@@ -1,12 +1,28 @@
+import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_details/color_picker.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_details/product_image_carousel.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_details/size_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key});
+class ProductDetailsScreen extends StatefulWidget {
+  const ProductDetailsScreen({super.key, required this.productId});
+
+  final int productId;
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+
+  @override
+  void initState() {
+    Get.find<ProductDetailsController>().getProductDetails(widget.productId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +38,7 @@ class ProductDetailsScreen extends StatelessWidget {
       'S','L','M','XL','XXL','3XL'
     ];
     Color selectedColor = colors.first;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Detail'),
@@ -72,7 +89,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 );
                               }
                           )
-            
+
                         ],
                       ),
                       const SizedBox(height: 8 ),
@@ -193,6 +210,5 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
 }
 
