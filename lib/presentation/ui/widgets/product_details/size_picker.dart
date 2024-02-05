@@ -18,6 +18,7 @@ class _SizePickerState extends State<SizePicker> {
   void initState() {
     _selectedSize = widget.sizes.first;
     super.initState();
+    widget.onChange(_selectedSize);
   }
 
   @override

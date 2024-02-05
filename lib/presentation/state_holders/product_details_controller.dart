@@ -10,21 +10,23 @@ class ProductDetailsController extends GetxController {
   bool get inProgress => _inProgress;
 
   ProductDetailsModel _productDetailsModel = ProductDetailsModel();
-  ProductDetailsData get productDetails => _productDetailsModel.productDetailsDataList!.first;
+  ProductDetailsData get productDetails =>
+      _productDetailsModel.productDetailsDataList!.first;
 
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
   Future<bool> getProductDetails(int productId) async {
     bool isSuccess = false;
-    _inProgress == true;
+    _inProgress = true;
     update();
     final ResponseData response =
         await NetworkCaller().getRequest(Urls.productDetails(productId));
     if (response.isSuccess) {
       _productDetailsModel =
           ProductDetailsModel.fromJson(response.responseData);
-    } else{
+      isSuccess = true;
+    } else {
       _errorMessage = response.errorMessage;
     }
     _inProgress = false;

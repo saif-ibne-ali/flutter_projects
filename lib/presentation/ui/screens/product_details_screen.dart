@@ -1,4 +1,7 @@
+import 'package:crafty_bay/data/models/product_details_data.dart';
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/auth/validate_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_details/color_picker.dart';
@@ -18,7 +21,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-
   ValueNotifier<int> noOfItems = ValueNotifier(1);
   List<Color> colors = [
     Colors.black,
@@ -28,12 +30,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Colors.blue
   ];
   List<String> sizes = ['S', 'L', 'M', 'XL', 'XXL', '3XL'];
-  Color selectedColor = Colors.purple;
+  String? _selectedColor;
+  String? _selectedSize;
 
   @override
   void initState() {
-    Get.find<ProductDetailsController>().getProductDetails(widget.productId);
     super.initState();
+    Get.find<ProductDetailsController>().getProductDetails(widget.productId);
   }
 
   @override
@@ -44,39 +47,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: GetBuilder<ProductDetailsController>(
           builder: (productDetailsController) {
-        return Visibility(
-          visible: productDetailsController.inProgress == false,
-          replacement: const CenterCircularProgressIndicator(),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ProductImageCarousel(
-                        url: [
-                          productDetailsController.productDetails.img1 ?? '',
-                          productDetailsController.productDetails.img2 ?? '',
-                          productDetailsController.productDetails.img3 ?? '',
-                          productDetailsController.productDetails.img4 ?? '',
-                        ],
-                      ),
-                      productDetailsBody(
-                          noOfItems, colors, selectedColor, sizes),
-                    ],
-                  ),
+        if (productDetailsController.inProgress) {
+          return const CenterCircularProgressIndicator();
+        }
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ProductImageCarousel(
+                      urls: [
+                        productDetailsController.productDetails.img1 ?? '',
+                        productDetailsController.productDetails.img2 ?? '',
+                        productDetailsController.productDetails.img3 ?? '',
+                        productDetailsController.productDetails.img4 ?? '',
+                      ],
+                    ),
+                    productDetailsBody(productDetailsController.productDetails),
+                  ],
                 ),
               ),
-              priceAndAddToCartSection,
-            ],
-          ),
+            ),
+            priceAndAddToCartSection,
+          ],
         );
       }),
     );
   }
 
-  Padding productDetailsBody(ValueNotifier<int> noOfItems, List<Color> colors,
-      Color selectedColor, List<String> sizes) {
+  Padding productDetailsBody(ProductDetailsData productDetails) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -84,10 +84,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Walker Sneaker 2024 Edition Black Daimond- save 30%',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  productDetails.product?.title ?? '',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
               ValueListenableBuilder(
@@ -107,56 +108,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          Row(
-            children: [
-              const Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Icon(
-                    Icons.star,
-                    size: 16,
-                    color: Colors.amber,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    '4.4',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black45),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              const Text(
-                'Reviews',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Card(
-                color: AppColors.primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4)),
-                child: const Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Icon(
-                    Icons.favorite_outline_rounded,
-                    size: 10,
-                    color: Colors.white,
-                  ),
-                ),
-              )
-            ],
-          ),
+          reviewAndRatingRow(productDetails.product?.star ?? 0),
           const SizedBox(height: 8),
           const Text(
             'Color',
@@ -165,10 +117,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
+          // TODO : Fix the initial selected issue
           ColorPicker(
-              colors: colors,
+              colors: productDetails.color
+                      ?.split(',')
+                      .map((e) => getColorFromString(e))
+                      .toList() ??
+                  [],
               onChange: (selectedColor) {
-                selectedColor = selectedColor;
+                _selectedColor = selectedColor.toString();
               }),
           const SizedBox(height: 8),
           const Text(
@@ -178,7 +135,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizePicker(sizes: sizes, onChange: (e) {}),
+          // TODO : Fix the initial selected issue
+          SizePicker(
+              sizes: productDetails.size?.split(',') ?? [], onChange: (e) {
+                _selectedSize = e;
+          }),
           const SizedBox(height: 8),
           const Text(
             'Description',
@@ -188,9 +149,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            style: TextStyle(
+          Text(
+            productDetails.des ?? '',
+            style: const TextStyle(
               color: Colors.black87,
               fontSize: 12,
             ),
@@ -198,6 +159,59 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ],
       ),
     );
+  }
+
+  Row reviewAndRatingRow(double rating) {
+    return Row(
+          children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                const Icon(
+                  Icons.star,
+                  size: 16,
+                  color: Colors.amber,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  rating.toStringAsPrecision(2),
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black45),
+                ),
+              ],
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            const Text(
+              'Reviews',
+              style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Card(
+              color: AppColors.primaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)),
+              child: const Padding(
+                padding: EdgeInsets.all(2.0),
+                child: Icon(
+                  Icons.favorite_outline_rounded,
+                  size: 10,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        );
   }
 
   Container get priceAndAddToCartSection {
@@ -236,11 +250,32 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           SizedBox(
               width: 100,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if(_selectedColor != null && _selectedSize != null){
+                    if(Get.find<AuthController>().isTokenNotNull){
+
+                    } else{
+                      Get.to(()=>const ValidateEmailScreen());
+                    }
+                    //AddToCart
+                  } else{
+                    Get.showSnackbar(const GetSnackBar(
+                      title: 'Add to cart failed',
+                      message: 'Please select color and size',
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
+                },
                 child: const Text('Add to Cart'),
               ))
         ],
       ),
     );
+  }
+
+  Color getColorFromString(String colorCode) {
+    String code = colorCode.replaceAll('#', '');
+    String hexCode ='FF$code';
+    return Color(int.parse('0x$hexCode'));
   }
 }
