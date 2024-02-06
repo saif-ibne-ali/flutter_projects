@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'package:crafty_bay/data/models/product_details_data.dart';
+import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/validate_email_screen.dart';
@@ -22,14 +24,6 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ValueNotifier<int> noOfItems = ValueNotifier(1);
-  List<Color> colors = [
-    Colors.black,
-    Colors.amber,
-    Colors.red,
-    Colors.green,
-    Colors.blue
-  ];
-  List<String> sizes = ['S', 'L', 'M', 'XL', 'XXL', '3XL'];
   String? _selectedColor;
   String? _selectedSize;
 
@@ -137,9 +131,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           // TODO : Fix the initial selected issue
           SizePicker(
-              sizes: productDetails.size?.split(',') ?? [], onChange: (e) {
+              sizes: productDetails.size?.split(',') ?? [],
+              onChange: (e) {
                 _selectedSize = e;
-          }),
+              }),
           const SizedBox(height: 8),
           const Text(
             'Description',
@@ -163,55 +158,54 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Row reviewAndRatingRow(double rating) {
     return Row(
+      children: [
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                const Icon(
-                  Icons.star,
-                  size: 16,
-                  color: Colors.amber,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  rating.toStringAsPrecision(2),
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black45),
-                ),
-              ],
+            const Icon(
+              Icons.star,
+              size: 16,
+              color: Colors.amber,
             ),
             const SizedBox(
               width: 8,
             ),
-            const Text(
-              'Reviews',
-              style: TextStyle(
+            Text(
+              rating.toStringAsPrecision(2),
+              style: const TextStyle(
                   fontSize: 16,
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black45),
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            Card(
-              color: AppColors.primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
-              child: const Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Icon(
-                  Icons.favorite_outline_rounded,
-                  size: 10,
-                  color: Colors.white,
-                ),
-              ),
-            )
           ],
-        );
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        const Text(
+          'Reviews',
+          style: TextStyle(
+              fontSize: 16,
+              color: AppColors.primaryColor,
+              fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Card(
+          color: AppColors.primaryColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          child: const Padding(
+            padding: EdgeInsets.all(2.0),
+            child: Icon(
+              Icons.favorite_outline_rounded,
+              size: 10,
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Container get priceAndAddToCartSection {
@@ -249,25 +243,43 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
               width: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  if(_selectedColor != null && _selectedSize != null){
-                    if(Get.find<AuthController>().isTokenNotNull){
-
-                    } else{
-                      Get.to(()=>const ValidateEmailScreen());
-                    }
-                    //AddToCart
-                  } else{
-                    Get.showSnackbar(const GetSnackBar(
-                      title: 'Add to cart failed',
-                      message: 'Please select color and size',
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
-                },
-                child: const Text('Add to Cart'),
-              ))
+              child: GetBuilder<AddToCartController>(
+                  builder: (addToCartController) {
+                return Visibility(
+                  visible: addToCartController.inProgress == false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      log(AuthController.token.toString());
+                      if (Get.find<AuthController>().isTokenNotNull) {
+                        if (_selectedColor != null && _selectedSize != null) {
+                          _selectedColor = getStringFromColor(_selectedColor!);
+                          final response = await addToCartController.addToCart(
+                              widget.productId,
+                              _selectedColor!,
+                              _selectedSize!);
+                          if (response) {
+                            Get.showSnackbar(const GetSnackBar(
+                              title: 'Success',
+                              message: 'The product has been added.',
+                              duration: Duration(seconds: 2),
+                            ));
+                          } else {
+                            Get.showSnackbar(GetSnackBar(
+                              title: 'Add to cart failed',
+                              message: addToCartController.errorMessage,
+                              duration: const Duration(seconds: 2),
+                            ));
+                          }
+                        }
+                      } else {
+                      Get.to(() => const ValidateEmailScreen());
+                      }
+                    },
+                    child: const Text('Add to Cart'),
+                  ),
+                );
+              }))
         ],
       ),
     );
@@ -275,7 +287,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Color getColorFromString(String colorCode) {
     String code = colorCode.replaceAll('#', '');
-    String hexCode ='FF$code';
+    String hexCode = 'FF$code';
     return Color(int.parse('0x$hexCode'));
+  }
+
+  String getStringFromColor(String colorCode) {
+    return colorCode.replaceAll('Color(0xff', '#').replaceAll(')', '');
   }
 }

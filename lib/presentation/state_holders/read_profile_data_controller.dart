@@ -27,7 +27,7 @@ class ReadProfileDataController extends GetxController {
       if(profileData == null){
         _isProfileCompleted = false;
       } else{
-        _profile = Profile.fromJson(profileData[0]);
+        _profile = Profile.fromJson(profileData);
         _isProfileCompleted = true;
       }
       update();

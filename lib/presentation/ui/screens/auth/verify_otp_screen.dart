@@ -56,7 +56,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 ),
                 PinCodeTextField(
                   controller: _otpTEController,
-                  length: 6,
+                  length: 4,
                   obscureText: false,
                   animationType: AnimationType.fade,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

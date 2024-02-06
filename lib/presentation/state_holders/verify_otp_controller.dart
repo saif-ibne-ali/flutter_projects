@@ -26,8 +26,8 @@ class VerifyOTPController extends GetxController {
         await NetworkCaller().getRequest(Urls.verifyOtp(email, otp));
     _inProgress = false;
     if (response.isSuccess && response.responseData['msg'] != 'fail') {
-      await Future.delayed(const Duration(seconds: 3));
       _token = response.responseData['data'];
+      await Future.delayed(const Duration(seconds: 3));
       log(token.toString());
       final result =
           await Get.find<ReadProfileDataController>().readProfileData(token);
@@ -43,15 +43,12 @@ class VerifyOTPController extends GetxController {
         update();
         return false;
       }
-      //TODO: save to local cache
-      //Condition: If user profile completed, then save existing info
-      //Otherwise complete profile and then save info
       update();
       return true;
     } else {
       _errorMessage = response.errorMessage;
       update();
-      return true;
+      return false;
     }
   }
 }
