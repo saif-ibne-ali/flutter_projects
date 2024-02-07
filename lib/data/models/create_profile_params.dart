@@ -1,23 +1,23 @@
 class CreateProfileParams {
-  final String firstName;
-  final String lastName;
-  final String mobile;
-  final String city;
-  final String shippingAddress;
+  final String cusName;
+  final String shipName;
+  final String cusPhone;
+  final String cusCity;
+  final String cusAdd;
 
   CreateProfileParams(
-      {required this.firstName,
-      required this.lastName,
-      required this.mobile,
-      required this.city,
-      required this.shippingAddress});
+      {required this.cusName,
+      required this.shipName,
+      required this.cusPhone,
+      required this.cusCity,
+      required this.cusAdd});
 
   Map<String, dynamic> toJson()  => {
-    'firstName': firstName,
-    'lastName': lastName,
-    'mobile': mobile,
-    'city': city,
-    'shippingAddress': shippingAddress,
+    'firstName': cusName,
+    'lastName': shipName,
+    'mobile': cusPhone,
+    'city': cusCity,
+    'shippingAddress': cusAdd,
   };
 }
 

@@ -146,13 +146,13 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                 await completeProfileController.createProfile(
                                     Get.find<VerifyOTPController>().token,
                                     CreateProfileParams(
-                                        firstName:
+                                        cusName:
                                             _firstNameTEController.text.trim(),
-                                        lastName:
+                                        shipName:
                                             _lastNameTEController.text.trim(),
-                                        mobile: _mobileTEController.text.trim(),
-                                        city: _cityTEController.text.trim(),
-                                        shippingAddress:
+                                        cusPhone: _mobileTEController.text.trim(),
+                                        cusCity: _cityTEController.text.trim(),
+                                        cusAdd:
                                             _shippingAddressTEController.text
                                                 .trim()));
                             if (result) {

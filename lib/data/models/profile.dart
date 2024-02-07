@@ -1,48 +1,72 @@
 class Profile {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? mobile;
-  String? city;
-  String? shippingAddress;
-  String? email;
-  String? createdAt;
-  String? updatedAt;
+  String? cusName;
+  String? cusAdd;
+  String? cusCity;
+  String? cusState;
+  String? cusPostcode;
+  String? cusCountry;
+  String? cusPhone;
+  String? cusFax;
+  String? shipName;
+  String? shipAdd;
+  String? shipCity;
+  String? shipState;
+  String? shipPostcode;
+  String? shipCountry;
+  String? shipPhone;
 
   Profile(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.mobile,
-      this.city,
-      this.shippingAddress,
-      this.email,
-      this.createdAt,
-      this.updatedAt});
+      {this.cusName,
+        this.cusAdd,
+        this.cusCity,
+        this.cusState,
+        this.cusPostcode,
+        this.cusCountry,
+        this.cusPhone,
+        this.cusFax,
+        this.shipName,
+        this.shipAdd,
+        this.shipCity,
+        this.shipState,
+        this.shipPostcode,
+        this.shipCountry,
+        this.shipPhone});
 
   Profile.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    mobile = json['mobile'];
-    city = json['city'];
-    shippingAddress = json['shippingAddress'];
-    email = json['email'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    cusName = json['cus_name'];
+    cusAdd = json['cus_add'];
+    cusCity = json['cus_city'];
+    cusState = json['cus_state'];
+    cusPostcode = json['cus_postcode'];
+    cusCountry = json['cus_country'];
+    cusPhone = json['cus_phone'];
+    cusFax = json['cus_fax'];
+    shipName = json['ship_name'];
+    shipAdd = json['ship_add'];
+    shipCity = json['ship_city'];
+    shipState = json['ship_state'];
+    shipPostcode = json['ship_postcode'];
+    shipCountry = json['ship_country'];
+    shipPhone = json['ship_phone'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> profileData = <String, dynamic>{};
-    profileData['id'] = id;
-    profileData['firstName'] = firstName;
-    profileData['lastName'] = lastName;
-    profileData['mobile'] = mobile;
-    profileData['city'] = city;
-    profileData['shippingAddress'] = shippingAddress;
-    profileData['email'] = email;
-    profileData['created_at'] = createdAt;
-    profileData['updated_at'] = updatedAt;
-    return profileData;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cus_name'] = cusName;
+    data['cus_add'] = cusAdd;
+    data['cus_city'] = cusCity;
+    data['cus_state'] = cusState;
+    data['cus_postcode'] = cusPostcode;
+    data['cus_country'] = cusCountry;
+    data['cus_phone'] = cusPhone;
+    data['cus_fax'] = cusFax;
+    data['ship_name'] = shipName;
+    data['ship_add'] = shipAdd;
+    data['ship_city'] = shipCity;
+    data['ship_state'] = shipState;
+    data['ship_postcode'] = shipPostcode;
+    data['ship_country'] = shipCountry;
+    data['ship_phone'] = shipPhone;
+    return data;
   }
 }
