@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
@@ -24,7 +23,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ValueNotifier<int> noOfItems = ValueNotifier(1);
-  String? _selectedColor;
+  Color? _selectedColor;
   String? _selectedSize;
 
   @override
@@ -119,7 +118,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       .toList() ??
                   [],
               onChange: (selectedColor) {
-                _selectedColor = selectedColor.toString();
+                _selectedColor = selectedColor;
               }),
           const SizedBox(height: 8),
           const Text(
@@ -156,7 +155,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row reviewAndRatingRow(double rating) {
+  Row reviewAndRatingRow(int rating) {
     return Row(
       children: [
         Wrap(
@@ -250,13 +249,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   replacement: const CenterCircularProgressIndicator(),
                   child: ElevatedButton(
                     onPressed: () async {
-                      log(AuthController.token.toString());
                       if (Get.find<AuthController>().isTokenNotNull) {
                         if (_selectedColor != null && _selectedSize != null) {
-                          _selectedColor = getStringFromColor(_selectedColor!);
+                          final stringColor = getStringFromColor(_selectedColor!);
                           final response = await addToCartController.addToCart(
                               widget.productId,
-                              _selectedColor!,
+                              stringColor,
                               _selectedSize!);
                           if (response) {
                             Get.showSnackbar(const GetSnackBar(
@@ -286,12 +284,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Color getColorFromString(String colorCode) {
-    String code = colorCode.replaceAll('#', '');
-    String hexCode = 'FF$code';
-    return Color(int.parse('0x$hexCode'));
+    String color = colorCode.toLowerCase();
+    Map<String, Color> colorMap = {
+      'white': Colors.white,
+      'black': Colors.black,
+      'red': Colors.red,
+    };
+    return colorMap[color] ?? Colors.black;
   }
 
-  String getStringFromColor(String colorCode) {
-    return colorCode.replaceAll('Color(0xff', '#').replaceAll(')', '');
+  String getStringFromColor(Color colorCode) {
+    Map<Color, String> colorMap = {
+      Colors.white : 'White',
+      Colors.black : 'Black',
+      Colors.red : 'Red',
+    };
+    return colorMap[colorCode] ?? 'Black';
   }
+
+  // Color getColorFromString(String colorCode) {
+  //   String code = colorCode.replaceAll('#', '');
+  //   String hexCode = 'FF$code';
+  //   return Color(int.parse('0x$hexCode'));
+  // }
+  //
+  // String getStringFromColor(String colorCode) {
+  //   return colorCode.replaceAll('Color(0xff', '#').replaceAll(')', '');
+  // }
 }
