@@ -6,14 +6,14 @@ import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indi
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CartsScreen extends StatefulWidget {
-  const CartsScreen({super.key});
+class CartListScreen extends StatefulWidget {
+  const CartListScreen({super.key});
 
   @override
-  State<CartsScreen> createState() => _CartsScreenState();
+  State<CartListScreen> createState() => _CartListScreenState();
 }
 
-class _CartsScreenState extends State<CartsScreen> {
+class _CartListScreenState extends State<CartListScreen> {
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _CartsScreenState extends State<CartsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Carts'),
+          title: const Text('Cart'),
           leading: IconButton(onPressed: (){
             Get.find<MainBottomNavController>().backToHome();
           },
@@ -48,7 +48,8 @@ class _CartsScreenState extends State<CartsScreen> {
                 Expanded(
                   child: ListView.separated(
                       itemBuilder: (context, index){
-                        return const CartProductItem();
+                        return CartProductItem(
+                          cartItem: cartListController.cartList.cartItemList![index],);
                       },
                       separatorBuilder: (_,__)=> const SizedBox(),
                       itemCount: cartListController.cartList.cartItemList?.length ?? 0,),
@@ -83,7 +84,7 @@ class _CartsScreenState extends State<CartsScreen> {
                       fontWeight: FontWeight.w600,
                       color: Colors.black45,
                     ),),
-                    Text('\$3200',style: TextStyle(
+                    Text('৳3200',style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primaryColor,

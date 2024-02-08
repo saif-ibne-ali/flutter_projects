@@ -23,7 +23,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _cityTEController = TextEditingController();
   final TextEditingController _shippingAddressTEController =
       TextEditingController();
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       body: SingleChildScrollView(
         child: Form(
           //TODO- Form_Validation
-          key: _formkey,
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
@@ -172,7 +172,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                       replacement: const CenterCircularProgressIndicator(),
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             final bool result =
                                 await completeProfileController.createProfile(
                                     Get.find<VerifyOTPController>().token,
