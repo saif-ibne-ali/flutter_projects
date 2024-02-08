@@ -1,4 +1,3 @@
-import 'package:crafty_bay/data/models/create_profile_params.dart';
 import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
@@ -15,7 +14,7 @@ class CompleteProfileController extends GetxController {
   Profile _profile = Profile();
   Profile get profile => _profile;
 
-  Future<bool> createProfile(String token, CreateProfileParams params) async {
+  Future<bool> createProfile(String token, Profile params) async {
     //Flutter Ecommerce Project-04(Live class-01)
     _inProgress = true;
     update();

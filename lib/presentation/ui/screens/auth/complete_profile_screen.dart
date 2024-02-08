@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/create_profile_params.dart';
+import 'package:crafty_bay/data/models/profile.dart';
 import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
@@ -15,8 +15,10 @@ class CompleteProfileScreen extends StatefulWidget {
 }
 
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
-  final TextEditingController _firstNameTEController = TextEditingController();
-  final TextEditingController _lastNameTEController = TextEditingController();
+  final TextEditingController _stateTEController = TextEditingController();
+  final TextEditingController _postCodeTEController = TextEditingController();
+  final TextEditingController _nameTEController = TextEditingController();
+  final TextEditingController _countryTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _cityTEController = TextEditingController();
   final TextEditingController _shippingAddressTEController =
@@ -61,12 +63,12 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
-                  controller: _firstNameTEController,
-                  decoration: const InputDecoration(hintText: 'First name'),
+                  controller: _nameTEController,
+                  decoration: const InputDecoration(hintText: 'Name'),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter first name';
+                      return 'Enter name';
                     }
                     return null;
                   },
@@ -75,12 +77,12 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
-                  controller: _lastNameTEController,
-                  decoration: const InputDecoration(hintText: 'Last name'),
+                  controller: _countryTEController,
+                  decoration: const InputDecoration(hintText: 'Country'),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Enter last name';
+                      return 'Enter country';
                     }
                     return null;
                   },
@@ -117,6 +119,35 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: _postCodeTEController,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(hintText: 'PostCode'),
+                  textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter PostCode';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  controller: _stateTEController,
+                  decoration: const InputDecoration(hintText: 'Division'),
+                  textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter Division';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
                   controller: _shippingAddressTEController,
                   maxLines: 4,
                   decoration:
@@ -145,16 +176,28 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                             final bool result =
                                 await completeProfileController.createProfile(
                                     Get.find<VerifyOTPController>().token,
-                                    CreateProfileParams(
+                                    Profile(
                                         cusName:
-                                            _firstNameTEController.text.trim(),
+                                            _nameTEController.text.trim(),
                                         shipName:
-                                            _lastNameTEController.text.trim(),
+                                            _nameTEController.text.trim(),
                                         cusPhone: _mobileTEController.text.trim(),
+                                        shipPhone: _mobileTEController.text.trim(),
+                                        cusFax: _mobileTEController.text.trim(),
                                         cusCity: _cityTEController.text.trim(),
+                                        shipCity: _cityTEController.text.trim(),
                                         cusAdd:
                                             _shippingAddressTEController.text
-                                                .trim()));
+                                                .trim(),
+                                      shipAdd: _shippingAddressTEController.text.trim(),
+                                      cusCountry: _countryTEController.text.trim(),
+                                      shipCountry: _countryTEController.text.trim(),
+                                      cusState: _stateTEController.text.trim(),
+                                      shipState: _stateTEController.text.trim(),
+                                      cusPostcode: _postCodeTEController.text.trim(),
+                                      shipPostcode: _postCodeTEController.text.trim(),
+                                      
+                                    ));
                             if (result) {
                               Get.offAll(() => const MainBottomNavScreen());
                             } else {
@@ -182,8 +225,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   @override
   void dispose() {
-    _firstNameTEController.dispose();
-    _lastNameTEController.dispose();
+    _nameTEController.dispose();
+    _countryTEController.dispose();
     _mobileTEController.dispose();
     _cityTEController.dispose();
     _shippingAddressTEController.dispose();

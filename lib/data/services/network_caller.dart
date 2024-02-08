@@ -54,15 +54,19 @@ class NetworkCaller {
 
   Future<ResponseData> postRequest(String url, {Map<String, dynamic>? body, String? token}) async {
     log(url);
-    log(body.toString());
+    String encodedBody = json.encode(body);
+    log('passed token = ${token.toString()}');
+    log('saved token = ${AuthController.token}');
+    log(encodedBody);
     final Response response = await post(
       Uri.parse(url),
-      body: jsonEncode(body),
+      body: encodedBody,
       headers: {
-        'token': AuthController.token.toString(),
+        'token': token ?? AuthController.token.toString(),
         'content-type': 'application/json'
       },
     );
+    log(response.headers.toString());
     log(response.statusCode.toString());
     log(response.body.toString());
     if (response.statusCode == 200) {

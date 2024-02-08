@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
@@ -249,6 +251,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   replacement: const CenterCircularProgressIndicator(),
                   child: ElevatedButton(
                     onPressed: () async {
+                      log(AuthController.token.toString());
                       if (Get.find<AuthController>().isTokenNotNull) {
                         if (_selectedColor != null && _selectedSize != null) {
                           final stringColor = getStringFromColor(_selectedColor!);
