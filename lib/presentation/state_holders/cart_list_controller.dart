@@ -18,6 +18,9 @@ class CartListController extends GetxController {
   final RxDouble _totalPrice = 0.0.obs;
   RxDouble get totalPrice => _totalPrice;
 
+  String _deleteStatus = '';
+  String get deleteStatus => _deleteStatus;
+
   Future<bool> getCartList() async {
     bool isSuccess = false;
     _inProgress = true;
@@ -25,7 +28,7 @@ class CartListController extends GetxController {
     ResponseData response = await NetworkCaller().getRequest(Urls.cartList);
     if (response.isSuccess) {
       _cartListModel = CartListModel.fromJson(response.responseData);
-      _totalPrice.value =_calculateTotalPrice;
+      _totalPrice.value = _calculateTotalPrice;
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
@@ -35,11 +38,27 @@ class CartListController extends GetxController {
     return isSuccess;
   }
 
+  Future<bool> deleteCartItem(int productID) async {
+    bool isSuccess = false;
+    update();
+    ResponseData response =
+        await NetworkCaller().getRequest(Urls.deleteCartList(productID));
+    if (response.isSuccess && response.responseData['data'] == 1) {
+      _deleteStatus = 'The item has been deleted';
+      await getCartList();
+      isSuccess = true;
+    } else if (response.isSuccess && response.responseData['data'] == 0) {
+      _deleteStatus = 'Item does not exist';
+      return isSuccess;
+    }
+    update();
+    return isSuccess;
+  }
+
   void updateQuantity(int id, int quantity) {
-    _cartListModel.cartItemList
-        ?.firstWhere((element) => element.id == id)
-        .qty = quantity;
-    _totalPrice.value =_calculateTotalPrice;
+    _cartListModel.cartItemList?.firstWhere((element) => element.id == id).qty =
+        quantity;
+    _totalPrice.value = _calculateTotalPrice;
   }
 
   double get _calculateTotalPrice {

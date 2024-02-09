@@ -60,12 +60,27 @@ class _CartProductItemState extends State<CartProductItem> {
                         ],
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.delete_forever_outlined,
-                        color: Colors.grey,
-                      ),
+                    GetBuilder<CartListController>(
+                      builder: (cartListController) {
+                        return IconButton(
+                          onPressed: () async {
+                            await cartListController.deleteCartItem(widget.cartItem.product!.id!);
+                            Get.showSnackbar(
+                              GetSnackBar(
+                                backgroundColor:AppColors.primaryColor,
+                                duration: const Duration(seconds: 2),
+                                isDismissible: true,
+                                title: 'Status',
+                                message: cartListController.deleteStatus.toString(),
+                              )
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.delete_forever_outlined,
+                            color: Colors.grey,
+                          ),
+                        );
+                      }
                     ),
                   ],
                 ),

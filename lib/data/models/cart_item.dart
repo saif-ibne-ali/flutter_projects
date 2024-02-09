@@ -49,6 +49,7 @@ class CartItem {
     if (product != null) {
       data['product'] = product!.toJson();
     }
+
     return data;
   }
 }
