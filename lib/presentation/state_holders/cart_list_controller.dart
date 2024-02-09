@@ -50,6 +50,8 @@ class CartListController extends GetxController {
     } else if (response.isSuccess && response.responseData['data'] == 0) {
       _deleteStatus = 'Item does not exist';
       return isSuccess;
+    } else{
+      _deleteStatus = response.errorMessage;
     }
     update();
     return isSuccess;
