@@ -254,12 +254,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       log(AuthController.token.toString());
                       if (Get.find<AuthController>().isTokenNotNull) {
                         if (_selectedColor != null && _selectedSize != null) {
-                          final stringColor = getStringFromColor(_selectedColor!);
+                          final stringColor =
+                              getStringFromColor(_selectedColor!);
                           final response = await addToCartController.addToCart(
                               widget.productId,
                               stringColor,
                               _selectedSize!,
-                          1);
+                              noOfItems.value);
                           if (response) {
                             Get.showSnackbar(const GetSnackBar(
                               title: 'Success',
@@ -275,7 +276,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           }
                         }
                       } else {
-                      Get.to(() => const ValidateEmailScreen());
+                        Get.to(() => const ValidateEmailScreen());
                       }
                     },
                     child: const Text('Add to Cart'),
@@ -299,9 +300,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   String getStringFromColor(Color colorCode) {
     Map<Color, String> colorMap = {
-      Colors.white : 'White',
-      Colors.black : 'Black',
-      Colors.red : 'Red',
+      Colors.white: 'White',
+      Colors.black: 'Black',
+      Colors.red: 'Red',
     };
     return colorMap[colorCode] ?? 'Black';
   }

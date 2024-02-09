@@ -1,6 +1,8 @@
 import 'package:crafty_bay/data/models/cart_item.dart';
+import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
 class CartProductItem extends StatefulWidget {
@@ -15,72 +17,89 @@ class CartProductItem extends StatefulWidget {
 class _CartProductItemState extends State<CartProductItem> {
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<int> noOfItems = ValueNotifier(1);
+    late ValueNotifier<int> noOfItems = ValueNotifier(widget.cartItem.qty!);
     return Card(
       elevation: 3,
       child: Row(
         children: [
-          Image.network(widget.cartItem.product?.image ?? '', width: 100,),
+          Image.network(
+            widget.cartItem.product?.image ?? '',
+            width: 100,
+          ),
           const SizedBox(
             width: 8,
           ),
-          Expanded(child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                widget.cartItem.product?.title ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54
-                        ),),
-                      Row(
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Color: ${widget.cartItem.color}'),
-                          const SizedBox(width: 8,),
-                          Text('Size: ${widget.cartItem.size}')
+                          Text(
+                            widget.cartItem.product?.title ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black54),
+                          ),
+                          Row(
+                            children: [
+                              Text('Color: ${widget.cartItem.color}'),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text('Size: ${widget.cartItem.size}')
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),),
-                  IconButton(onPressed: (){},
-                    icon: const Icon(Icons.delete_forever_outlined,
-                      color: Colors.grey,),),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('৳${widget.cartItem.product?.price ?? 0}',style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryColor,
-                  ),),
-                  ValueListenableBuilder(
-                      valueListenable: noOfItems,
-                      builder: (context, value, _) {
-                        return ItemCount(
-                          initialValue: value,
-                          minValue: 1,
-                          maxValue: 20,
-                          onChanged: (v){
-                            noOfItems.value = v.toInt();
-                          },
-                          decimalPlaces: 0,
-                          color: AppColors.primaryColor,
-                        );
-                      }
-                  )
-                ],
-              )
-            ],
-          ),),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.delete_forever_outlined,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '৳${widget.cartItem.product?.price ?? 0}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    ValueListenableBuilder(
+                        valueListenable: noOfItems,
+                        builder: (context, value, _) {
+                          return ItemCount(
+                            initialValue: value,
+                            minValue: 1,
+                            maxValue: 20,
+                            onChanged: (v) {
+                              noOfItems.value = v.toInt();
+                              Get.find<CartListController>().updateQuantity(widget.cartItem.id!, noOfItems.value);
+                            },
+                            decimalPlaces: 0,
+                            color: AppColors.primaryColor,
+                          );
+                        })
+                  ],
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

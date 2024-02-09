@@ -54,7 +54,7 @@ class _CartListScreenState extends State<CartListScreen> {
                       separatorBuilder: (_,__)=> const SizedBox(),
                       itemCount: cartListController.cartList.cartItemList?.length ?? 0,),
                 ),
-                totalPriceAndCheckoutSection
+                totalPriceAndCheckoutSection(cartListController.totalPrice)
               ],
             );
           }
@@ -63,7 +63,7 @@ class _CartListScreenState extends State<CartListScreen> {
     );
   }
 
-  Container get totalPriceAndCheckoutSection {
+  Container totalPriceAndCheckoutSection(RxDouble totalPrice) {
     return Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -76,19 +76,20 @@ class _CartListScreenState extends State<CartListScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Total Price',style: TextStyle(
+                    const Text('Total Price',style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.black45,
                     ),),
-                    Text('৳3200',style: TextStyle(
+                    Obx(() => Text('৳$totalPrice',style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primaryColor,
-                    ),),
+                    ),),),
+
                   ],
                 ),
                 SizedBox(

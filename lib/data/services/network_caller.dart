@@ -13,7 +13,7 @@ class NetworkCaller {
       Uri.parse(url),
       headers: {
         'token': (token ?? AuthController.token).toString(),
-        'content-type' : 'application/json'
+        'content-type': 'application/json'
       },
     );
     log(response.headers.toString());
@@ -52,7 +52,8 @@ class NetworkCaller {
     }
   }
 
-  Future<ResponseData> postRequest(String url, {Map<String, dynamic>? body, String? token}) async {
+  Future<ResponseData> postRequest(String url,
+      {Map<String, dynamic>? body, String? token}) async {
     log(url);
     String encodedBody = json.encode(body);
     log('passed token = ${token.toString()}');
@@ -62,7 +63,7 @@ class NetworkCaller {
       Uri.parse(url),
       body: encodedBody,
       headers: {
-        'token': token ?? AuthController.token.toString(),
+        'token': (token ?? AuthController.token).toString(),
         'content-type': 'application/json'
       },
     );

@@ -6,7 +6,7 @@ class CartItem {
   int? productId;
   String? color;
   String? size;
-  int qty = 1;
+  int? qty;
   String? price;
   String? createdAt;
   String? updatedAt;
@@ -18,6 +18,7 @@ class CartItem {
         this.productId,
         this.color,
         this.size,
+        this.qty,
         this.createdAt,
         this.updatedAt,
         this.product});
@@ -42,7 +43,7 @@ class CartItem {
     data['product_id'] = productId;
     data['color'] = color;
     data['size'] = size;
-    data['qty'] = qty;
+    data['qty'] = qty ?? 1;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (product != null) {
