@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/checkout_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/carts/cart_product_item.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
@@ -94,7 +95,9 @@ class _CartListScreenState extends State<CartListScreen> {
                 ),
                 SizedBox(
                   width: 100,
-                    child: ElevatedButton(onPressed: (){}, child: const Text('Checkout'),))
+                    child: ElevatedButton(onPressed: (){
+                      Get.to(()=>const CheckOutScreen());
+                    }, child: const Text('Checkout'),))
               ],
             ),
           );
