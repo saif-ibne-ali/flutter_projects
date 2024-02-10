@@ -39,8 +39,11 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                     margin: const EdgeInsets.symmetric(horizontal: 1.0),
                     decoration: BoxDecoration(
                         color: Colors.grey,
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(image: NetworkImage(url))
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(
+                            image: NetworkImage(url),
+                            fit: BoxFit.fill,
+                        )
                     ),
                 );
               },
