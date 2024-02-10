@@ -23,9 +23,9 @@ class VerifyOTPController extends GetxController {
     _inProgress = true;
     update();
     final response =
-        await NetworkCaller().getRequest(Urls.verifyOtp(email, otp));
+        await NetworkCaller().getRequest(Urls.verifyOtp(email, otp), skipAuthCheck: true);
     _inProgress = false;
-    if (response.isSuccess && response.responseData['msg'] != 'fail') {
+    if (response.isSuccess) {
       _token = response.responseData['data'];
       await Future.delayed(const Duration(seconds: 3));
       log(token.toString());
