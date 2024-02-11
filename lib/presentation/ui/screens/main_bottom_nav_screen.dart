@@ -29,7 +29,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<HomeBannerController>().getBannerList();
       Get.find<CategoryController>().getCategoryList();
       Get.find<PopularProductController>().getPopularProductList();

@@ -1,11 +1,12 @@
 import 'package:crafty_bay/data/models/category.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
+import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CategoryItem extends StatelessWidget {
-  const CategoryItem({
+class CategoryItemCard extends StatelessWidget {
+  const CategoryItemCard({
     super.key,
     required this.category,
   });
@@ -29,7 +30,7 @@ class CategoryItem extends StatelessWidget {
             child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Image.network(
-                  category.categoryImg ?? '',
+                  category.categoryImg ?? AssetsPath.dummyShoeImageJpg,
                   width: 40,
                   height: 40,
                 )),

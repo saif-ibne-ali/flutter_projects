@@ -4,8 +4,8 @@ import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductCardItem extends StatelessWidget {
-  const ProductCardItem({
+class ProductItemCard extends StatelessWidget {
+  const ProductItemCard({
     super.key,
     required this.product,
   });

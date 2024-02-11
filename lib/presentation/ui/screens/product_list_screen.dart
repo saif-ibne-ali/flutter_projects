@@ -1,6 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/product_controller.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
-import 'package:crafty_bay/presentation/ui/widgets/product_card_item.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,7 +53,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     crossAxisSpacing: 4),
                 itemBuilder: (context, index) {
                   return FittedBox(
-                      child: ProductCardItem(
+                      child: ProductItemCard(
                     product:
                         productController.productListModel.productList![index],
                   ));
