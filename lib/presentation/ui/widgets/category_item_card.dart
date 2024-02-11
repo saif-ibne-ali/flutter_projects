@@ -1,5 +1,5 @@
 import 'package:crafty_bay/data/models/category.dart';
-import 'package:crafty_bay/presentation/ui/screens/product_list_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/product_list_by_category_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class CategoryItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => ProductListScreen(
+        Get.to(() => ProductListByCategoryScreen(
               category: category.categoryName ?? '',
               categoryId: category.id,
             ));

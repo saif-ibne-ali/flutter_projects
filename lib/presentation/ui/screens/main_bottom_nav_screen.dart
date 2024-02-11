@@ -1,13 +1,11 @@
-import 'package:crafty_bay/presentation/state_holders/category_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/new_product_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/popular_product_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/special_product_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/product_by_remark_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/cart_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/category_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/home_screen.dart';
-import 'package:crafty_bay/presentation/ui/screens/wishlist_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/wish_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,10 +29,10 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<HomeBannerController>().getBannerList();
-      Get.find<CategoryController>().getCategoryList();
-      Get.find<PopularProductController>().getPopularProductList();
-      Get.find<SpecialProductController>().getSpecialProductList();
-      Get.find<NewProductController>().getNewProductList();
+      Get.find<CategoryListController>().getCategoryList();
+      Get.find<ProductByRemarkController>(tag: 'popular').getProductList();
+      Get.find<ProductByRemarkController>(tag: 'special').getProductList();
+      Get.find<ProductByRemarkController>(tag: 'new').getProductList();
     });
     super.initState();
   }

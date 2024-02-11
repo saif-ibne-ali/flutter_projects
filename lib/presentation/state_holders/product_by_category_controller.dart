@@ -1,9 +1,9 @@
-import 'package:crafty_bay/data/models/category_list_model.dart';
+import 'package:crafty_bay/data/models/product_list_model.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
-class CategoryController extends GetxController {
+class ProductByCategoryController extends GetxController {
   bool _inProgress = false;
 
   bool get inProgress => _inProgress;
@@ -12,18 +12,18 @@ class CategoryController extends GetxController {
 
   String get errorMessage => _errorMessage;
 
-  CategoryListModel _categoryListModel = CategoryListModel();
+  ProductListModel _productListModel = ProductListModel();
 
-  CategoryListModel get categoryListModel => _categoryListModel;
+  ProductListModel get productListModel => _productListModel;
 
-  Future<bool> getCategoryList() async {
+  Future<bool> getProductList({required int categoryId}) async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    final response = await NetworkCaller().getRequest(Urls.categoryList);
+    final response = await NetworkCaller().getRequest(Urls.productByCategory(categoryId));
     _inProgress = false;
     if (response.isSuccess) {
-      _categoryListModel = CategoryListModel.fromJson(response.responseData);
+      _productListModel = ProductListModel.fromJson(response.responseData);
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;

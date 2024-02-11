@@ -1,24 +1,24 @@
-import 'package:crafty_bay/presentation/state_holders/product_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/product_by_category_controller.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({super.key, this.category, this.categoryId});
+class ProductListByCategoryScreen extends StatefulWidget {
+  const ProductListByCategoryScreen({super.key, this.category, this.categoryId});
 
   final String? category;
   final int? categoryId;
 
   @override
-  State<ProductListScreen> createState() => _ProductListScreenState();
+  State<ProductListByCategoryScreen> createState() => _ProductListByCategoryScreenState();
 }
 
-class _ProductListScreenState extends State<ProductListScreen> {
+class _ProductListByCategoryScreenState extends State<ProductListByCategoryScreen> {
   @override
   void initState() {
     if (widget.categoryId != null) {
-      Get.find<ProductController>()
+      Get.find<ProductByCategoryController>()
           .getProductList(categoryId: widget.categoryId!);
     }
     super.initState();
@@ -32,7 +32,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: GetBuilder<ProductController>(builder: (productController) {
+        child: GetBuilder<ProductByCategoryController>(builder: (productController) {
           return Visibility(
             visible:
                 productController.productListModel.productList?.isNotEmpty ??

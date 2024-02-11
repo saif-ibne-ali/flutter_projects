@@ -12,9 +12,9 @@ class NewProductController extends GetxController {
 
   String get errorMessage => _errorMessage;
 
-  ProductListModel _productListModel = ProductListModel();
+  ProductListModel _newProductListModel = ProductListModel();
 
-  ProductListModel get productListModel => _productListModel;
+  ProductListModel get newProductListModel => _newProductListModel;
 
   Future<bool> getNewProductList() async {
     bool isSuccess = false;
@@ -23,7 +23,7 @@ class NewProductController extends GetxController {
     final response = await NetworkCaller().getRequest(Urls.newProduct);
     _inProgress = false;
     if (response.isSuccess) {
-      _productListModel = ProductListModel.fromJson(response.responseData);
+      _newProductListModel = ProductListModel.fromJson(response.responseData);
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;

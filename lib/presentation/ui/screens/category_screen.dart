@@ -1,4 +1,4 @@
-import 'package:crafty_bay/presentation/state_holders/category_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/ui/widgets/category_item_card.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
@@ -37,12 +37,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            Get.find<CategoryController>().getCategoryList();
+            Get.find<CategoryListController>().getCategoryList();
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child:
-                GetBuilder<CategoryController>(builder: (categoryController) {
+                GetBuilder<CategoryListController>(builder: (categoryController) {
               return Visibility(
                 visible: categoryController.inProgress == false,
                 replacement: const CenterCircularProgressIndicator(),
