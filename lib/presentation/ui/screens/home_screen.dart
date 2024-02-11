@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 16,
               ),
               SizedBox(
-                height: 210,
+                height: 220,
                 child: GetBuilder<HomeBannerController>(
                     builder: (homeBannerController) {
                   return Visibility(

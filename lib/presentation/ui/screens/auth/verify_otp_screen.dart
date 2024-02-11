@@ -116,7 +116,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                     replacement: const CenterCircularProgressIndicator(),
                     child: ElevatedButton(
                       onPressed: _enteredPin.length == 6 
-                      || _countdownSeconds != 0
+                      && _countdownSeconds != 0
                           ? () async {
                               final bool response =
                                   await verifyOtpController.verifyOTP(
@@ -165,8 +165,10 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 ),
               ),
               TextButton(
-                onPressed: _countdownSeconds == 0 ? () {
-                  Get.find<ValidateEmailController>().sendOtpEmail(widget.email);
+                onPressed: _countdownSeconds == 0 ? () async{
+                  _countdownSeconds = 120;
+                  startTimer();
+                 await Get.find<ValidateEmailController>().sendOtpEmail(widget.email);
                 } : null,
                 child: const Text(
                   'Resend Code',
