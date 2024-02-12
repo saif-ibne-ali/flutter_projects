@@ -19,7 +19,7 @@ class _ProductListByRemarkScreenState extends State<ProductListByRemarkScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.remark.toUpperCase()} Products'),
+        title: Text('${widget.remark[0].toUpperCase() + widget.remark.substring(1)} Products'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),

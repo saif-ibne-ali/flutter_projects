@@ -39,7 +39,7 @@ class ProductItemCard extends StatelessWidget {
                   product.image ?? '',
                   width: 160,
                   height: 120,
-                  fit: BoxFit.scaleDown,
+                  fit: BoxFit.cover,
                 ),
               ),
               Padding(
