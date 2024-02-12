@@ -1,4 +1,3 @@
-
 class Urls {
   static const String _baseUrl = 'http://ecom-api.teamrabbil.com/api';
 
@@ -20,7 +19,10 @@ class Urls {
       '$_baseUrl/ProductDetailsById/$productId';
   static String addToCart = '$_baseUrl/CreateCartList';
   static String cartList = '$_baseUrl/CartList';
-  static String deleteCartList(int productId) => '$_baseUrl/DeleteCartList/$productId';
+  static String deleteCartList(int productId) =>
+      '$_baseUrl/DeleteCartList/$productId';
   static String createInvoice = '$_baseUrl/InvoiceCreate';
   static String productWishList = '$_baseUrl/ProductWishList';
+  static String createWishList(int productId) =>
+      '$_baseUrl/CreateWishList/$productId';
 }

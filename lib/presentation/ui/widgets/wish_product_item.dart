@@ -23,6 +23,7 @@ class WishItemCard extends StatelessWidget {
         onTap: () {
           Get.to(() => ProductDetailsScreen(
             productId: wishItem.product!.id!,
+            isWishList: true,
           ));
         },
         child: Card(

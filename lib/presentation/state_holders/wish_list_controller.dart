@@ -32,3 +32,5 @@ class WishListController extends GetxController {
     return isSuccess;
   }
 }
+
+

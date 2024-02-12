@@ -1,4 +1,5 @@
 import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/add_to_wish_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/category_list_controller.dart';
@@ -35,5 +36,6 @@ class ControllerBinder extends Bindings {
     Get.put(CartListController());
     Get.put(WishListController());
     Get.put(CreateInvoiceController());
+    Get.put(AddToWishController());
   }
 }
