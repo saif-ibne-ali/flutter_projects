@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/product_list_model.dart';
+import 'package:crafty_bay/data/models/wish_list_model.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
@@ -12,9 +12,9 @@ class WishListController extends GetxController {
 
   String get errorMessage => _errorMessage;
 
-  ProductListModel _wishListModel = ProductListModel();
+  WishListModel _wishListModel = WishListModel();
 
-  ProductListModel get wishListModel => _wishListModel;
+  WishListModel get wishList => _wishListModel;
 
   Future<bool> getWishProductList() async {
     bool isSuccess = false;
@@ -23,7 +23,7 @@ class WishListController extends GetxController {
     final response = await NetworkCaller().getRequest(Urls.productWishList);
     _inProgress = false;
     if (response.isSuccess) {
-      _wishListModel = ProductListModel.fromJson(response.responseData);
+      _wishListModel = WishListModel.fromJson(response.responseData);
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
