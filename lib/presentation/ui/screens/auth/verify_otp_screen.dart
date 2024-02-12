@@ -67,6 +67,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
               ),
               Text(
                 'A 4 digit OTP code has been sent to ${widget.email}',
+                maxLines: 2,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(
@@ -115,19 +116,17 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                     visible: verifyOtpController.inProgress == false,
                     replacement: const CenterCircularProgressIndicator(),
                     child: ElevatedButton(
-                      onPressed: _enteredPin.length == 6 
-                      && _countdownSeconds != 0
+                      onPressed: _enteredPin.length == 6 &&
+                              _countdownSeconds != 0
                           ? () async {
-                              final bool response =
-                                  await verifyOtpController.verifyOTP(
-                                      widget.email, _otp);
+                              final bool response = await verifyOtpController
+                                  .verifyOTP(widget.email, _otp);
                               if (response) {
                                 if (verifyOtpController
                                     .doNavigateCompleteProfile) {
                                   Get.to(() => const CompleteProfileScreen());
                                 } else {
-                                  Get.offAll(
-                                      () => const MainBottomNavScreen());
+                                  Get.offAll(() => const MainBottomNavScreen());
                                 }
                               } else {
                                 Get.showSnackbar(GetSnackBar(
@@ -153,7 +152,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                     color: Colors.grey,
                   ),
                   children: [
-                    const TextSpan(text: 'This code will expire '),
+                    const TextSpan(text: 'This code will expire in '),
                     TextSpan(
                       text: '${_countdownSeconds}s',
                       style: const TextStyle(
@@ -165,14 +164,20 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 ),
               ),
               TextButton(
-                onPressed: _countdownSeconds == 0 ? () async{
-                  _countdownSeconds = 120;
-                  startTimer();
-                 await Get.find<ValidateEmailController>().sendOtpEmail(widget.email);
-                } : null,
-                child: const Text(
+                onPressed: _countdownSeconds == 0
+                    ? () async {
+                        _countdownSeconds = 120;
+                        startTimer();
+                        await Get.find<ValidateEmailController>()
+                            .sendOtpEmail(widget.email);
+                      }
+                    : null,
+                child: Text(
                   'Resend Code',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(
+                      color: _countdownSeconds == 0
+                          ? AppColors.primaryColor
+                          : Colors.grey),
                 ),
               ),
             ],
@@ -182,16 +187,15 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
     );
   }
 
-  void startTimer(){
-    _timer = Timer.periodic(
-        const Duration(seconds: 1), (timer) {
-          setState(() {
-            if(_countdownSeconds == 0){
-              timer.cancel();
-            } else{
-              _countdownSeconds--;
-            }
-          });
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_countdownSeconds == 0) {
+          timer.cancel();
+        } else {
+          _countdownSeconds--;
+        }
+      });
     });
   }
 }

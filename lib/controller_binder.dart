@@ -12,6 +12,7 @@ import 'package:crafty_bay/presentation/state_holders/product_details_controller
 import 'package:crafty_bay/presentation/state_holders/read_profile_data_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/validate_email_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/wish_list_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBinder extends Bindings {
@@ -32,6 +33,7 @@ class ControllerBinder extends Bindings {
     Get.put(ProductDetailsController());
     Get.put(AddToCartController());
     Get.put(CartListController());
+    Get.put(WishListController());
     Get.put(CreateInvoiceController());
   }
 }

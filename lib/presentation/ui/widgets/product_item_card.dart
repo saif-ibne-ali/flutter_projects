@@ -1,6 +1,7 @@
 import 'package:crafty_bay/data/models/product_model.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_details_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
+import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,12 +36,19 @@ class ProductItemCard extends StatelessWidget {
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
-                child: Image.network(
-                  product.image ?? '',
-                  width: 160,
-                  height: 120,
-                  fit: BoxFit.cover,
-                ),
+                child: product.image != null
+                    ? Image.network(
+                        product.image ?? '',
+                        width: 160,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        AssetsPath.dummyShoeImageJpg,
+                        width: 160,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
