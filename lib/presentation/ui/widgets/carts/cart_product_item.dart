@@ -19,6 +19,7 @@ class _CartProductItemState extends State<CartProductItem> {
   Widget build(BuildContext context) {
     late ValueNotifier<int> noOfItems = ValueNotifier(widget.cartItem.qty!);
     return Card(
+      color: Colors.white,
       elevation: 3,
       child: Row(
         children: [

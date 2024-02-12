@@ -97,7 +97,7 @@ class WishItemCard extends StatelessWidget {
                           width: 8,
                         ),
                         Card(
-                          color: AppColors.primaryColor,
+                          color: Colors.red,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4)),
                           child: const Padding(
