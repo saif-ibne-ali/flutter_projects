@@ -68,6 +68,8 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
               Text(
                 'A 4 digit OTP code has been sent to ${widget.email}',
                 maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(

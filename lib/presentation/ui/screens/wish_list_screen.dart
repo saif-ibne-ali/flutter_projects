@@ -17,7 +17,9 @@ class _WishListScreenState extends State<WishListScreen> {
   @override
   void initState() {
     super.initState();
-    Get.find<WishListController>().getWishProductList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<WishListController>().getWishProductList();
+    });
   }
 
   @override

@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/add_to_wish_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/wish_list_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/validate_email_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
@@ -16,7 +16,8 @@ import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key, required this.productId, this.isWishList = false});
+  const ProductDetailsScreen(
+      {super.key, required this.productId, this.isWishList = false});
 
   final int productId;
   final bool isWishList;
@@ -29,6 +30,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ValueNotifier<int> noOfItems = ValueNotifier(1);
   Color? _selectedColor;
   String? _selectedSize;
+  
 
   @override
   void initState() {
@@ -195,45 +197,72 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         const SizedBox(
           width: 8,
         ),
-        GetBuilder<AddToWishController>(builder: (addToWishController) {
-          return InkWell(
-            onTap: () async {
-              await addToWishController.addToWish(widget.productId);
-              addToWishController.isSuccess
-                  ? Get.showSnackbar(
-                      const GetSnackBar(
-                        isDismissible: true,
-                        duration: Duration(seconds: 2),
-                        backgroundColor: AppColors.primaryColor,
-                        title: 'Success!',
-                        message: 'the product has been added to your wishlist',
-                      ),
-                    )
-                  : Get.showSnackbar(GetSnackBar(
-                      isDismissible: true,
-                      duration: const Duration(seconds: 2),
-                      backgroundColor: AppColors.primaryColor,
-                      title: 'Failed!',
-                      message: addToWishController.errorMessage,
-                    ));
-            },
-            child: Card(
-              color: widget.isWishList ? Colors.red : AppColors.primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
-              child: const Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Icon(
-                  Icons.favorite_outline_rounded,
-                  size: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          );
-        })
+        addAndRemoveFromWishList
       ],
     );
+  }
+
+  GetBuilder<WishListController> get addAndRemoveFromWishList {
+    bool doChangeColor = widget.isWishList;
+    return GetBuilder<WishListController>(builder: (wishListController) {
+        return InkWell(
+          onTap: widget.isWishList
+              ? () async {
+                  await wishListController
+                      .deleteWishItem(widget.productId)
+                      .then((success) {
+                    if (success) {
+                      Get.showSnackbar(GetSnackBar(
+                        isDismissible: true,
+                        duration: const Duration(seconds: 2),
+                        title: 'Success!',
+                        message: wishListController.removeStatus,
+                      ));
+                      doChangeColor = false;
+                    } else {
+                      Get.showSnackbar(GetSnackBar(
+                        isDismissible: true,
+                        duration: const Duration(seconds: 2),
+                        title: 'Failed!',
+                        message: wishListController.removeStatus,
+                      ));
+                    }
+                  });
+                }
+              : () async {
+                  await wishListController.addToWish(widget.productId)
+                      ? Get.showSnackbar(
+                          GetSnackBar(
+                            isDismissible: true,
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: AppColors.primaryColor,
+                            title: 'Success!',
+                            message:wishListController.addStatus,
+                          ),
+                        )
+                      : Get.showSnackbar(GetSnackBar(
+                          isDismissible: true,
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: AppColors.primaryColor,
+                          title: 'Failed!',
+                          message: wishListController.addStatus,
+                        ));
+                },
+          child: Card(
+            color: doChangeColor ? Colors.red : AppColors.primaryColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4)),
+            child: const Padding(
+              padding: EdgeInsets.all(2.0),
+              child: Icon(
+                Icons.favorite_outline_rounded,
+                size: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      });
   }
 
   Container get priceAndAddToCartSection {
