@@ -1,26 +1,15 @@
-# Design the following screen.
+## মডিউল ১১ এর এসাইনমেন্ট
+Create a Flutter app to fetch and display photos from the following URL:
+https://jsonplaceholder.typicode.com/photos
 
-## Requirement:
+Guideline:
+1.Fetch photos using an HTTP GET request from the provided API endpoint.
 
-Users can add any type of text(String, int, double). Design with ListTile (with title and subtitle).
+2. Display a list of photos with titles and thumbnail images.
 
-When Users long press on any list tile then show an Alertdialog with edit and delete button.
+3. On tapping a photo, navigate to a new screen displaying the full-size image, title, and ID.
 
-After that, Users can update the text with the edit button and delete the text by delete button. 
+4. Implement error handling for API calls.
 
-(When pressing the edit button, open a bottom sheet with title and description text of selected list tile item)
-
-1. design: 
-![Alt text](<Screenshot from 2023-10-14 21-22-18-1.png>)
-
-2. onlong press actions:
-![Alt text](<Screenshot from 2023-10-14 21-22-27-1.png>)
-
-3. edit:
-![Alt text](<Screenshot from 2023-10-14 21-23-04-1.png>) ![Alt text](<Screenshot from 2023-10-14 21-23-47-1.png>)
-
-4. Edit Done:
-![Alt text](<Screenshot from 2023-10-14 21-24-12-1.png>)
-
-5. Delete:
-![Alt text](<Screenshot from 2023-10-14 21-24-25-1.png>)
+![Screenshot from 2024-02-14 08-55-45.png](Screenshot%20from%202024-02-14%2008-55-45.png)
+![Screenshot from 2024-02-14 08-56-35.png](Screenshot%20from%202024-02-14%2008-56-35.png)
