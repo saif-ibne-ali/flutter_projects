@@ -30,7 +30,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ValueNotifier<int> noOfItems = ValueNotifier(1);
   Color? _selectedColor;
   String? _selectedSize;
-  
 
   @override
   void initState() {
@@ -46,31 +45,38 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: GetBuilder<ProductDetailsController>(
           builder: (productDetailsController) {
-        if (productDetailsController.inProgress) {
+        if (productDetailsController.inProgress == true) {
           return const CenterCircularProgressIndicator();
-        }
-        return Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ProductImageCarousel(
-                      urls: [
-                        productDetailsController.productDetails.img1 ?? '',
-                        productDetailsController.productDetails.img2 ?? '',
-                        productDetailsController.productDetails.img3 ?? '',
-                        productDetailsController.productDetails.img4 ?? '',
-                      ],
-                    ),
-                    productDetailsBody(productDetailsController.productDetails),
-                  ],
+        } else {
+          if (productDetailsController.productDetails == null) {
+            return const Center(
+              child: Text('Upcoming...'),
+            );
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ProductImageCarousel(
+                        urls: [
+                          productDetailsController.productDetails!.img1 ?? '',
+                          productDetailsController.productDetails!.img2 ?? '',
+                          productDetailsController.productDetails!.img3 ?? '',
+                          productDetailsController.productDetails!.img4 ?? '',
+                        ],
+                      ),
+                      productDetailsBody(
+                          productDetailsController.productDetails!),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            priceAndAddToCartSection,
-          ],
-        );
+              priceAndAddToCartSection,
+            ],
+          );
+        }
       }),
     );
   }
@@ -205,64 +211,63 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   GetBuilder<WishListController> get addAndRemoveFromWishList {
     bool doChangeColor = widget.isWishList;
     return GetBuilder<WishListController>(builder: (wishListController) {
-        return InkWell(
-          onTap: widget.isWishList
-              ? () async {
-                  await wishListController
-                      .deleteWishItem(widget.productId)
-                      .then((success) {
-                    if (success) {
-                      Get.showSnackbar(GetSnackBar(
-                        isDismissible: true,
-                        duration: const Duration(seconds: 2),
-                        title: 'Success!',
-                        message: wishListController.removeStatus,
-                      ));
-                      doChangeColor = false;
-                    } else {
-                      Get.showSnackbar(GetSnackBar(
-                        isDismissible: true,
-                        duration: const Duration(seconds: 2),
-                        title: 'Failed!',
-                        message: wishListController.removeStatus,
-                      ));
-                    }
-                  });
-                }
-              : () async {
-                  await wishListController.addToWish(widget.productId)
-                      ? Get.showSnackbar(
-                          GetSnackBar(
-                            isDismissible: true,
-                            duration: const Duration(seconds: 2),
-                            backgroundColor: AppColors.primaryColor,
-                            title: 'Success!',
-                            message:wishListController.addStatus,
-                          ),
-                        )
-                      : Get.showSnackbar(GetSnackBar(
+      return InkWell(
+        onTap: widget.isWishList
+            ? () async {
+                await wishListController
+                    .deleteWishItem(widget.productId)
+                    .then((success) {
+                  if (success) {
+                    Get.showSnackbar(GetSnackBar(
+                      isDismissible: true,
+                      duration: const Duration(seconds: 2),
+                      title: 'Success!',
+                      message: wishListController.removeStatus,
+                    ));
+                    doChangeColor = false;
+                  } else {
+                    Get.showSnackbar(GetSnackBar(
+                      isDismissible: true,
+                      duration: const Duration(seconds: 2),
+                      title: 'Failed!',
+                      message: wishListController.removeStatus,
+                    ));
+                  }
+                });
+              }
+            : () async {
+                await wishListController.addToWish(widget.productId)
+                    ? Get.showSnackbar(
+                        GetSnackBar(
                           isDismissible: true,
                           duration: const Duration(seconds: 2),
                           backgroundColor: AppColors.primaryColor,
-                          title: 'Failed!',
+                          title: 'Success!',
                           message: wishListController.addStatus,
-                        ));
-                },
-          child: Card(
-            color: doChangeColor ? Colors.red : AppColors.primaryColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4)),
-            child: const Padding(
-              padding: EdgeInsets.all(2.0),
-              child: Icon(
-                Icons.favorite_outline_rounded,
-                size: 16,
-                color: Colors.white,
-              ),
+                        ),
+                      )
+                    : Get.showSnackbar(GetSnackBar(
+                        isDismissible: true,
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: AppColors.primaryColor,
+                        title: 'Failed!',
+                        message: wishListController.addStatus,
+                      ));
+              },
+        child: Card(
+          color: doChangeColor ? Colors.red : AppColors.primaryColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          child: const Padding(
+            padding: EdgeInsets.all(2.0),
+            child: Icon(
+              Icons.favorite_outline_rounded,
+              size: 16,
+              color: Colors.white,
             ),
           ),
-        );
-      });
+        ),
+      );
+    });
   }
 
   Container get priceAndAddToCartSection {

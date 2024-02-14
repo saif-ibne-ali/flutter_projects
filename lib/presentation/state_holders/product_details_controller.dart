@@ -9,9 +9,9 @@ class ProductDetailsController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
-  ProductDetailsModel _productDetailsModel = ProductDetailsModel();
-  ProductDetailsData get productDetails =>
-      _productDetailsModel.productDetailsDataList!.first;
+  ProductDetailsModel? _productDetailsModel = ProductDetailsModel();
+  ProductDetailsData? get productDetails =>
+      _productDetailsModel?.productDetailsDataList?.firstOrNull;
 
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
@@ -25,7 +25,7 @@ class ProductDetailsController extends GetxController {
     if (response.isSuccess) {
       _productDetailsModel =
           ProductDetailsModel.fromJson(response.responseData);
-      print(productDetails);
+      //print(productDetails);
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
