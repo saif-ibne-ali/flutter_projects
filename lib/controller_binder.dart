@@ -1,5 +1,6 @@
 import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/brand_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
@@ -28,8 +29,10 @@ class ControllerBinder extends Bindings {
     Get.put(CompleteProfileController());
     Get.put(HomeBannerController());
     Get.put(CategoryListController());
+    Get.put(BrandListController());
     Get.put(ProductByCategoryController());
-    Get.put(ProductByRemarkController('popular'),tag: 'popular');
+    Get.put(ProductByRemarkController('trending'), tag: 'trending');
+    Get.put(ProductByRemarkController('popular'), tag: 'popular');
     Get.put(ProductByRemarkController('special'), tag: 'special');
     Get.put(ProductByRemarkController('new'), tag: 'new');
     Get.put(ProductDetailsController());

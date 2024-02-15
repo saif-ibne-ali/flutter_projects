@@ -1,3 +1,4 @@
+import 'package:crafty_bay/presentation/state_holders/brand_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
@@ -29,7 +30,9 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<HomeBannerController>().getBannerList();
+      Get.find<BrandListController>().getBrandList();
       Get.find<CategoryListController>().getCategoryList();
+      Get.find<ProductByRemarkController>(tag: 'trending').getProductList();
       Get.find<ProductByRemarkController>(tag: 'popular').getProductList();
       Get.find<ProductByRemarkController>(tag: 'special').getProductList();
       Get.find<ProductByRemarkController>(tag: 'new').getProductList();
@@ -39,28 +42,27 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainBottomNavController>(
-      builder: (controller) {
-        return Scaffold(
-          body: _screens[controller.currentIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: controller.currentIndex,
-            selectedItemColor: AppColors.primaryColor,
-            unselectedItemColor: Colors.grey,
-            showUnselectedLabels: true,
-            onTap: controller.changeIndex,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.dashboard), label: 'Categories'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart), label: 'Carts'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_outlined), label: 'Wishlist'),
-            ],
-          ),
-        );
-      }
-    );
+    return GetBuilder<MainBottomNavController>(builder: (controller) {
+      return Scaffold(
+        body: _screens[controller.currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: controller.currentIndex,
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          onTap: controller.changeIndex,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_filled), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard), label: 'Categories'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart), label: 'Carts'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_outlined), label: 'Wishlist'),
+          ],
+        ),
+      );
+    });
   }
 }

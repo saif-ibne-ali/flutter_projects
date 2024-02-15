@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_details_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:crafty_bay/data/models/banner_item.dart';
+import 'package:crafty_bay/data/models/banner_model.dart';
 import 'package:get/get.dart';
 
 class BannerCarousel extends StatefulWidget {
@@ -13,7 +13,7 @@ class BannerCarousel extends StatefulWidget {
   });
 
   final double? height;
-  final List<BannerItem> bannerList;
+  final List<BannerModel> bannerList;
 
   @override
   State<BannerCarousel> createState() => _BannerCarouselState();

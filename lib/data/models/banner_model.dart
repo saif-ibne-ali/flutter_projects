@@ -1,4 +1,4 @@
-class BannerItem {
+class BannerModel {
   int? id;
   String? title;
   String? shortDes;
@@ -7,7 +7,7 @@ class BannerItem {
   String? createdAt;
   String? updatedAt;
 
-  BannerItem(
+  BannerModel(
       {this.id,
         this.title,
         this.shortDes,
@@ -16,7 +16,7 @@ class BannerItem {
         this.createdAt,
         this.updatedAt});
 
-  BannerItem.fromJson(Map<String, dynamic> json) {
+  BannerModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     shortDes = json['short_des'];

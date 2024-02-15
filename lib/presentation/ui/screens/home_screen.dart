@@ -1,4 +1,5 @@
 import 'package:crafty_bay/data/models/product_model.dart';
+import 'package:crafty_bay/presentation/state_holders/brand_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
@@ -10,6 +11,7 @@ import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indi
 import 'package:crafty_bay/presentation/ui/widgets/home/circle_icon_button.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/banner_carousel.dart';
 import 'package:crafty_bay/presentation/ui/widgets/home/section_title.dart';
+import 'package:crafty_bay/presentation/ui/widgets/product_details/brand_item_card.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           Get.find<HomeBannerController>().getBannerList();
+          Get.find<BrandListController>().getBrandList();
           Get.find<CategoryListController>().getCategoryList();
+          Get.find<ProductByRemarkController>(tag: 'trending').getProductList();
           Get.find<ProductByRemarkController>(tag: 'popular').getProductList();
           Get.find<ProductByRemarkController>(tag: 'special').getProductList();
           Get.find<ProductByRemarkController>(tag: 'new').getProductList();
@@ -72,62 +76,96 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 categoryList,
                 SectionTitle(
-                  title: 'Popular',
+                  title: 'Trending',
                   onTapSeeAll: () {
-                    Get.to(() => const ProductListByRemarkScreen(remark: 'popular',));
+                    Get.to(() => const ProductListByRemarkScreen(
+                          remark: 'trending',
+                        ));
                   },
                 ),
                 GetBuilder<ProductByRemarkController>(
-                  tag: 'popular',
+                    tag: 'trending',
                     builder: (productByRemarkController) {
-                  return Visibility(
-                    visible: productByRemarkController.inProgress == false,
-                    replacement: const CenterCircularProgressIndicator(),
-                    child: productList(productByRemarkController
-                            .productListModel.productList ??
-                        []),
-                  );
-                }),
+                      return Visibility(
+                        visible: productByRemarkController.inProgress == false,
+                        replacement: const CenterCircularProgressIndicator(),
+                        child: productList(productByRemarkController
+                                .productListModel.productList ??
+                            []),
+                      );
+                    }),
+                const SizedBox(
+                  height: 8,
+                ),
+                SectionTitle(
+                  title: 'Popular',
+                  onTapSeeAll: () {
+                    Get.to(() => const ProductListByRemarkScreen(
+                          remark: 'popular',
+                        ));
+                  },
+                ),
+                GetBuilder<ProductByRemarkController>(
+                    tag: 'popular',
+                    builder: (productByRemarkController) {
+                      return Visibility(
+                        visible: productByRemarkController.inProgress == false,
+                        replacement: const CenterCircularProgressIndicator(),
+                        child: productList(productByRemarkController
+                                .productListModel.productList ??
+                            []),
+                      );
+                    }),
                 const SizedBox(
                   height: 8,
                 ),
                 SectionTitle(
                   title: 'Special',
                   onTapSeeAll: () {
-                    Get.to(() => const ProductListByRemarkScreen(remark: 'special'));
+                    Get.to(() =>
+                        const ProductListByRemarkScreen(remark: 'special'));
                   },
                 ),
                 GetBuilder<ProductByRemarkController>(
-                  tag: 'special',
+                    tag: 'special',
                     builder: (productByRemarkController) {
-                  return Visibility(
-                    visible: productByRemarkController.inProgress == false,
-                    replacement: const CenterCircularProgressIndicator(),
-                    child: productList(productByRemarkController
-                            .productListModel.productList ??
-                        []),
-                  );
-                }),
+                      return Visibility(
+                        visible: productByRemarkController.inProgress == false,
+                        replacement: const CenterCircularProgressIndicator(),
+                        child: productList(productByRemarkController
+                                .productListModel.productList ??
+                            []),
+                      );
+                    }),
                 const SizedBox(
                   height: 8,
                 ),
                 SectionTitle(
                   title: 'New',
                   onTapSeeAll: () {
-                    Get.to(() => const ProductListByRemarkScreen(remark: 'new'));
+                    Get.to(
+                        () => const ProductListByRemarkScreen(remark: 'new'));
                   },
                 ),
                 GetBuilder<ProductByRemarkController>(
-                  tag: 'new',
+                    tag: 'new',
                     builder: (productByRemarkController) {
-                  return Visibility(
-                    visible: productByRemarkController.inProgress == false,
-                    replacement: const CenterCircularProgressIndicator(),
-                    child: productList(
-                        productByRemarkController.productListModel.productList ??
+                      return Visibility(
+                        visible: productByRemarkController.inProgress == false,
+                        replacement: const CenterCircularProgressIndicator(),
+                        child: productList(productByRemarkController
+                                .productListModel.productList ??
                             []),
-                  );
-                }),
+                      );
+                    }),
+                const SizedBox(
+                  height: 16,
+                ),
+                SectionTitle(
+                    title: 'Top Brands',
+                    onTapSeeAll: () {
+                    }),
+                brandList,
               ],
             ),
           ),
@@ -153,6 +191,35 @@ class _HomeScreenState extends State<HomeScreen> {
               return CategoryItemCard(
                 category:
                     categoryController.categoryListModel.categoryList![index],
+              );
+            },
+            separatorBuilder: (_, __) {
+              return const SizedBox(
+                width: 8,
+              );
+            },
+          ),
+        );
+      }),
+    );
+  }
+
+  SizedBox get brandList {
+    return SizedBox(
+      height: 130,
+      child: GetBuilder<BrandListController>(builder: (brandListController) {
+        return Visibility(
+          visible: brandListController.inProgress == false,
+          replacement: const CenterCircularProgressIndicator(),
+          child: ListView.separated(
+            itemCount:
+                brandListController.brandListModel.brandList?.length ?? 0,
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return BrandItemCard(
+                brand: brandListController.brandListModel.brandList![index],
               );
             },
             separatorBuilder: (_, __) {
