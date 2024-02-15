@@ -46,7 +46,7 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                   itemBuilder: (context, index) {
                     return Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
