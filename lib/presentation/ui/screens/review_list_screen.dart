@@ -1,5 +1,6 @@
 import 'package:crafty_bay/data/models/review_model.dart';
 import 'package:crafty_bay/presentation/state_holders/review_list_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/create_review_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +137,9 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(shape: const CircleBorder()),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(()=> const CreateReviewScreen());
+            },
             child: const Icon(Icons.add),
           )
         ],

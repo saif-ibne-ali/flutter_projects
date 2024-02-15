@@ -22,7 +22,7 @@ class CompleteProfileController extends GetxController {
     final response =
         await NetworkCaller().postRequest(Urls.createProfile,body: params.toJson(), token: token);
     _inProgress = false;
-    if (response.isSuccess && response.responseData['msg'] != 'fail') {
+    if (response.isSuccess) {
       _profile = Profile.fromJson(response.responseData['data']);
       await Get.find<AuthController>().saveUserDetails(token, _profile);
       update();
