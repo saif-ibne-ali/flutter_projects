@@ -2,9 +2,11 @@ import 'package:crafty_bay/data/models/review_model.dart';
 import 'package:flutter/material.dart';
 
 class CreateReviewScreen extends StatefulWidget {
-  const CreateReviewScreen({Key? key, this.reviewData}) : super(key: key);
+  const CreateReviewScreen({Key? key, this.reviewData, required this.productId, required this.hasReview}) : super(key: key);
 
   final ReviewModel? reviewData;
+  final int productId;
+  final bool hasReview;
 
   @override
   State<CreateReviewScreen> createState() => _CreateReviewScreenState();
@@ -29,8 +31,8 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               const SizedBox(
                 height: 32,
               ),
-              Text(
-                'Hi! Saiful Islam',
+              const Text(
+                'Hi! Saif-ul Islam',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -85,7 +87,7 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               TextFormField(
                 maxLines: 10,
               ),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

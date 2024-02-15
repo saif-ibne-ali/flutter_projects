@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   static String? token;
-  Profile? profile;
+  static Profile? profile;
 
   Future<void> saveUserDetails(String t, Profile p) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

@@ -90,12 +90,13 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                                             reviewData?[index].description ??
                                                 ''),
                                       ),
-                                      const SizedBox(width: 8,),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
                                       Text(
                                         timeAgo(reviewData?[index].updatedAt ??
-                                            '0'), style: const TextStyle(
-                                        fontSize: 12
-                                      ),
+                                            '0'),
+                                        style: const TextStyle(fontSize: 12),
                                       )
                                     ],
                                   )
@@ -106,7 +107,8 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                         }),
                   ),
                 ),
-                totalReviewAndAddReviewSection(reviewData?.length ?? 0)
+                totalReviewAndAddReviewSection(
+                    reviewData?.length ?? 0, reviewListController)
               ],
             ),
           ),
@@ -115,7 +117,9 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
     );
   }
 
-  Container totalReviewAndAddReviewSection(int totalReview) {
+  Container totalReviewAndAddReviewSection(
+      int totalReview, ReviewListController reviewListController) {
+    bool hasReview = reviewListController.hasReview();
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -138,9 +142,16 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(shape: const CircleBorder()),
             onPressed: () {
-              Get.to(()=> const CreateReviewScreen());
+              Get.to(() => CreateReviewScreen(
+                    productId: widget.productId,
+                    hasReview: hasReview,
+                    reviewData: hasReview
+                        ? reviewListController.reviewListModel
+                            .reviewList![reviewListController.hasReviewIndex]
+                        : null,
+                  ));
             },
-            child: const Icon(Icons.add),
+            child: hasReview ? const Icon(Icons.edit) : const Icon(Icons.add),
           )
         ],
       ),

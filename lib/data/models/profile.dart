@@ -1,4 +1,7 @@
+import 'package:crafty_bay/data/models/user_model.dart';
+
 class Profile {
+  int? id;
   String? cusName;
   String? cusAdd;
   String? cusCity;
@@ -14,9 +17,14 @@ class Profile {
   String? shipPostcode;
   String? shipCountry;
   String? shipPhone;
+  int? userId;
+  String? createdAt;
+  String? updatedAt;
+  UserModel? user;
 
   Profile(
-      {this.cusName,
+      {this.id,
+        this.cusName,
         this.cusAdd,
         this.cusCity,
         this.cusState,
@@ -30,9 +38,14 @@ class Profile {
         this.shipState,
         this.shipPostcode,
         this.shipCountry,
-        this.shipPhone});
+        this.shipPhone,
+        this.userId,
+        this.createdAt,
+        this.updatedAt,
+        this.user});
 
   Profile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     cusName = json['cus_name'];
     cusAdd = json['cus_add'];
     cusCity = json['cus_city'];
@@ -48,26 +61,38 @@ class Profile {
     shipPostcode = json['ship_postcode'];
     shipCountry = json['ship_country'];
     shipPhone = json['ship_phone'];
+    userId = json['user_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {
-      "cus_name": cusName,
-      "cus_add": cusAdd,
-      "cus_city": cusCity,
-      "cus_state": cusState,
-      "cus_postcode": cusPostcode,
-      "cus_country": cusCountry,
-      "cus_phone": cusPhone,
-      "cus_fax": cusFax,
-      "ship_name": shipName,
-      "ship_add": shipAdd,
-      "ship_city": shipCity,
-      "ship_state": shipState,
-      "ship_postcode": shipPostcode,
-      "ship_country": shipCountry,
-      "ship_phone": shipPhone,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['cus_name'] = cusName;
+    data['cus_add'] = cusAdd;
+    data['cus_city'] = cusCity;
+    data['cus_state'] = cusState;
+    data['cus_postcode'] = cusPostcode;
+    data['cus_country'] = cusCountry;
+    data['cus_phone'] = cusPhone;
+    data['cus_fax'] = cusFax;
+    data['ship_name'] = shipName;
+    data['ship_add'] = shipAdd;
+    data['ship_city'] = shipCity;
+    data['ship_state'] = shipState;
+    data['ship_postcode'] = shipPostcode;
+    data['ship_country'] = shipCountry;
+    data['ship_phone'] = shipPhone;
+    data['user_id'] = userId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
     return data;
   }
 }
+
+
