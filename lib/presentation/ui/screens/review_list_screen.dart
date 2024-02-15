@@ -42,7 +42,7 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                 child: Text('No Review'),
               ),
               child: ListView.builder(
-                  itemCount: reviewData!.length,
+                  itemCount: reviewData?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Card(
                       child: Padding(
@@ -56,10 +56,10 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(reviewData[index].profile!.cusName!)
+                                Text(reviewData?[index].profile?.cusName ?? '')
                               ],
                             ),
-                            Text(reviewData[index].description!)
+                            Text(reviewData?[index].description ?? '')
                           ],
                         ),
                       ),
