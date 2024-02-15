@@ -6,6 +6,7 @@ import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/wish_list_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/auth/validate_email_screen.dart';
+import 'package:crafty_bay/presentation/ui/screens/review_list_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:crafty_bay/presentation/ui/widgets/product_details/color_picker.dart';
@@ -113,7 +114,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          reviewAndRatingRow(productDetails.product?.star ?? 0),
+          reviewAndRatingRow(productDetails.product?.star ?? 0, productDetails.product!.id!),
           const SizedBox(height: 8),
           const Text(
             'Color',
@@ -167,7 +168,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row reviewAndRatingRow(int rating) {
+  Row reviewAndRatingRow(int rating, int productId) {
     return Row(
       children: [
         Wrap(
@@ -193,12 +194,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         const SizedBox(
           width: 8,
         ),
-        const Text(
-          'Reviews',
-          style: TextStyle(
-              fontSize: 16,
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.w500),
+        TextButton(
+          onPressed: () {
+            Get.to(() => ReviewListScreen(productId: productId,));
+          },
+          child: const Text(
+            'Reviews',
+            style: TextStyle(
+                fontSize: 16,
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.w500),
+          ),
         ),
         const SizedBox(
           width: 8,
