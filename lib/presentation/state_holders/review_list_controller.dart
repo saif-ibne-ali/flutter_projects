@@ -38,7 +38,7 @@ class ReviewListController extends GetxController {
     bool isSuccess = false;
     int reviewListLength = _reviewListModel.reviewList?.length?? 0;
     for(int i =0; i<reviewListLength; i++){
-      if( AuthController.profile!.id! == _reviewListModel.reviewList![i].profile!.id){
+      if( AuthController.profile?.id == _reviewListModel.reviewList?[i].profile?.id){
         isSuccess = true;
         _hasReviewIndex = i;
         break;

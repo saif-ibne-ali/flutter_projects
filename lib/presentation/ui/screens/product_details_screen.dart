@@ -114,7 +114,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          reviewAndRatingRow(productDetails.product?.star ?? 0, productDetails.product!.id!),
+          reviewAndRatingRow(
+              productDetails.product?.star ?? 0, productDetails.product!.id!),
           const SizedBox(height: 8),
           const Text(
             'Color',
@@ -196,7 +197,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         TextButton(
           onPressed: () {
-            Get.to(() => ReviewListScreen(productId: productId,));
+            Get.to(() => ReviewListScreen(
+                  productId: productId,
+                ));
           },
           child: const Text(
             'Reviews',
@@ -215,10 +218,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   GetBuilder<WishListController> get addAndRemoveFromWishList {
-    bool doChangeColor = widget.isWishList;
+    bool doRemove = widget.isWishList;
     return GetBuilder<WishListController>(builder: (wishListController) {
       return InkWell(
-        onTap: widget.isWishList
+        onTap: doRemove
             ? () async {
                 await wishListController
                     .deleteWishItem(widget.productId)
@@ -230,7 +233,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       title: 'Success!',
                       message: wishListController.removeStatus,
                     ));
-                    doChangeColor = false;
+                    doRemove = false;
                   } else {
                     Get.showSnackbar(GetSnackBar(
                       isDismissible: true,
@@ -242,26 +245,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 });
               }
             : () async {
-                await wishListController.addToWish(widget.productId)
-                    ? Get.showSnackbar(
-                        GetSnackBar(
-                          isDismissible: true,
-                          duration: const Duration(seconds: 2),
-                          backgroundColor: AppColors.primaryColor,
-                          title: 'Success!',
-                          message: wishListController.addStatus,
-                        ),
-                      )
-                    : Get.showSnackbar(GetSnackBar(
+                await wishListController
+                    .addToWish(widget.productId)
+                    .then((success) {
+                  if (success) {
+                    Get.showSnackbar(
+                      GetSnackBar(
                         isDismissible: true,
                         duration: const Duration(seconds: 2),
                         backgroundColor: AppColors.primaryColor,
-                        title: 'Failed!',
+                        title: 'Success!',
                         message: wishListController.addStatus,
-                      ));
+                      ),
+                    );
+                    doRemove = true;
+                  } else {
+                    Get.showSnackbar(GetSnackBar(
+                      isDismissible: true,
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: AppColors.primaryColor,
+                      title: 'Failed!',
+                      message: wishListController.addStatus,
+                    ));
+                  }
+                });
               },
         child: Card(
-          color: doChangeColor ? Colors.red : AppColors.primaryColor,
+          color: doRemove ? Colors.red : AppColors.primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           child: const Padding(
             padding: EdgeInsets.all(2.0),

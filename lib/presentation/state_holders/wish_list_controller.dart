@@ -61,6 +61,7 @@ class WishListController extends GetxController {
         await NetworkCaller().getRequest(Urls.createWishList(productId));
     if (response.isSuccess) {
       _addStatus = 'The item has been add to your wishlist';
+      await getWishProductList();
       isSuccess = true;
     } else {
       _addStatus = response.errorMessage;

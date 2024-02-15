@@ -3,7 +3,7 @@ import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:get/get.dart';
 
-class CreateReview extends GetxController {
+class CreateReviewController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 

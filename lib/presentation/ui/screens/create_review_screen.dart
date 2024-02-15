@@ -1,6 +1,10 @@
 import 'package:crafty_bay/data/models/review_model.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/create_review_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/review_list_controller.dart';
+import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CreateReviewScreen extends StatefulWidget {
   const CreateReviewScreen(
@@ -112,8 +116,26 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               ),
               SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {}, child: const Text('Submit')))
+                  child: GetBuilder<CreateReviewController>(
+                    builder: (createReviewController) {
+                      return Visibility(
+                        visible: createReviewController.inProgress == false,
+                        replacement: const CenterCircularProgressIndicator(),
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              final response = await createReviewController.createReview(ReviewModel(
+                                  description: _reviewTEController.text.trim(),
+                                  productId: widget.productId,
+                                  rating: _rating.toString()));
+                              if(response){
+                                Get.find<ReviewListController>().getReviewList(widget.productId);
+                              }
+                              Get.back();
+                            },
+                            child: const Text('Submit')),
+                      );
+                    }
+                  ))
             ],
           ),
         ),
