@@ -89,6 +89,7 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
                                             reviewData?[index].description ??
                                                 ''),
                                       ),
+                                      const SizedBox(width: 8,),
                                       Text(
                                         timeAgo(reviewData?[index].updatedAt ??
                                             '0'), style: const TextStyle(
