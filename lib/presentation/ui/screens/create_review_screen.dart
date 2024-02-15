@@ -1,8 +1,14 @@
 import 'package:crafty_bay/data/models/review_model.dart';
+import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 class CreateReviewScreen extends StatefulWidget {
-  const CreateReviewScreen({Key? key, this.reviewData, required this.productId, required this.hasReview}) : super(key: key);
+  const CreateReviewScreen(
+      {Key? key,
+      this.reviewData,
+      required this.productId,
+      required this.hasReview})
+      : super(key: key);
 
   final ReviewModel? reviewData;
   final int productId;
@@ -13,13 +19,26 @@ class CreateReviewScreen extends StatefulWidget {
 }
 
 class _CreateReviewScreenState extends State<CreateReviewScreen> {
+  TextEditingController _reviewTEController = TextEditingController();
   int _rating = 0; // Variable to hold the selected rating
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.hasReview) {
+      _reviewTEController =
+          TextEditingController(text: widget.reviewData!.description);
+      _rating = int.parse(widget.reviewData!.rating ?? '0');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Review'),
+        title: widget.hasReview
+            ? const Text('Edit Review')
+            : const Text('Create Review'),
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -31,9 +50,9 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               const SizedBox(
                 height: 32,
               ),
-              const Text(
-                'Hi! Saif-ul Islam',
-                style: TextStyle(
+              Text(
+                'Hi! ${widget.hasReview ? widget.reviewData!.profile!.cusName : AuthController.profile!.cusName}',
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
@@ -85,9 +104,12 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                controller: _reviewTEController,
                 maxLines: 10,
               ),
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
