@@ -8,6 +8,7 @@ import 'package:crafty_bay/presentation/state_holders/create_invoice_controller.
 import 'package:crafty_bay/presentation/state_holders/create_review_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/product_by_brand_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_by_category_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_by_remark_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
@@ -31,6 +32,7 @@ class ControllerBinder extends Bindings {
     Get.put(CategoryListController());
     Get.put(BrandListController());
     Get.put(ProductByCategoryController());
+    Get.put(ProductByBrandController());
     Get.put(ProductByRemarkController('trending'), tag: 'trending');
     Get.put(ProductByRemarkController('popular'), tag: 'popular');
     Get.put(ProductByRemarkController('special'), tag: 'special');

@@ -4,6 +4,7 @@ import 'package:crafty_bay/presentation/state_holders/category_list_controller.d
 import 'package:crafty_bay/presentation/state_holders/home_banner_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_by_remark_controller.dart';
+import 'package:crafty_bay/presentation/ui/screens/brand_screen.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_list_by_remark_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
 import 'package:crafty_bay/presentation/ui/widgets/category_item_card.dart';
@@ -164,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SectionTitle(
                     title: 'Top Brands',
                     onTapSeeAll: () {
+                      Get.to(() => const BrandScreen());
                     }),
                 brandList,
               ],
