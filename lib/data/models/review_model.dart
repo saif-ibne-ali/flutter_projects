@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/profile.dart';
+import 'package:crafty_bay/data/models/profile_model.dart';
 
 class ReviewModel {
   int? id;
@@ -8,7 +8,7 @@ class ReviewModel {
   int? productId;
   String? createdAt;
   String? updatedAt;
-  Profile? profile;
+  ProfileModel? profile;
 
   ReviewModel(
       {this.id,
@@ -29,7 +29,7 @@ class ReviewModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     profile =
-    json['profile'] != null ? Profile.fromJson(json['profile']) : null;
+    json['profile'] != null ? ProfileModel.fromJson(json['profile']) : null;
   }
 
   Map<String, dynamic> toJson() {

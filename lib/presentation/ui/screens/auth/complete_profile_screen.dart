@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/profile.dart';
+import 'package:crafty_bay/data/models/profile_model.dart';
 import 'package:crafty_bay/presentation/state_holders/complete_profile_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
 import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
@@ -176,7 +176,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                             final bool result =
                                 await completeProfileController.createProfile(
                                     Get.find<VerifyOTPController>().token,
-                                    Profile(
+                                    ProfileModel(
                                         cusName:
                                             _nameTEController.text.trim(),
                                         shipName:

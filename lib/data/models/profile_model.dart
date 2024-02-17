@@ -1,6 +1,6 @@
 import 'package:crafty_bay/data/models/user_model.dart';
 
-class Profile {
+class ProfileModel {
   int? id;
   String? cusName;
   String? cusAdd;
@@ -22,7 +22,7 @@ class Profile {
   String? updatedAt;
   UserModel? user;
 
-  Profile(
+  ProfileModel(
       {this.id,
         this.cusName,
         this.cusAdd,
@@ -44,7 +44,7 @@ class Profile {
         this.updatedAt,
         this.user});
 
-  Profile.fromJson(Map<String, dynamic> json) {
+  ProfileModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     cusName = json['cus_name'];
     cusAdd = json['cus_add'];

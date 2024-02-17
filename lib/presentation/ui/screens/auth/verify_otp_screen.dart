@@ -24,7 +24,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
   //final TextEditingController _otpTEController = TextEditingController();
   //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _enteredPin = '';
-  late String _otp;
+  String _otp = '';
   late Timer _timer;
   int _countdownSeconds = 120;
 
