@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/read_profile_data_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/read_profile_controller.dart';
 import 'package:get/get.dart';
 
 class VerifyOTPController extends GetxController {
@@ -30,16 +30,16 @@ class VerifyOTPController extends GetxController {
       await Future.delayed(const Duration(seconds: 3));
       log(token.toString());
       final result =
-          await Get.find<ReadProfileDataController>().readProfileData(token);
+          await Get.find<ReadProfileController>().readProfileData(token);
       if (result) {
         _doNavigateCompleteProfile =
-            Get.find<ReadProfileDataController>().isProfileCompleted == false;
+            Get.find<ReadProfileController>().isProfileCompleted == false;
         if (_doNavigateCompleteProfile == false) {
           await Get.find<AuthController>().saveUserDetails(
-              token, Get.find<ReadProfileDataController>().profile);
+              token, Get.find<ReadProfileController>().profile);
         }
       } else {
-        _errorMessage = Get.find<ReadProfileDataController>().errorMessage;
+        _errorMessage = Get.find<ReadProfileController>().errorMessage;
         update();
         return false;
       }

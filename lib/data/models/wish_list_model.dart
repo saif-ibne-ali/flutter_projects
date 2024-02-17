@@ -1,17 +1,17 @@
-import 'package:crafty_bay/data/models/wish_item.dart';
+import 'package:crafty_bay/data/models/wish_model.dart';
 
 class WishListModel {
   String? msg;
-  List<WishItem>? wishItemList;
+  List<WishModel>? wishItemList;
 
   WishListModel({this.msg, this.wishItemList});
 
   WishListModel.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     if (json['data'] != null) {
-      wishItemList = <WishItem>[];
+      wishItemList = <WishModel>[];
       json['data'].forEach((v) {
-        wishItemList!.add(WishItem.fromJson(v));
+        wishItemList!.add(WishModel.fromJson(v));
       });
     }
   }

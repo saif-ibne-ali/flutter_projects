@@ -1,6 +1,6 @@
 import 'package:crafty_bay/data/models/product_model.dart';
 
-class WishItem {
+class WishModel {
   int? id;
   int? productId;
   int? userId;
@@ -8,7 +8,7 @@ class WishItem {
   String? updatedAt;
   ProductModel? product;
 
-  WishItem(
+  WishModel(
       {this.id,
         this.productId,
         this.userId,
@@ -16,7 +16,7 @@ class WishItem {
         this.updatedAt,
         this.product});
 
-  WishItem.fromJson(Map<String, dynamic> json) {
+  WishModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     productId = json['product_id'];
     userId = json['user_id'];

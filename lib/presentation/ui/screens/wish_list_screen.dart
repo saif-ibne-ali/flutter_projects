@@ -1,7 +1,7 @@
 import 'package:crafty_bay/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/wish_list_controller.dart';
 import 'package:crafty_bay/presentation/ui/widgets/center_circular_progress_indicator.dart';
-import 'package:crafty_bay/presentation/ui/widgets/wish_product_item.dart';
+import 'package:crafty_bay/presentation/ui/widgets/wish_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -69,7 +69,7 @@ class _WishListScreenState extends State<WishListScreen> {
                       itemBuilder: (context, index) {
                         return FittedBox(
                             child: WishItemCard(
-                              wishItem:
+                              wishModel:
                               wishListController.wishList.wishItemList![index],
                             ));
                       },

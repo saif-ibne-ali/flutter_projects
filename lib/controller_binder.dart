@@ -12,7 +12,7 @@ import 'package:crafty_bay/presentation/state_holders/product_by_brand_controlle
 import 'package:crafty_bay/presentation/state_holders/product_by_category_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_by_remark_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/product_details_controller.dart';
-import 'package:crafty_bay/presentation/state_holders/read_profile_data_controller.dart';
+import 'package:crafty_bay/presentation/state_holders/read_profile_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/review_list_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/validate_email_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/verify_otp_controller.dart';
@@ -25,7 +25,7 @@ class ControllerBinder extends Bindings {
     Get.put(MainBottomNavController());
     Get.put(ValidateEmailController());
     Get.put(VerifyOTPController());
-    Get.put(ReadProfileDataController());
+    Get.put(ReadProfileController());
     Get.put(AuthController());
     Get.put(CompleteProfileController());
     Get.put(HomeBannerController());

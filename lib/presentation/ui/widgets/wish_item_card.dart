@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/wish_item.dart';
+import 'package:crafty_bay/data/models/wish_model.dart';
 import 'package:crafty_bay/presentation/ui/screens/product_details_screen.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:crafty_bay/presentation/ui/utility/assets_path.dart';
@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 class WishItemCard extends StatelessWidget {
   const WishItemCard({
     super.key,
-    required this.wishItem,
+    required this.wishModel,
   });
 
-  final WishItem wishItem;
+  final WishModel wishModel;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class WishItemCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         onTap: () {
           Get.to(() => ProductDetailsScreen(
-            productId: wishItem.product!.id!,
+            productId: wishModel.product!.id!,
             isWishList: true,
           ));
         },
@@ -37,9 +37,9 @@ class WishItemCard extends StatelessWidget {
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
-                child: wishItem.product!.image != null
+                child: wishModel.product!.image != null
                     ? Image.network(
-                  wishItem.product!.image!,
+                  wishModel.product!.image!,
                   width: 160,
                   height: 120,
                   fit: BoxFit.cover,
@@ -57,7 +57,7 @@ class WishItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      wishItem.product?.title ?? '',
+                      wishModel.product?.title ?? '',
                       maxLines: 1,
                       style: const TextStyle(
                           fontSize: 12,
@@ -68,7 +68,7 @@ class WishItemCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '৳${wishItem.product?.price ?? ''}',
+                          '৳${wishModel.product?.price ?? ''}',
                           style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.primaryColor,
@@ -86,7 +86,7 @@ class WishItemCard extends StatelessWidget {
                               color: Colors.amber,
                             ),
                             Text(
-                              '${wishItem.product?.star ?? 0}',
+                              '${wishModel.product?.star ?? 0}',
                               style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
