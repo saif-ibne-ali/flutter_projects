@@ -15,22 +15,22 @@ class CompleteProfileController extends GetxController {
   ProfileModel get profile => _profile;
 
   Future<bool> createProfile(String token, ProfileModel params) async {
-    //Flutter Ecommerce Project-04(Live class-01)
+    bool isSuccess = false;
     _inProgress = true;
     update();
 
-    final response =
-        await NetworkCaller().postRequest(Urls.createProfile,body: params.toJson(), token: token);
-    _inProgress = false;
+    final response = await NetworkCaller()
+        .postRequest(Urls.createProfile, body: params.toJson(), token: token);
     if (response.isSuccess) {
+      _inProgress = false;
       _profile = ProfileModel.fromJson(response.responseData['data']);
       await Get.find<AuthController>().saveUserDetails(token, _profile);
-      update();
-      return true;
+      isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
-      update();
-      return false;
     }
+    _inProgress = false;
+    update();
+    return isSuccess;
   }
 }
