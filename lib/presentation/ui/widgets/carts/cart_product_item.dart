@@ -62,27 +62,25 @@ class _CartProductItemState extends State<CartProductItem> {
                       ),
                     ),
                     GetBuilder<CartListController>(
-                      builder: (cartListController) {
-                        return IconButton(
-                          onPressed: () async {
-                            await cartListController.deleteCartItem(widget.cartItem.product!.id!);
-                            Get.showSnackbar(
-                              GetSnackBar(
-                                backgroundColor:AppColors.primaryColor,
-                                duration: const Duration(seconds: 2),
-                                isDismissible: true,
-                                title: 'Status',
-                                message: cartListController.deleteStatus.toString(),
-                              )
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.delete_forever_outlined,
-                            color: Colors.grey,
-                          ),
-                        );
-                      }
-                    ),
+                        builder: (cartListController) {
+                      return IconButton(
+                        onPressed: () async {
+                          await cartListController
+                              .deleteCartItem(widget.cartItem.product!.id!);
+                          Get.showSnackbar(GetSnackBar(
+                            backgroundColor: AppColors.primaryColor,
+                            duration: const Duration(seconds: 2),
+                            isDismissible: true,
+                            title: 'Status',
+                            message: cartListController.deleteStatus.toString(),
+                          ));
+                        },
+                        icon: const Icon(
+                          Icons.delete_forever_outlined,
+                          color: Colors.grey,
+                        ),
+                      );
+                    }),
                   ],
                 ),
                 Row(
@@ -105,7 +103,8 @@ class _CartProductItemState extends State<CartProductItem> {
                             maxValue: 20,
                             onChanged: (v) {
                               noOfItems.value = v.toInt();
-                              Get.find<CartListController>().updateQuantity(widget.cartItem.id!, noOfItems.value);
+                              Get.find<CartListController>().updateQuantity(
+                                  widget.cartItem.id!, noOfItems.value);
                             },
                             decimalPlaces: 0,
                             color: AppColors.primaryColor,

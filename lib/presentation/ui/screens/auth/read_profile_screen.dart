@@ -18,7 +18,8 @@ class _ReadProfileScreenState extends State<ReadProfileScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.find<ReadProfileController>().readProfileData(AuthController.token!);
+      Get.find<ReadProfileController>()
+          .readProfileData(AuthController.token ?? '');
     });
   }
 

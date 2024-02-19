@@ -15,7 +15,6 @@ class CartListScreen extends StatefulWidget {
 }
 
 class _CartListScreenState extends State<CartListScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -28,79 +27,92 @@ class _CartListScreenState extends State<CartListScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (_){
+      onPopInvoked: (_) {
         Get.find<MainBottomNavController>().backToHome();
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Cart'),
-          leading: IconButton(onPressed: (){
-            Get.find<MainBottomNavController>().backToHome();
-          },
-            icon: const Icon(Icons.arrow_back_ios),),
+          leading: IconButton(
+            onPressed: () {
+              Get.find<MainBottomNavController>().backToHome();
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
         ),
-        body: GetBuilder<CartListController>(
-          builder: (cartListController) {
-            if(cartListController.inProgress == true){
-              return const CenterCircularProgressIndicator();
-            }
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (context, index){
-                        return CartProductItem(
-                          cartItem: cartListController.cartList.cartItemList![index],);
-                      },
-                      separatorBuilder: (_,__)=> const SizedBox(),
-                      itemCount: cartListController.cartList.cartItemList?.length ?? 0,),
-                ),
-                totalPriceAndCheckoutSection(cartListController.totalPrice)
-              ],
-            );
+        body: GetBuilder<CartListController>(builder: (cartListController) {
+          if (cartListController.inProgress == true) {
+            return const CenterCircularProgressIndicator();
           }
-        ),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return CartProductItem(
+                      cartItem:
+                          cartListController.cartList.cartItemList![index],
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(),
+                  itemCount:
+                      cartListController.cartList.cartItemList?.length ?? 0,
+                ),
+              ),
+              totalPriceAndCheckoutSection(cartListController.totalPrice)
+            ],
+          );
+        }),
       ),
     );
   }
 
   Container totalPriceAndCheckoutSection(RxDouble totalPrice) {
     return Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor.withOpacity(0.15),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              )
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Total Price',style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black45,
-                    ),),
-                    Obx(() => Text('৳$totalPrice',style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primaryColor,
-                    ),),),
-
-                  ],
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: AppColors.primaryColor.withOpacity(0.15),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Total Price',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black45,
                 ),
-                SizedBox(
-                  width: 100,
-                    child: ElevatedButton(onPressed: (){
-                      Get.to(()=>const CheckOutScreen());
-                    }, child: const Text('Checkout'),))
-              ],
+              ),
+              Obx(
+                () => Text(
+                  '৳$totalPrice',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 100,
+            child: ElevatedButton(
+              onPressed: () {
+                Get.to(() => const CheckOutScreen());
+              },
+              child: const Text('Checkout'),
             ),
-          );
+          )
+        ],
+      ),
+    );
   }
 }
-
