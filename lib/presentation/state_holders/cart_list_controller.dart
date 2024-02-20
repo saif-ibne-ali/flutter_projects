@@ -3,6 +3,7 @@ import 'package:crafty_bay/data/models/cart_list_model.dart';
 import 'package:crafty_bay/data/models/response_data.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:crafty_bay/data/utility/urls.dart';
+import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:get/get.dart';
 
 class CartListController extends GetxController {
@@ -50,16 +51,18 @@ class CartListController extends GetxController {
     } else if (response.isSuccess && response.responseData['data'] == 0) {
       _deleteStatus = 'Item does not exist';
       return isSuccess;
-    } else{
+    } else {
       _deleteStatus = response.errorMessage;
     }
     update();
     return isSuccess;
   }
 
-  void updateQuantity(int id, int quantity) {
-    _cartListModel.cartItemList?.firstWhere((element) => element.id == id).qty =
+  void updateQuantity(int productId, int quantity, String color, String size) async{
+    _cartListModel.cartItemList?.firstWhere((element) => element.productId == productId).qty =
         quantity;
+    await Get.find<AddToCartController>().addToCart(
+        CartModel(productId: productId, color: color, size: size, qty: quantity));
     _totalPrice.value = _calculateTotalPrice;
   }
 

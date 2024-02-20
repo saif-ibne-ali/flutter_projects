@@ -75,7 +75,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ),
               ),
-              priceAndAddToCartSection,
+              priceAndAddToCartSection(productDetailsController.productDetails!.product!.price!),
             ],
           );
         }
@@ -143,7 +143,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          // TODO : Fix the initial selected issue
           SizePicker(
               sizes: productDetails.size?.split(',') ?? [],
               onChange: (e) {
@@ -287,7 +286,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
-  Container get priceAndAddToCartSection {
+  Container priceAndAddToCartSection(String price) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -299,10 +298,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Price',
                 style: TextStyle(
                   fontSize: 16,
@@ -311,8 +310,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               Text(
-                '\$3200',
-                style: TextStyle(
+                '৳$price',
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primaryColor,

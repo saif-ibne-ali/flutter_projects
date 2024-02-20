@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../../data/utility/urls.dart';
 
-class CreateInvoiceController extends GetxController{
+class CreateInvoiceController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
@@ -15,15 +15,17 @@ class CreateInvoiceController extends GetxController{
   String _errorMessage = '';
   String get errorMessage => _errorMessage;
 
-  Future<bool> createInvoice() async{
+  Future<bool> createInvoice() async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    ResponseData response = await NetworkCaller().getRequest(Urls.createInvoice);
-    if(response.isSuccess){
-      _paymentMethodListModel = PaymentMethodListModel.fromJson(response.responseData);
+    ResponseData response =
+        await NetworkCaller().getRequest(Urls.createInvoice);
+    if (response.isSuccess) {
+      _paymentMethodListModel =
+          PaymentMethodListModel.fromJson(response.responseData);
       isSuccess = true;
-    } else{
+    } else {
       _errorMessage = response.errorMessage;
     }
     _inProgress = false;

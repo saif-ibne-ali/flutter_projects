@@ -105,7 +105,10 @@ class _CartProductItemState extends State<CartProductItem> {
                             onChanged: (v) {
                               noOfItems.value = v.toInt();
                               Get.find<CartListController>().updateQuantity(
-                                  widget.cartItem.id!, noOfItems.value);
+                                  widget.cartItem.productId!,
+                                  noOfItems.value,
+                                  widget.cartItem.color!,
+                                  widget.cartItem.size!);
                             },
                             decimalPlaces: 0,
                             color: AppColors.primaryColor,
