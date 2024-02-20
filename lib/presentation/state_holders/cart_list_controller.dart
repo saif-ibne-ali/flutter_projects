@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/cart_item.dart';
+import 'package:crafty_bay/data/models/cart_model.dart';
 import 'package:crafty_bay/data/models/cart_list_model.dart';
 import 'package:crafty_bay/data/models/response_data.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
@@ -65,7 +65,7 @@ class CartListController extends GetxController {
 
   double get _calculateTotalPrice {
     double total = 0;
-    for (CartItem item in _cartListModel.cartItemList ?? []) {
+    for (CartModel item in _cartListModel.cartItemList ?? []) {
       total += (double.tryParse(item.product?.price ?? '0') ?? 0) * item.qty!;
     }
     return total;

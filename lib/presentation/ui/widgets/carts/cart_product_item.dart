@@ -1,4 +1,4 @@
-import 'package:crafty_bay/data/models/cart_item.dart';
+import 'package:crafty_bay/data/models/cart_model.dart';
 import 'package:crafty_bay/presentation/state_holders/cart_list_controller.dart';
 import 'package:crafty_bay/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:item_count_number_button/item_count_number_button.dart';
 class CartProductItem extends StatefulWidget {
   const CartProductItem({super.key, required this.cartItem});
 
-  final CartItem cartItem;
+  final CartModel cartItem;
 
   @override
   State<CartProductItem> createState() => _CartProductItemState();
@@ -20,6 +20,7 @@ class _CartProductItemState extends State<CartProductItem> {
     late ValueNotifier<int> noOfItems = ValueNotifier(widget.cartItem.qty!);
     return Card(
       color: Colors.white,
+      surfaceTintColor: Colors.white,
       elevation: 3,
       child: Row(
         children: [

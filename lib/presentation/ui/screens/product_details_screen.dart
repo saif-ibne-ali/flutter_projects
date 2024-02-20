@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:crafty_bay/data/models/cart_model.dart';
 import 'package:crafty_bay/data/models/product_details_data.dart';
 import 'package:crafty_bay/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:crafty_bay/presentation/state_holders/auth_controller.dart';
@@ -218,10 +219,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   GetBuilder<WishListController> get addAndRemoveFromWishList {
-    bool doRemove = widget.isWishList;
+    bool isRemoved = widget.isWishList;
     return GetBuilder<WishListController>(builder: (wishListController) {
       return InkWell(
-        onTap: doRemove
+        onTap: isRemoved
             ? () async {
                 await wishListController
                     .deleteWishItem(widget.productId)
@@ -233,7 +234,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       title: 'Success!',
                       message: wishListController.removeStatus,
                     ));
-                    doRemove = false;
+                    isRemoved = false;
                   } else {
                     Get.showSnackbar(GetSnackBar(
                       isDismissible: true,
@@ -258,7 +259,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         message: wishListController.addStatus,
                       ),
                     );
-                    doRemove = true;
+                    isRemoved = true;
                   } else {
                     Get.showSnackbar(GetSnackBar(
                       isDismissible: true,
@@ -271,7 +272,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 });
               },
         child: Card(
-          color: doRemove ? Colors.red : AppColors.primaryColor,
+          color: isRemoved ? Colors.red : AppColors.primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           child: const Padding(
             padding: EdgeInsets.all(2.0),
@@ -334,10 +335,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           final stringColor =
                               getStringFromColor(_selectedColor!);
                           final response = await addToCartController.addToCart(
-                              widget.productId,
-                              stringColor,
-                              _selectedSize!,
-                              noOfItems.value);
+                              CartModel(
+                                  productId: widget.productId,
+                                  color: stringColor,
+                                  size: _selectedSize!,
+                                  qty: noOfItems.value));
                           if (response) {
                             Get.showSnackbar(const GetSnackBar(
                               title: 'Success',
