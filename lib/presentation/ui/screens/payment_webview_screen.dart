@@ -1,5 +1,7 @@
 
+import 'package:crafty_bay/presentation/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebViewScreen extends StatefulWidget {
@@ -78,7 +80,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
 
   void closeWebViewAndShowSnackbar() {
     _webViewController.clearCache();
-    Navigator.of(context).pop();
+    Get.offAll(()=> const MainBottomNavScreen());
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
